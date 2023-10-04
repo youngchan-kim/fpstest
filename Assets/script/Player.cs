@@ -25,7 +25,6 @@ public class Player : MonoBehaviour
     //[HideInInspector] 
     public GameObject floor;
 
-    Coroutine coroutine = null;
     void Start()
     {
     }
@@ -114,7 +113,7 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(elipsed);
         }
         Debug.Log("힐이 들어간 값 : "+ t);
-        coroutine = null;
+
     }
 
     public bool Getlife()

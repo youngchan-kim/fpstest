@@ -9,17 +9,28 @@ public class Enemy1 : ViewAngle
 {
     //player
     //public Transform target;
-
     //enemy = agent;
+
+
     NavMeshAgent agent;
 
-    int Angle;
+    //인식 범위
+    //폭
+    float Angle;
+    //길이
+    float len;
+
+    //공격 범위
+    float Attectlen;
+
     //상태의 종류
     enum State
     {
         Idle,
         Run,
-        Attack
+        Attack,
+        Reconnaissance,
+        Research
     }
     //상태의 처리
     State state;
@@ -28,28 +39,38 @@ public class Enemy1 : ViewAngle
     {
         state = State.Idle;
         agent = GetComponent<NavMeshAgent>();
-        Angle = 90;
+        Angle = 45f;
+        len = 30f;
+        Attectlen = 15f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetSeeUnit(Angle);
+        GetSeeUnit(Angle, len);
         //각 상태에서의 처리를 해준다.
-        if (state == State.Idle)
+        switch ((int)state)
         {
-            //기본 상태일때 플레이어 찾기
-            UpdateIdle();
-        }
-        else if(state == State.Run)
-        {
-            UpdateRun();
-        }
-        else if (state == State.Attack) 
-        {
-            UpdateAttack();
+            case 0:
+                //기본 상태일때 플레이어 찾기
+                UpdateIdle();
+                break;
+            case 1:
+                UpdateRun();
+                break;
+            case 2:
+                UpdateAttack();
+                break;
+           /* case 3:
+                UpdateReconnaissance();
+                break;*/
+            case 4:
+                UpdateResearch();
+                break;
         }
     }
+
+
 
     private void UpdateIdle()
     {
@@ -66,18 +87,29 @@ public class Enemy1 : ViewAngle
             state = State.Run;
             //애니메이션도 바꿔줘야함
         }
+       /* else if(target ==null)
+        {
+            state = State.Reconnaissance;
+        }*/
 
     }
 
     private void UpdateRun()
     {
+        if (target == null)
+        {
+            state = State.Idle;
+        }
         float distance = Vector3.Distance(transform.position, target.position);
-        if(distance <= 10)
+        if(distance > len)
+        {
+            state = State.Idle;
+        }
+        if (distance <= Attectlen)
         {
             state = State.Attack;
             //공격 애니메이션을 실행해줘야함
         }
-
         //속도 설정 : 기본 속도
         agent.speed = 7f;
         
@@ -89,20 +121,54 @@ public class Enemy1 : ViewAngle
     {
         agent.isStopped = true;
         //공격할때도 거리가 중요
+
         float distance = Vector3.Distance(transform.position, target.position);
-        if (distance > 10)
+        if (distance > Attectlen)
         {
             agent.isStopped = false;
             state = State.Run;
             //이동 애니메이션을 실행해줘야함
         }
-        
+        else if (distance > len)
+        {
+            state = State.Idle;
+        }
+
+
         //Damaged 코드 들어가야함
 
 
         //공격중 플레이어가 사라졌을때 플레이어를 찾아야함
 
     }
+   /* private void UpdateReconnaissance()
+    {
+        if(search_spot == null)
+        {
+            state = State.Research;
+        }
+        float distance = Vector3.Distance(transform.position, search_spot.position);
 
+        if (target != null)
+        {
+            state = State.Run;
+        }
+        //속도 설정 : 기본 속도
+        agent.speed = 4f;
+
+        agent.destination = search_spot.position;
+
+        TargetFind();
+        if (transform.position == search_spot.position)
+        {
+            search_spot = null;
+        }
+
+    }*/
+    private void UpdateResearch()
+    {
+        target = point;
+        state = State.Idle;
+    }
 
 }
