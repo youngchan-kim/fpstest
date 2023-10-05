@@ -35,17 +35,12 @@ public sealed class GameMgr : MonoBehaviour
     void StartGame() 
     {
         player.GetComponent<Player>().Initialize();
-        EnemyTest();
     }
     public GameObject GetCollierPlayer()
     {
         return player;
     }
 
-    void EnemyTest()
-    {
-
-    }
 
 }
 

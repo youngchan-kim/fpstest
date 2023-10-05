@@ -23,6 +23,7 @@ public class Enemy1 : ViewAngle
     //공격 범위
     float Attectlen;
 
+    Coroutine coroutine = null;
     //상태의 종류
     enum State
     {
@@ -39,9 +40,10 @@ public class Enemy1 : ViewAngle
     {
         state = State.Idle;
         agent = GetComponent<NavMeshAgent>();
-        Angle = 45f;
-        len = 30f;
+        Angle = 30f;
+        len = 15f;
         Attectlen = 15f;
+        //search_spot = null;
     }
 
     // Update is called once per frame
@@ -61,9 +63,9 @@ public class Enemy1 : ViewAngle
             case 2:
                 UpdateAttack();
                 break;
-           /* case 3:
+            case 3:
                 UpdateReconnaissance();
-                break;*/
+                break;
             case 4:
                 UpdateResearch();
                 break;
@@ -82,15 +84,15 @@ public class Enemy1 : ViewAngle
 
         //본인에게 총이 있는가
 
-        if (target !=null)
+        if (target != null)
         {
             state = State.Run;
             //애니메이션도 바꿔줘야함
         }
-       /* else if(target ==null)
+        else
         {
             state = State.Reconnaissance;
-        }*/
+        }
 
     }
 
@@ -100,40 +102,50 @@ public class Enemy1 : ViewAngle
         {
             state = State.Idle;
         }
-        float distance = Vector3.Distance(transform.position, target.position);
-        if(distance > len)
+        else
         {
-            state = State.Idle;
+            if (null != coroutine) StopCoroutine(coroutine);
+            float distance = Vector3.Distance(transform.position, target.position);
+            if (distance > len)
+            {
+                state = State.Idle;
+            }
+            if (distance <= Attectlen)
+            {
+                state = State.Attack;
+                //공격 애니메이션을 실행해줘야함
+            }
+            //속도 설정 : 기본 속도
+            agent.speed = 7f;
+
+            agent.destination = target.transform.position;
         }
-        if (distance <= Attectlen)
-        {
-            state = State.Attack;
-            //공격 애니메이션을 실행해줘야함
-        }
-        //속도 설정 : 기본 속도
-        agent.speed = 7f;
-        
-        agent.destination = target.transform.position;
 
     }
 
     private void UpdateAttack()
     {
-        agent.isStopped = true;
+        //agent.isStopped = true;
         //공격할때도 거리가 중요
-
-        float distance = Vector3.Distance(transform.position, target.position);
-        if (distance > Attectlen)
-        {
-            agent.isStopped = false;
-            state = State.Run;
-            //이동 애니메이션을 실행해줘야함
-        }
-        else if (distance > len)
+        agent.speed = 0;
+        if (target == null)
         {
             state = State.Idle;
         }
-
+        else
+        {
+            float distance = Vector3.Distance(transform.position, target.position);
+            if (distance > Attectlen)
+            {
+                agent.isStopped = false;
+                state = State.Run;
+                //이동 애니메이션을 실행해줘야함
+            }
+            else if (distance > len)
+            {
+                state = State.Idle;
+            }
+        }
 
         //Damaged 코드 들어가야함
 
@@ -141,30 +153,27 @@ public class Enemy1 : ViewAngle
         //공격중 플레이어가 사라졌을때 플레이어를 찾아야함
 
     }
-   /* private void UpdateReconnaissance()
+    private void UpdateReconnaissance()
     {
-        if(search_spot == null)
-        {
-            state = State.Research;
-        }
-        float distance = Vector3.Distance(transform.position, search_spot.position);
-
         if (target != null)
         {
             state = State.Run;
         }
-        //속도 설정 : 기본 속도
-        agent.speed = 4f;
-
-        agent.destination = search_spot.position;
-
-        TargetFind();
-        if (transform.position == search_spot.position)
+        else
         {
-            search_spot = null;
-        }
+            float distance = Vector3.Distance(transform.position, Spot);
+            //속도 설정 : 기본 속도
+            agent.speed = 4f;
 
-    }*/
+            agent.destination = Spot;
+            if (coroutine == null) 
+                TargetFind(coroutine);
+            if (transform.position == Spot)
+            {
+                //Spot 재설정
+            }
+        }
+    }
     private void UpdateResearch()
     {
         target = point;
