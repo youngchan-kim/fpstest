@@ -1,17 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class Enemy1 : ViewAngle
+
+public class Enemy1 : RandomPosition
 {
     //player
     //public Transform target;
     //enemy = agent;
 
-
+    //NavMeshAgent을 이용한 map의 크기를 알아올 수 있는지
     NavMeshAgent agent;
 
     //인식 범위
@@ -24,6 +26,10 @@ public class Enemy1 : ViewAngle
     float Attectlen;
 
     Coroutine coroutine = null;
+
+    //정찰하는 포인트
+    Vector3 Reconnaissance = new Vector3();
+
     //상태의 종류
     enum State
     {
@@ -38,6 +44,7 @@ public class Enemy1 : ViewAngle
     // Start is called before the first frame update
     void Start()
     {
+        
         state = State.Idle;
         agent = GetComponent<NavMeshAgent>();
         Angle = 30f;
@@ -161,17 +168,22 @@ public class Enemy1 : ViewAngle
         }
         else
         {
+
             float distance = Vector3.Distance(transform.position, Spot);
+
+
             //속도 설정 : 기본 속도
             agent.speed = 4f;
 
             agent.destination = Spot;
-            if (coroutine == null) 
-                TargetFind(coroutine);
-            if (transform.position == Spot)
+            /*if (coroutine == null)
+                TargetFind(coroutine);*/
+
+            if(distance < len)
             {
-                //Spot 재설정
+                Spot = RandomPoint(len);
             }
+
         }
     }
     private void UpdateResearch()
