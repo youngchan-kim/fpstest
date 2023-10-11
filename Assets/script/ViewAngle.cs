@@ -14,10 +14,8 @@ public class ViewAngle : MonoBehaviour
     public Transform target;
     public Transform point;
 
-    //인식 거리
-
-    float base_rotation_y;
-    //바라보는 주체가 누구인지
+    //회전하기 전의 y축 값
+    public float base_rotation_y;
 
     //부채꼴모양 색칠
     bool isCollision = false;
@@ -28,16 +26,16 @@ public class ViewAngle : MonoBehaviour
     float This_Angle;
     // 탐색 장소
     public Vector3 Spot;
-    Transform search_spot;
     //탐색을 위한 y축 회전값
-    float y_rotation;
+    public float y_rotation;
     //더할지 말지 관리
-    bool y_Dir;
-    bool isDelay = true;
-
+    bool y_Dir =true;
+    public bool isDelay = true;
+    float second =0;
     //Laymask 레이에 인식되어야할
     //target은 Player임
-    LayerMask target_Mask;
+    //LayerMask target_Mask;
+
 
     public void GetSeeUnit(float viewAngle , float len)
     {
@@ -71,18 +69,15 @@ public class ViewAngle : MonoBehaviour
             //탐색자를 기준으로
             if (angle < viewAngle)
             {
+                //Lay를 쏴서 정면을 기준
                 target = point;
                 Spot = target.position;
-                //search_spot = target;
-                Debug.Log(gameObject.name + "의 시야에 있습니다.");
-                StopCoroutine("SearchTime");
-                Find_Target_In_Lay(viewAngle);
+                //Debug.Log(gameObject.name + "의 시야에 있습니다.");
                 isCollision = true;
             }
             else
             {
-                target = Find_Target_In_Lay(viewAngle);
-                Debug.Log(gameObject.name + "의 시야에 없습니다.");
+                //Debug.Log(gameObject.name + "의 시야에 없습니다.");
                 
                 isCollision = false;
             }
@@ -90,78 +85,81 @@ public class ViewAngle : MonoBehaviour
         else
         {
             target = null;
-            Debug.Log(gameObject.name + "의 시야에 없습니다.");
-            Find_Target_In_Lay(viewAngle);
+           // Debug.Log(gameObject.name + "의 시야에 없습니다.");
         }
         isCollision = false;
     }
 
-    //시야각을 나눠서 레이를 쏴서 레이를 플레이어를 찾는다.
-    public Transform Find_Target_In_Lay(float viewAngle)
-    {
-
-        //Find_target가 true 이면 히트된 transform을 리턴
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit raycastHit , radius, target_Mask))
+    /*    //시야각을 나눠서 레이를 쏴서 레이를 플레이어를 찾는다.
+        public Transform Find_Target_In_Lay(float viewAngle)
         {
-            return raycastHit.transform;
-        }
-        else
-        {
-            //최대 시야각에 관한 Ray회전값을을 갱신하는 코드 입력
-            //시야각은 현재 중심을 기준으로 변해야함
-            //base는 z
-        }
-        return null;
-        
-    }
 
-    //타겟을 찾았을때
-    public void TargetFind(Coroutine coroutine)
-    {
-
-       // base_rotation_y = transform.rotation.y;
-        if (isDelay)
-        { 
-            coroutine = StartCoroutine(SearchTime());
-            //정면
-            y_rotation = transform.rotation.y;
-            isDelay = false;
-        }
-
-       
-    }
-
-    //탐색시간 만큼 탐색을 반복해준다.
-    public IEnumerator SearchTime()
-    {
-        while (true) 
-        {
-            yield return new WaitForSeconds(3f);
-            
-            switch (y_Dir)
+            //Find_target가 true 이면 히트된 transform을 리턴
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit raycastHit , radius, target_Mask))
             {
-                case true:
-                    if (y_rotation < -40)
-                        y_rotation = -40;
-                    else if (y_rotation == -40)
-                        y_Dir = false;
-                    else
-                        y_rotation -= 10;
-                    break;
-                case false:
-                    if (y_rotation > 40)
-                        y_rotation = 40;
-                    else if(y_rotation == 40)
-                        y_Dir = true;
-                    else
-                        y_rotation += 10;
-                    break;
+                return raycastHit.transform;
             }
-            transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y + y_rotation, transform.rotation.z);
-            isDelay=true;
-        }
+            else
+            {
+                //최대 시야각에 관한 Ray회전값을을 갱신하는 코드 입력
+                //시야각은 현재 중심을 기준으로 변해야함
+                //base는 z
+            }
+            return null;
+
+        }*/
+
+    //오브젝트를 회전 시켜 타겟을 찾기
+    public void Not_Find_Target()
+    {
+
+
+        if (isDelay == true)
+            StartCoroutine("testCoroutin");
+
 
     }
+    
+    IEnumerator testCoroutin()
+    {
+        float time = 3f;
+
+        isDelay = false;
+           
+        //5초에 한번 true가 된다.
+        //5초 뒤에 아래의 실행문이 한번실행된다.
+        yield return new WaitForSeconds(time);
+        second += time;
+        Debug.Log(second +"초");
+        switch (y_Dir)
+        {
+            case true:
+                y_rotation = -40;
+                Debug.Log("y값 현재 : " + y_rotation + "만큼 +되었습니다.");
+                y_Dir = false;
+
+                break;
+            case false:
+                y_rotation = 40;
+                Debug.Log("y값 현재 : " + y_rotation + "만큼 +되었습니다.");
+                y_Dir = true;
+
+                break;
+        }
+        isDelay = true;
+    }
+
+    //언제 호출 되는가? 타겟을 놓쳤고 찾기 시작할때마다 호출
+    public void Base_rotation_Y(Vector3 _Spot)
+    {
+        //
+        transform.LookAt(_Spot);
+
+        base_rotation_y = transform.rotation.y;
+
+        y_rotation = 0;
+    }
+ 
 
     //시야각을 Scenes에서 보여주는 코드
     private void OnDrawGizmos()

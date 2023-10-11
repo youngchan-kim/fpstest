@@ -17,7 +17,10 @@ public class RandomPosition : ViewAngle
         {
             randomPoint = transform.position + Random.insideUnitSphere * len;
         }
+        
         return hit.position;
     }
+
+
         
 }

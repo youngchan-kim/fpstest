@@ -20,24 +20,24 @@ public class Enemy1 : RandomPosition
     //폭
     float Angle;
     //길이
-    float len;
+    float nomal_site_len;
 
-    //공격 범위
+    //장소 도착 인정 범위
+    float inv_len;
+    //공격 범위는 인식 범위보다 짧아야한다.
     float Attectlen;
 
-    Coroutine coroutine = null;
+    //탐색 길이
+    float reconnaissance_site_len;
 
-    //정찰하는 포인트
-    Vector3 Reconnaissance = new Vector3();
-
+    public GameObject Spot_mark;
     //상태의 종류
     enum State
     {
         Idle,
         Run,
         Attack,
-        Reconnaissance,
-        Research
+        Reconnaissance
     }
     //상태의 처리
     State state;
@@ -48,17 +48,24 @@ public class Enemy1 : RandomPosition
         state = State.Idle;
         agent = GetComponent<NavMeshAgent>();
         Angle = 30f;
-        len = 15f;
-        Attectlen = 15f;
+        Attectlen = 30f;
+        nomal_site_len = Attectlen*2;
+        reconnaissance_site_len = nomal_site_len * 2;
+        inv_len = reconnaissance_site_len / 4f;
         //search_spot = null;
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetSeeUnit(Angle, len);
-        //각 상태에서의 처리를 해준다.
-        switch ((int)state)
+        GetSeeUnit(Angle, nomal_site_len);
+        Spot_mark.transform.position = Spot;
+        if (target != null)
+        {
+            transform.LookAt(target.position);
+        }
+            //각 상태에서의 처리를 해준다.
+            switch ((int)state)
         {
             case 0:
                 //기본 상태일때 플레이어 찾기
@@ -72,10 +79,9 @@ public class Enemy1 : RandomPosition
                 break;
             case 3:
                 UpdateReconnaissance();
+                //Debug.Log("탐색중");
                 break;
-            case 4:
-                UpdateResearch();
-                break;
+
         }
     }
 
@@ -83,6 +89,8 @@ public class Enemy1 : RandomPosition
 
     private void UpdateIdle()
     {
+
+       
         agent.speed = 0;
 
         //Player를 찾는다.
@@ -111,14 +119,15 @@ public class Enemy1 : RandomPosition
         }
         else
         {
-            if (null != coroutine) StopCoroutine(coroutine);
+            
             float distance = Vector3.Distance(transform.position, target.position);
-            if (distance > len)
+            if (distance > nomal_site_len)
             {
                 state = State.Idle;
             }
             if (distance <= Attectlen)
             {
+
                 state = State.Attack;
                 //공격 애니메이션을 실행해줘야함
             }
@@ -145,12 +154,13 @@ public class Enemy1 : RandomPosition
             if (distance > Attectlen)
             {
                 agent.isStopped = false;
-                state = State.Run;
+                state = State.Idle;
                 //이동 애니메이션을 실행해줘야함
             }
-            else if (distance > len)
+            else if (distance < Attectlen)
             {
-                state = State.Idle;
+                agent.speed = 0f;
+                agent.isStopped = true;
             }
         }
 
@@ -169,27 +179,45 @@ public class Enemy1 : RandomPosition
         else
         {
 
+           //  제자리에서 시야 회전 탐색이 완료되면 해당 코드 주석 없앨것
             float distance = Vector3.Distance(transform.position, Spot);
 
 
             //속도 설정 : 기본 속도
-            agent.speed = 4f;
-
+            agent.speed = 3.5f;
             agent.destination = Spot;
-            /*if (coroutine == null)
-                TargetFind(coroutine);*/
 
-            if(distance < len)
+            //도착 장소에 도착하면 새로운 장소 지정
+            if(distance < inv_len)
             {
-                Spot = RandomPoint(len);
+                Spot = RandomPoint(reconnaissance_site_len);
+                Base_rotation_Y(Spot);
             }
+            
+            if(target != null)
+            {
+
+                state = State.Idle;
+            }
+
+            if (isDelay == true)
+            {
+                Not_Find_Target();
+            }
+
+            // 어떤 값을 넣어야하는지 Slerp를 어떻게 쓰는지 확인하고 다시 만들것
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+    Quaternion.Euler(transform.rotation.x, base_rotation_y + y_rotation,
+    transform.rotation.z), Time.deltaTime * 5f);
+            Debug.Log("현재 y값은  : " + transform.rotation.y + "입니다.");
+
+
+            /*            //도착장소가 없으면 할당
+                        if(Spot==null)
+                        {
+                            Spot = RandomPoint(len);
+                        }*/
 
         }
     }
-    private void UpdateResearch()
-    {
-        target = point;
-        state = State.Idle;
-    }
-
-}
+ }
