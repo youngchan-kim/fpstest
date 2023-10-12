@@ -426,7 +426,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 391023367}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: 0, z: 46.3}
+  m_LocalPosition: {x: 0.4, y: 0, z: -75.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -657,7 +657,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   point: {fileID: 391023372}
+  base_rotation_x: 0
   base_rotation_y: 0
+  base_rotation_z: 0
+  base_rotation: {x: 0, y: 0, z: 0, w: 0}
   Spot: {x: 0, y: 0, z: 0}
   y_rotation: 0
   isDelay: 1

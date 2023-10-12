@@ -16,7 +16,8 @@ public class ViewAngle : MonoBehaviour
 
     //회전하기 전의 y축 값
     public float base_rotation_y;
-
+    //회전하기 전의 y축 값
+    public float var_rotation_y;
     //부채꼴모양 색칠
     bool isCollision = false;
     Color _blue = new Color(0f, 0f, 1f, 0.2f);
@@ -122,7 +123,7 @@ public class ViewAngle : MonoBehaviour
     
     IEnumerator testCoroutin()
     {
-        float time = 3f;
+        float time = 5f;
 
         isDelay = false;
            
@@ -130,34 +131,45 @@ public class ViewAngle : MonoBehaviour
         //5초 뒤에 아래의 실행문이 한번실행된다.
         yield return new WaitForSeconds(time);
         second += time;
-        Debug.Log(second +"초");
+        //Debug.Log(second +"초");
         switch (y_Dir)
         {
             case true:
-                y_rotation = -40;
-                Debug.Log("y값 현재 : " + y_rotation + "만큼 +되었습니다.");
+                y_rotation = -30;
+                //Debug.Log("y값 현재 : " + y_rotation + "만큼 +되었습니다.");
                 y_Dir = false;
 
                 break;
             case false:
-                y_rotation = 40;
-                Debug.Log("y값 현재 : " + y_rotation + "만큼 +되었습니다.");
+                
+                y_rotation = 30;
+                //Debug.Log("y값 현재 : " + y_rotation + "만큼 +되었습니다.");
                 y_Dir = true;
 
                 break;
         }
+
+        var_rotation_y = base_rotation_y + y_rotation;
         isDelay = true;
     }
 
     //언제 호출 되는가? 타겟을 놓쳤고 찾기 시작할때마다 호출
     public void Base_rotation_Y(Vector3 _Spot)
     {
-        //
-        transform.LookAt(_Spot);
+        //가야하는 방향을 알면 TargetDir.normalized 한 값은 
+        Vector3 SpotDir = _Spot - transform.forward;
+        Debug.Log("타겟 방향의 벡터는 " + SpotDir.normalized);
+        transform.forward = SpotDir;
 
-        base_rotation_y = transform.rotation.y;
+        base_rotation = Quaternion.Euler(SpotDir.normalized.x, SpotDir.normalized.y, SpotDir.normalized.y);
+        //Quaternion의 y라는 float값을 
+        //base_rotation_y = transform.rotation.y;
 
-        y_rotation = 0;
+        base_rotation_x = SpotDir.normalized.y;
+
+        //base_rotation_z = transform.rotation.z;
+
+        //y_rotation = 0;
     }
  
 

@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations;
 using UnityEngine.UI;
 
 
@@ -31,6 +33,10 @@ public class Enemy1 : RandomPosition
     float reconnaissance_site_len;
 
     public GameObject Spot_mark;
+
+    Vector3 SpotDir;
+    Vector3 currSpot;
+
     //상태의 종류
     enum State
     {
@@ -190,8 +196,17 @@ public class Enemy1 : RandomPosition
             //도착 장소에 도착하면 새로운 장소 지정
             if(distance < inv_len)
             {
+
+
                 Spot = RandomPoint(reconnaissance_site_len);
-                Base_rotation_Y(Spot);
+                Debug.Log("현재 회전값  : " + transform.rotation.eulerAngles + "입니다.");
+
+                SpotDir = Spot - transform.position;
+
+                transform.forward = SpotDir.normalized;
+
+                base_rotation_y = transform.rotation.eulerAngles.y;
+                //Base_rotation_Y(Spot);
             }
             
             if(target != null)
@@ -202,21 +217,40 @@ public class Enemy1 : RandomPosition
 
             if (isDelay == true)
             {
-                Not_Find_Target();
+               Not_Find_Target();
             }
+            //오브젝트의 시야
 
-            // 어떤 값을 넣어야하는지 Slerp를 어떻게 쓰는지 확인하고 다시 만들것
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-    Quaternion.Euler(transform.rotation.x, base_rotation_y + y_rotation,
-    transform.rotation.z), Time.deltaTime * 5f);
-            Debug.Log("현재 y값은  : " + transform.rotation.y + "입니다.");
+            /*
+            가야하는 방향을 알면 spot의 좌표 벡터와 오브젝트의 좌표를 통해
+            오브젝트의 좌표에서 spot의 좌표로 가기 위한 방향을 알아냄
+            Vector3 SpotDir = Spot - transform.position;
+             
+            타겟의 방향으로 오브젝트가 바라보도록 앞이라는 값을 줌
+            transform.forward = SpotDir;
 
+            해당 상태에서 기준이 되는 회전 값을 얻어낼 수 있다.
+            base_rotation = transform.rotation;
 
-            /*            //도착장소가 없으면 할당
-                        if(Spot==null)
-                        {
-                            Spot = RandomPoint(len);
-                        }*/
+            기준이 되는 rotation으로 부터 y축으로 40+-인 값만큼 회전한다.
+
+            자신의 rotation으로 부터
+            base_rotation(기준)에서 y축 +-40의 값을 더해준다. rotation으로 변형시켜준다.
+            
+            */
+
+            //목표지점을 바라보게 만듬
+
+            //transform.rotation = Quaternion.LookRotation(SpotDir);
+            //
+            //
+            //최적화가 제대로 되지 않았기 때문에
+            //
+            //spot방향
+            Quaternion VarRotation = Quaternion.Euler(0f, var_rotation_y, 0f);
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, VarRotation, 0.01f);
+
 
         }
     }
