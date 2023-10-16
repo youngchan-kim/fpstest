@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -32,11 +33,15 @@ public class ViewAngle : MonoBehaviour
     //더할지 말지 관리
     bool y_Dir =true;
     public bool isDelay = true;
+    public bool isTimeDelay = true;
     float second =0;
     //Laymask 레이에 인식되어야할
     //target은 Player임
     //LayerMask target_Mask;
 
+    //enemy1에서 Lerp에 사용하는 t값
+    public float f_lerp_t;
+    float Var_y;
 
     public void GetSeeUnit(float viewAngle , float len)
     {
@@ -91,33 +96,51 @@ public class ViewAngle : MonoBehaviour
         isCollision = false;
     }
 
-    /*    //시야각을 나눠서 레이를 쏴서 레이를 플레이어를 찾는다.
-        public Transform Find_Target_In_Lay(float viewAngle)
+    Vector3 LayDir()
+    {
+
+        float Rayangle = angle * 0.5f;
+
+        Vector3 RayDir = Quaternion.AngleAxis(-30, Vector3.up) * transform.forward;
+
+        return RayDir* Rayangle;
+    }
+    //시야각을 나눠서 레이를 쏴서 레이를 플레이어를 찾는다.
+    public Transform Find_Target_In_Lay()
+    {
+
+        //Find_target가 true 이면 히트된 transform을 리턴
+        //방향으로 레이를 쏜다. 쏘는 방향은 발사하려는 영역을 알면 발사하는 위치를 알기 쉬운데
+        //표적의 vector - 자신의 vector를 하면 방향이 나온다.
+
+   //     Debug.DrawRay(transform.position, LayDir(30), Color.red);
+        //Debug.DrawLine(transform.position, LayDir(0), Color.black);
+        //Debug.DrawRay(transform.position, transform.forward* radius, Color.black, 0.5f);
+        Debug.DrawRay(transform.position, LayDir(), Color.black, 0.5f);
+        //       Debug.DrawRay(transform.position, LayDir(-30), Color.red);
+
+        /*if (Physics.Raycast(transform.position, LayDir, out RaycastHit raycastHit , radius*//*, target_Mask*//*))
         {
-
-            //Find_target가 true 이면 히트된 transform을 리턴
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit raycastHit , radius, target_Mask))
-            {
-                return raycastHit.transform;
-            }
-            else
-            {
-                //최대 시야각에 관한 Ray회전값을을 갱신하는 코드 입력
-                //시야각은 현재 중심을 기준으로 변해야함
-                //base는 z
-            }
-            return null;
-
+            return raycastHit.transform;
+        }
+        else
+        {
+            //최대 시야각에 관한 Ray회전값을을 갱신하는 코드 입력
+            //시야각은 현재 중심을 기준으로 변해야함
+            //base는 z
         }*/
+        return null;
+
+    }
 
     //오브젝트를 회전 시켜 타겟을 찾기
     public void Not_Find_Target()
     {
-
-
         if (isDelay == true)
+        {
             StartCoroutine("testCoroutin");
 
+        }
 
     }
     
@@ -148,10 +171,11 @@ public class ViewAngle : MonoBehaviour
 
                 break;
         }
-
+        Var_y = y_rotation;
         var_rotation_y = base_rotation_y + y_rotation;
         isDelay = true;
     }
+
 
     //언제 호출 되는가? 타겟을 놓쳤고 찾기 시작할때마다 호출
     public void Base_rotation_Y(Vector3 _Spot)
@@ -161,15 +185,6 @@ public class ViewAngle : MonoBehaviour
         Debug.Log("타겟 방향의 벡터는 " + SpotDir.normalized);
         transform.forward = SpotDir;
 
-        base_rotation = Quaternion.Euler(SpotDir.normalized.x, SpotDir.normalized.y, SpotDir.normalized.y);
-        //Quaternion의 y라는 float값을 
-        //base_rotation_y = transform.rotation.y;
-
-        base_rotation_x = SpotDir.normalized.y;
-
-        //base_rotation_z = transform.rotation.z;
-
-        //y_rotation = 0;
     }
  
 

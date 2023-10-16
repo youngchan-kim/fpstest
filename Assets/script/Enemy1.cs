@@ -35,7 +35,6 @@ public class Enemy1 : RandomPosition
     public GameObject Spot_mark;
 
     Vector3 SpotDir;
-    Vector3 currSpot;
 
     //상태의 종류
     enum State
@@ -64,6 +63,7 @@ public class Enemy1 : RandomPosition
     // Update is called once per frame
     void Update()
     {
+        Find_Target_In_Lay();
         GetSeeUnit(Angle, nomal_site_len);
         Spot_mark.transform.position = Spot;
         if (target != null)
@@ -71,7 +71,7 @@ public class Enemy1 : RandomPosition
             transform.LookAt(target.position);
         }
             //각 상태에서의 처리를 해준다.
-            switch ((int)state)
+        switch ((int)state)
         {
             case 0:
                 //기본 상태일때 플레이어 찾기
@@ -91,8 +91,6 @@ public class Enemy1 : RandomPosition
         }
     }
 
-
-
     private void UpdateIdle()
     {
 
@@ -105,7 +103,7 @@ public class Enemy1 : RandomPosition
 
         //본인에게 총이 있는가
 
-        if (target != null)
+        /*if (target != null)
         {
             state = State.Run;
             //애니메이션도 바꿔줘야함
@@ -113,7 +111,7 @@ public class Enemy1 : RandomPosition
         else
         {
             state = State.Reconnaissance;
-        }
+        }*/
 
     }
 
@@ -203,9 +201,11 @@ public class Enemy1 : RandomPosition
 
                 SpotDir = Spot - transform.position;
 
+                //오브젝트가 바라보는 정면은 스팟 방향이다.
                 transform.forward = SpotDir.normalized;
-
+                //이때 오브젝트가 회전값 y를 빼내어사용한다.
                 base_rotation_y = transform.rotation.eulerAngles.y;
+
                 //Base_rotation_Y(Spot);
             }
             
@@ -219,6 +219,7 @@ public class Enemy1 : RandomPosition
             {
                Not_Find_Target();
             }
+
             //오브젝트의 시야
 
             /*
@@ -247,9 +248,13 @@ public class Enemy1 : RandomPosition
             //최적화가 제대로 되지 않았기 때문에
             //
             //spot방향
-            Quaternion VarRotation = Quaternion.Euler(0f, var_rotation_y, 0f);
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, VarRotation, 0.01f);
+            // 선형 보간 해서 시야각 돌리는 코드
+            /*Quaternion VarRotation = Quaternion.Euler(0f, var_rotation_y, 0f);
+
+            //코르틴을 이용한 시간 값의 증가를 통해 t의 값을 0부터 1까지 증가시켜준다.
+            //t값은 시간에 따라 1이 되어야한다.
+            transform.rotation = Quaternion.Lerp(transform.rotation, VarRotation, 0.05f);*/
 
 
         }
