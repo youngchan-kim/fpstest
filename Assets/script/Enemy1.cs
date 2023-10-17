@@ -56,14 +56,14 @@ public class Enemy1 : RandomPosition
         Attectlen = 30f;
         nomal_site_len = Attectlen*2;
         reconnaissance_site_len = nomal_site_len * 2;
-        inv_len = reconnaissance_site_len / 4f;
-        //search_spot = null;
+        inv_len = reconnaissance_site_len * 0.01f;
+        Rayangle = Angle * 0.5f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Find_Target_In_Lay();
+
         GetSeeUnit(Angle, nomal_site_len);
         Spot_mark.transform.position = Spot;
         if (target != null)
@@ -93,25 +93,30 @@ public class Enemy1 : RandomPosition
 
     private void UpdateIdle()
     {
-
-       
-        agent.speed = 0;
-
         //Player를 찾는다.
         //target = GameObject.Find("Player").transform;
         //부채꼴 범위 안에 들어온 Layermask를 모두 받는다.
 
         //본인에게 총이 있는가
 
-        /*if (target != null)
+        if (target != null)
         {
             state = State.Run;
             //애니메이션도 바꿔줘야함
         }
         else
         {
+            //기본 상태에서 탐색 모드로 바뀔 때 처음 한번 실행되어야한다.
+            SpotDir = Spot - transform.position;
+
+            //오브젝트가 바라보는 정면은 스팟 방향이다.
+            transform.forward = SpotDir.normalized;
+
+            //이때 오브젝트가 회전값 y를 빼내어사용한다.
+            base_rotation_y = transform.rotation.eulerAngles.y;
+
             state = State.Reconnaissance;
-        }*/
+        }
 
     }
 
@@ -147,7 +152,6 @@ public class Enemy1 : RandomPosition
     {
         //agent.isStopped = true;
         //공격할때도 거리가 중요
-        agent.speed = 0;
         if (target == null)
         {
             state = State.Idle;
@@ -157,14 +161,20 @@ public class Enemy1 : RandomPosition
             float distance = Vector3.Distance(transform.position, target.position);
             if (distance > Attectlen)
             {
-                agent.isStopped = false;
                 state = State.Idle;
                 //이동 애니메이션을 실행해줘야함
             }
             else if (distance < Attectlen)
             {
                 agent.speed = 0f;
-                agent.isStopped = true;
+                
+                //총이 없는 지
+                //if(have_gun)
+
+                //총이 있는 지
+
+
+
             }
         }
 
@@ -188,16 +198,14 @@ public class Enemy1 : RandomPosition
 
 
             //속도 설정 : 기본 속도
-            agent.speed = 3.5f;
+            agent.speed = 7f;
             agent.destination = Spot;
 
             //도착 장소에 도착하면 새로운 장소 지정
             if(distance < inv_len)
             {
-
-
                 Spot = RandomPoint(reconnaissance_site_len);
-                Debug.Log("현재 회전값  : " + transform.rotation.eulerAngles + "입니다.");
+                //Debug.Log("현재 회전값  : " + transform.rotation.eulerAngles + "입니다.");
 
                 SpotDir = Spot - transform.position;
 
@@ -208,54 +216,23 @@ public class Enemy1 : RandomPosition
 
                 //Base_rotation_Y(Spot);
             }
-            
-            if(target != null)
+
+            if (target != null) state = State.Idle;
+            else
             {
+                if (isDelay == true)
+                {
+                    //오브젝트의 시야
+                    Not_Find_Target();
+                }
+                //목표지점을 바라보게 만듬
+                // 선형 보간 해서 시야각 돌리는 코드
+                Quaternion VarRotation = Quaternion.Euler(0f, var_rotation_y, 0f);
 
-                state = State.Idle;
+                //코르틴을 이용한 시간 값의 증가를 통해 t의 값을 0부터 1까지 증가시켜준다.
+                //t값은 시간에 따라 1이 되어야한다.
+                transform.rotation = Quaternion.Lerp(transform.rotation, VarRotation, 0.01f);
             }
-
-            if (isDelay == true)
-            {
-               Not_Find_Target();
-            }
-
-            //오브젝트의 시야
-
-            /*
-            가야하는 방향을 알면 spot의 좌표 벡터와 오브젝트의 좌표를 통해
-            오브젝트의 좌표에서 spot의 좌표로 가기 위한 방향을 알아냄
-            Vector3 SpotDir = Spot - transform.position;
-             
-            타겟의 방향으로 오브젝트가 바라보도록 앞이라는 값을 줌
-            transform.forward = SpotDir;
-
-            해당 상태에서 기준이 되는 회전 값을 얻어낼 수 있다.
-            base_rotation = transform.rotation;
-
-            기준이 되는 rotation으로 부터 y축으로 40+-인 값만큼 회전한다.
-
-            자신의 rotation으로 부터
-            base_rotation(기준)에서 y축 +-40의 값을 더해준다. rotation으로 변형시켜준다.
-            
-            */
-
-            //목표지점을 바라보게 만듬
-
-            //transform.rotation = Quaternion.LookRotation(SpotDir);
-            //
-            //
-            //최적화가 제대로 되지 않았기 때문에
-            //
-            //spot방향
-
-            // 선형 보간 해서 시야각 돌리는 코드
-            /*Quaternion VarRotation = Quaternion.Euler(0f, var_rotation_y, 0f);
-
-            //코르틴을 이용한 시간 값의 증가를 통해 t의 값을 0부터 1까지 증가시켜준다.
-            //t값은 시간에 따라 1이 되어야한다.
-            transform.rotation = Quaternion.Lerp(transform.rotation, VarRotation, 0.05f);*/
-
 
         }
     }
