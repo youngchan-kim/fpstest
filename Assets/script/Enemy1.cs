@@ -64,13 +64,9 @@ public class Enemy1 : RandomPosition
     void Update()
     {
 
-        GetSeeUnit(Angle, nomal_site_len);
+        GetTarget(Angle, nomal_site_len);
         Spot_mark.transform.position = Spot;
-        if (target != null)
-        {
-            transform.LookAt(target.position);
-        }
-            //각 상태에서의 처리를 해준다.
+        //각 상태에서의 처리를 해준다.
         switch ((int)state)
         {
             case 0:
@@ -98,7 +94,7 @@ public class Enemy1 : RandomPosition
         //부채꼴 범위 안에 들어온 Layermask를 모두 받는다.
 
         //본인에게 총이 있는가
-
+        
         if (target != null)
         {
             state = State.Run;
@@ -117,7 +113,7 @@ public class Enemy1 : RandomPosition
 
             state = State.Reconnaissance;
         }
-
+        
     }
 
     private void UpdateRun()
