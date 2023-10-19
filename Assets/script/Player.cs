@@ -123,5 +123,11 @@ public class Player : MonoBehaviour
 
     //데이터 관리 클래스
 
-
+    public void Damage(float damage_value)
+    {
+        if(currentHealth > 0)
+        {
+            currentHealth -= damage_value;
+        }
+    }
 }

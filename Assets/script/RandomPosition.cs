@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-public class RandomPosition : ViewAngle
+public class RandomPosition : TargetCheck
 {
     Vector3 randomPoint;
     public Vector3 RandomPoint(float len)
