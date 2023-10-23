@@ -9,7 +9,7 @@ using UnityEngine.Animations;
 using UnityEngine.UI;
 
 
-public class Enemy1 : RandomPosition
+public class Enemy1 : TargetCheck
 {
 
     //target은 Player임
@@ -33,7 +33,6 @@ public class Enemy1 : RandomPosition
     float reconnaissance_site_len;
 
     public GameObject Spot_mark;
-
     Vector3 SpotDir;
 
     //오브젝트의 회전을 위한 변수들 여기부터
@@ -61,6 +60,9 @@ public class Enemy1 : RandomPosition
     float atteck;
     bool isAtkDelay;
 
+    //애니메이션
+    Animator anim;
+
 
     //상태의 종류
     enum State
@@ -76,6 +78,7 @@ public class Enemy1 : RandomPosition
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         Initialize();
     }
 
@@ -127,6 +130,26 @@ public class Enemy1 : RandomPosition
         currentHealth = maxHealth;
         atteck = 30;
         isAtkDelay = true;
+        //애니메이션
+        anim.Play("Idle",1);
+        Idle();
+
+    }
+    public void Idle()
+    {
+        if (anim)
+        {
+            anim.SetBool("Idle", true);
+            anim.SetBool("Move", false);
+        }
+    }
+    public void Move()
+    {
+        if(anim)
+        {
+            anim.SetBool("Idle", false);
+            anim.SetBool("Move", true);
+        }
     }
 
     private void UpdateReconnaissance()
@@ -143,13 +166,13 @@ public class Enemy1 : RandomPosition
 
 
             //속도 설정 : 기본 속도
-            agent.speed = 0f;
+            agent.speed = 7f;
             agent.destination = Spot;
 
             //도착 장소에 도착하면 새로운 장소 지정
             if (distance < inv_len)
             {
-                Spot = RandomPoint(reconnaissance_site_len);
+                Spot = StaticRandomPosition.RandomPoint(transform.position,reconnaissance_site_len);
                 //Debug.Log("현재 회전값  : " + transform.rotation.eulerAngles + "입니다.");
 
                 SpotDir = Spot - transform.position;
@@ -179,6 +202,7 @@ public class Enemy1 : RandomPosition
                     //t값은 시간에 따라 1이 되어야한다.
                 }
                 transform.rotation = Quaternion.Lerp(transform.rotation, VarRotation, 0.01f);
+                Move();
             }
         }
     }  
@@ -208,7 +232,7 @@ public class Enemy1 : RandomPosition
 
             state = State.Reconnaissance;
         }
-        
+        Idle();
     }
     private void UpdateRun()
     {
@@ -234,6 +258,7 @@ public class Enemy1 : RandomPosition
             agent.speed = 7f;
 
             agent.destination = target.transform.position;
+            Idle();
         }
 
     }
@@ -269,7 +294,7 @@ public class Enemy1 : RandomPosition
                     Atk_Play(1f);
                     target.GetComponent<Player>().Damage(atteck);
                 }
-
+                Idle();
             }
         }
     }
