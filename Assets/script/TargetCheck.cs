@@ -95,6 +95,7 @@ public class TargetCheck : MonoBehaviour
                         {
                             //Debug.Log("타겟과 오브젝트사이에 장애물이 없다.");
                             target = checktarget;
+                            Target_Watching();
                         }
                         else TargetLost();
                     }
@@ -106,7 +107,11 @@ public class TargetCheck : MonoBehaviour
         else TargetLost();
         return target;
     }
-
+    //타겟을 바라보게함
+    void Target_Watching()
+    {
+        transform.LookAt(target);
+    }
     //타겟을 놓치면 
     // 타겟을 놓친 자리를 입력해줌
     void TargetLost()
