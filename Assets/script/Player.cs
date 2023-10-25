@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
 
 
     public GameObject playercam;
-    //public GameObject Inventory;
+
+    //public GameObject InventoryUI;
     private bool mode_chage;
 
     private bool life;

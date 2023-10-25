@@ -77,7 +77,7 @@ public class Enemy1 : TargetCheck
         Attack,
         Reconnaissance,
         Die
-}
+    }
     //상태의 처리
     State state;
     // Start is called before the first frame update
@@ -158,7 +158,7 @@ public class Enemy1 : TargetCheck
             //도착 장소에 도착하면 새로운 장소 지정
             if (distance < inv_len)
             {
-                Spot = StaticRandomPosition.RandomPoint(transform.position,reconnaissance_site_len);
+                Spot = StaticRandomPosition.RandomPoint(transform.position, reconnaissance_site_len);
                 //Debug.Log("현재 회전값  : " + transform.rotation.eulerAngles + "입니다.");
 
                 SpotDir = Spot - transform.position;
@@ -167,7 +167,7 @@ public class Enemy1 : TargetCheck
                 transform.forward = SpotDir.normalized;
                 //이때 오브젝트가 회전값 y를 빼내어사용한다.
                 base_rotation_y = transform.rotation.eulerAngles.y;
-                
+
                 //Base_rotation_Y(Spot);
             }
 
@@ -191,7 +191,7 @@ public class Enemy1 : TargetCheck
                 anim.Move(1);
             }
         }
-    }  
+    }
     private void UpdateIdle()
     {
         //Player를 찾는다.
@@ -199,13 +199,13 @@ public class Enemy1 : TargetCheck
         //부채꼴 범위 안에 들어온 Layermask를 모두 받는다.
 
         //본인에게 총이 있는가
-        
+
         if (target != null)
         {
             state = State.Run;
             //애니메이션도 바꿔줘야함
         }
-        
+
         else
         {
             //기본 상태에서 탐색 모드로 바뀔 때 처음 한번 실행되어야한다.
@@ -219,7 +219,7 @@ public class Enemy1 : TargetCheck
 
             state = State.Reconnaissance;
         }
-        
+
     }
     private void UpdateRun()
     {
@@ -229,7 +229,7 @@ public class Enemy1 : TargetCheck
         }
         else
         {
-            
+
             float distance = Vector3.Distance(transform.position, target.position);
             if (distance > nomal_site_len)
             {
@@ -281,8 +281,8 @@ public class Enemy1 : TargetCheck
                     Atk_Play(1f);
                     //target.GetComponent<Player>().Damage(atteck);
                 }
-                state = State.Die;
-//                anim.Move(0);
+                //state = State.Die;
+                anim.Move(0);
             }
         }
     }
@@ -293,7 +293,7 @@ public class Enemy1 : TargetCheck
         //DeadBox.SetActive(true);
         //DeadBox.transform.position = gameObject.transform.position;
         DB_Play(3f);
-        
+
     }
 
     public void Damage(float damage_value)
