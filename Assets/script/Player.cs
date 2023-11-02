@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     //Player body Object
     //[HideInInspector] 
-    public GameObject floor;
+    //public GameObject floor;
 
     void Start()
     {

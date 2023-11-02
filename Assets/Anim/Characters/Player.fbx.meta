@@ -86,18 +86,18 @@ ModelImporter:
     serializedVersion: 3
     human: []
     skeleton:
-    - name: Ch45_nonPBR(Clone)
+    - name: Player(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch45
-      parentName: Ch45_nonPBR(Clone)
+      parentName: Player(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: mixamorig1:Hips
-      parentName: Ch45_nonPBR(Clone)
+      parentName: Player(Clone)
       position: {x: 0.00004120694, y: 0.996572, z: -0.002391092}
       rotation: {x: -0.0000018094476, y: 0.000009886852, z: -0.0003230996, w: 0.99999994}
       scale: {x: 1, y: 1, z: 1}

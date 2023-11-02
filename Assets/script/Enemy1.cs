@@ -76,6 +76,7 @@ public class Enemy1 : TargetCheck
         Run,
         Attack,
         Reconnaissance,
+        Escape,
         Die
     }
     //상태의 처리
@@ -91,6 +92,7 @@ public class Enemy1 : TargetCheck
     // Update is called once per frame
     void Update()
     {
+        Hp();
         UpdateTarget(Angle, nomal_site_len, target_Mask);
         Spot_mark.transform.position = Spot;
         if (life == true)
@@ -113,11 +115,23 @@ public class Enemy1 : TargetCheck
                     //Debug.Log("탐색중");
                     break;
                 case 4:
+                    UpdateEscape(); 
+                    break;
+                case 5:
                     UpdateDie();
                     break;
             }
         }
     }
+
+    public void Hp()
+    {
+        if(currentHealth  <50)
+        {
+            state = State.Escape;
+        }
+    }
+
     public void Initialize()
     {
         state = State.Idle;
@@ -138,6 +152,14 @@ public class Enemy1 : TargetCheck
         anim.Initalize();
     }
 
+    private void UpdateEscape()
+    {
+        if(target!=null)
+        {
+            
+        }
+    }
+
     private void UpdateReconnaissance()
     {
         if (target != null)
@@ -146,7 +168,6 @@ public class Enemy1 : TargetCheck
         }
         else
         {
-
             //  제자리에서 시야 회전 탐색이 완료되면 해당 코드 주석 없앨것
             float distance = Vector3.Distance(transform.position, Spot);
 
