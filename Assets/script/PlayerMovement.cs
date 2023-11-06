@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("땅이 아닙니다.");
+            //Debug.Log("땅이 아닙니다.");
             rb.drag = 0;
         }
 

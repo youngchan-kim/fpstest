@@ -16,7 +16,7 @@ public class Player_Action : MonoBehaviour
 
     public void AnimStart()
     {
-        Debug.Log(transform.GetChild(0).name);
+        //Debug.Log(transform.GetChild(0).name);
         anim = transform.GetChild(0).GetComponent<Animator>();
     }
     public void MoveAnim(float vertical, float horizon)
