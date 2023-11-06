@@ -65,12 +65,19 @@ public class PlayerMovement : MonoBehaviour
         //재장전 모션
         if (Input.GetKeyDown(KeyCode.R))
         {
-            anim.Reloading();
+            anim.Reloading(true);
+            StartCoroutine(ReloadTimer());
         }
         //아이템 루팅 모션
         if (Input.GetKeyDown(KeyCode.F))
         {
-            anim.PickUpMotion();
+            anim.PickUpMotion(true);
+            StartCoroutine(PickupTimer());
+        }
+        if(Input.GetKeyDown(KeyCode.J))
+        {
+            anim.Drink_A_Heal(true);
+            StartCoroutine(DrinkTimer());
         }
 
         //ground check
@@ -107,11 +114,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(jumpKey) && readyToJump && grounded) 
         {
             readyToJump = false;
-
+            
             Jump();
-            anim.IsJump();
+
             Invoke(nameof(ResetJump), jumpCooldown);
         }
+
         if (Input.GetKeyDown(KeyCode.C) && grounded)
         {
             anim.Crouch();
@@ -155,10 +163,37 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         //ForceMode.Impulse는 힘을 한번만 적용해준다.
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        anim.IsJump(true);
+        StartCoroutine(JumpingTimer());
+
     }
     private void ResetJump()
     {
         Debug.Log("점프를 누를수 있습니다." + jumpCooldown+"초 지났습니다.");
-        readyToJump = true;  
+        readyToJump = true;
+    }
+    IEnumerator JumpingTimer()
+    {
+        yield return new WaitForSeconds(0.5f);
+        anim.IsJump(false);
+        StopCoroutine(JumpingTimer());
+    }
+    IEnumerator DrinkTimer()
+    {
+        yield return new WaitForSeconds(4f);
+        anim.Drink_A_Heal(false);
+        StopCoroutine(DrinkTimer());
+    }
+    IEnumerator PickupTimer()
+    {
+        yield return new WaitForSeconds(2f);
+        anim.PickUpMotion(false);
+        StopCoroutine(PickupTimer());
+    }
+    IEnumerator ReloadTimer()
+    {
+        yield return new WaitForSeconds(3f);
+        anim.Reloading(false);
+        StopCoroutine(ReloadTimer());
     }
 }

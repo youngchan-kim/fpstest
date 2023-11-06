@@ -1,22 +1,15 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player_Action : MonoBehaviour
 {
-
-
-
-    float cur_hori;
-    float cur_vert;
     // Start is called before the first frame update
-
     Animator anim;
-    float moveAction =0;
 
     public void AnimStart()
     {
-        //Debug.Log(transform.GetChild(0).name);
         anim = transform.GetChild(0).GetComponent<Animator>();
     }
     public void MoveAnim(float vertical, float horizon)
@@ -64,9 +57,9 @@ public class Player_Action : MonoBehaviour
                 break;
         }
     }
-    public void IsJump()
+    public void IsJump(bool  isjump)
     {               
-        anim.SetTrigger("Jump");
+        anim.SetBool("Jump", isjump);
     }
 
     public void AimStart()
@@ -93,13 +86,17 @@ public class Player_Action : MonoBehaviour
     {
         anim.SetTrigger("Atteck");
     }
-    public void Reloading()
+    public void Reloading(bool isReload)
     {
-        anim.SetTrigger("Reload");
+        anim.SetBool("Reload", isReload);
     }
 
-    public void PickUpMotion()
+    public void PickUpMotion(bool ispickup)
     {
-        anim.SetTrigger("Pickup");
+        anim.SetBool("Pickup", ispickup);
+    }
+    public void Drink_A_Heal(bool isdrink)
+    {
+        anim.SetBool("Drink", isdrink);
     }
 }
