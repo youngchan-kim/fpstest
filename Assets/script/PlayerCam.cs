@@ -15,17 +15,26 @@ public class PlayerCam : MonoBehaviour
     float xRotation;
     float yRotation;
     //public Transform  Spine;
-    Transform playerBady, playerChestTr;
+    Transform playerBady, playerChestTr, playerHeadTr;
     Animator animator;
     public Transform cam;
+    Transform activeGun;
+    Vector3 LookHead;
     //플레이어의 애니매이션의 본을 움직여야 허리가 돌아간다.
     private void Start()
     {
+        //활성화된 총기를 알아야함
+        //test용으로 첫번째 총기만 
+        Debug.Log(transform.parent.GetChild(1).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0).name);
+        activeGun = transform.parent.GetChild(1).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0);
         playerBady = transform.parent;
         animator = GetComponentInParent<Animator>();
         if (animator)
-            playerChestTr = animator.GetBoneTransform(HumanBodyBones.UpperChest);
-
+        { 
+            playerChestTr = animator.GetBoneTransform(HumanBodyBones.Chest);
+            playerHeadTr = animator.GetBoneTransform(HumanBodyBones.Head);
+        }
+        LookHead = activeGun.GetComponent<GunSystem>().attackPoint;
     }
 
     public void LateUpdate()
@@ -33,7 +42,7 @@ public class PlayerCam : MonoBehaviour
         Operation_boneRitation();
     }
 
-    Vector3 ChestOffset = new Vector3(0, -40, -100);
+    //Vector3 ChestOffset = new Vector3(0, -40, -100);
     Vector3 ChestDir = new Vector3();
 
     private void Operation_boneRitation()
@@ -42,7 +51,7 @@ public class PlayerCam : MonoBehaviour
         //ChestDir를 총이 바라보는 것으로 바꿔준다면 상체는 총이 바라보는 곳을 바라봄
         ChestDir = cam.position + cam.forward * 50f;
         playerChestTr.LookAt(ChestDir); //상체를 카메라 보는방향으로 보기
-       
+        playerHeadTr.LookAt(LookHead); // 머리를 총구가 바라보는 방향 보기
     }
 
 
