@@ -19,7 +19,7 @@ public class MoveCamera : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        Debug.Log(Head.name);
+        //Debug.Log(Head.name);
         /*pos = Head.position + (Vector3.up * 0.1f) + (Vector3.forward * 0.1f);
         cameraPosition.position = pos;*/
         cameraPosition.position = Head.position + (Vector3.up * 0.1f) + (Vector3.forward * 0.1f);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,20 +14,41 @@ public class PlayerCam : MonoBehaviour
 
     float xRotation;
     float yRotation;
-
-    Transform Head, Spine;
+    //public Transform  Spine;
+    Transform playerBady, playerChestTr;
+    Animator animator;
+    public Transform cam;
+    //플레이어의 애니매이션의 본을 움직여야 허리가 돌아간다.
     private void Start()
     {
+        playerBady = transform.parent;
+        animator = GetComponentInParent<Animator>();
+        if (animator)
+            playerChestTr = animator.GetBoneTransform(HumanBodyBones.UpperChest);
 
-        //Head = transform.parent.GetChild(1).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0);
-        Spine = transform.parent.GetChild(1).GetChild(2);
-        //Head = transform.parent.GetChild(1).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0);
-        //Spine = transform.parent;
     }
-    // Update is called once per frame
+
+    public void LateUpdate()
+    {
+        Operation_boneRitation();
+    }
+
+    Vector3 ChestOffset = new Vector3(0, -40, -100);
+    Vector3 ChestDir = new Vector3();
+
+    private void Operation_boneRitation()
+    {
+        //카메라가 보고있는 방향
+        //ChestDir를 총이 바라보는 것으로 바꿔준다면 상체는 총이 바라보는 곳을 바라봄
+        ChestDir = cam.position + cam.forward * 50f;
+        playerChestTr.LookAt(ChestDir); //상체를 카메라 보는방향으로 보기
+       
+    }
+
+
     void Update()
     {
-         //Debug.Log(transform.parent.name);
+        //Debug.Log(transform.parent.name);
         //마우스 좌표를 받아오기
         float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
         float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
@@ -38,13 +60,11 @@ public class PlayerCam : MonoBehaviour
         xRotation -= (mouseY /*+ aim.GetAimY()*/);
         //x축화전에 90도가 넘어가면 뒤집히지 않도록 고정해준다.
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        
-        //카메라의 회전과 오브젝트의 회전방향을 일치시키기 위한 단계
-        transform.parent.rotation = Quaternion.Euler(0, yRotation, 0);
-        //Debug.Log(Spine.name);
-        Spine.rotation = Quaternion.Euler(xRotation, yRotation, 0);
 
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
-        //카메라의 Y축 회전과 오브젝트의 y축 회전 방향을 
+        //마우스가 회전한 만큼PlayerRotate를 회전시킴
+        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+
+        //플레이어의 몸의 회전을 y축으로만 회전함
+        playerBady.rotation = Quaternion.Euler(0, yRotation, 0);
     }
 }
