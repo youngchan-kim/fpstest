@@ -75,6 +75,7 @@ public class Player_Action : MonoBehaviour
         switch (anim.GetBool("Aim"))
         {
             case true:
+                
                 anim.SetBool("Aim", false);
                 return false;
             case false:

@@ -9,7 +9,6 @@ public class MoveCamera : MonoBehaviour
     //카메라의 포지션에 케릭터의 포지션을 넣으면
     //카메라는 케릭터와  같은 포지션을 유지하게됨
     public Transform cameraPosition;
-    public Transform Orientation;
     public Transform Head;
     Vector3 pos;
     private void Start()

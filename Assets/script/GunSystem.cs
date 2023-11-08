@@ -112,14 +112,19 @@ public class GunSystem : MonoBehaviour
         //이미 바라보는 곳임으로 LookAt으로 다시 바라볼 필요가 없음
         //GunMuzzle.LookAt(GunMuzzle.position + GunMuzzle.forward * len);
 
-        //바라보는 방향은 GunMuzzle.forward
-        //바라보는 곳의 좌표는 GunMuzzle.position + GunMuzzle.forward * len
+            //바라보는 방향은 GunMuzzle.forward
+            //바라보는 곳의 좌표는 GunMuzzle.position + GunMuzzle.forward * len
 
         MyInput();
 
     }
 
-
+    public Vector3 GetAttackpoint()
+    {
+/*        if (attackPoint != null)
+            return attackPoint;*/
+        return GunMuzzle.position;
+    }
     private void MyInput()
     {
         //연사와 단발을 B키를 통해 조작할 수 있다.
