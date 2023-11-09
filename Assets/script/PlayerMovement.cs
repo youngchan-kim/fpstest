@@ -42,7 +42,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         anim = GetComponent<Player_Action>();
-        anim.AnimStart();
     }
 
     // Update is called once per frame

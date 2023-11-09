@@ -14,12 +14,12 @@ public class GunSystem : MonoBehaviour
 
     //공격이 시작되는 지점
     //총의 muzzle오브젝트
-     Transform GunMuzzle;
+    public Transform GunMuzzle;
 
     AimShaker MuzzleAimShaker;
     //공격 할 지점
     //총의 muzzle오브젝트로부터 직선 방향 최대값 필요
-    public Vector3 attackPoint;
+    Transform attackPoint;
     
     //총이 맞는 곳의 이펙트
     /*[SerializeField]
@@ -61,6 +61,14 @@ public class GunSystem : MonoBehaviour
     Player player;
     //스크립터블에 들어가야함
     int len = 100;
+    public Transform GetMuzzleTr()
+    {
+        return GunMuzzle;
+    }
+    public Transform GetAttackPointtr()
+    {
+        return attackPoint;
+    }
 
     private void Awake()
     { 
@@ -78,6 +86,7 @@ public class GunSystem : MonoBehaviour
         MuzzleAimShaker = GunMuzzle.GetComponent<AimShaker>();
         //Debug.Log(GunMuzzle);
         muzzleFlashparticle = transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>();
+        attackPoint = GunMuzzle.GetChild(0);
     }
     //public int CheckGunParts()
     //{
@@ -101,29 +110,20 @@ public class GunSystem : MonoBehaviour
             text.SetText(bulletsLeft + "/" + player.GetInven_Find_Item(bullet));
         }*/
         //총구가 바라보는 방향 선으로 확인
-        
         Debug.DrawLine(GunMuzzle.position, GunMuzzle.position + GunMuzzle.forward*len, Color.red);
-        if (Physics.Raycast(GunMuzzle.position, GunMuzzle.forward, out RaycastHit hit, len))
-            attackPoint = hit.collider.transform.position;
-        else
-            attackPoint = GunMuzzle.position + GunMuzzle.forward * len;
+        attackPoint.position = GunMuzzle.position + GunMuzzle.forward * len;
+        
+        //Debug.Log("어택 포인트가 가리키는 좌표 "+attackPoint.transform.position);
         //GunMuzzle.LookAt(MuzzleAimShaker.GetLookpoint());
         //Debug.Log(GunMuzzle.position + GunMuzzle.forward * len);
         //이미 바라보는 곳임으로 LookAt으로 다시 바라볼 필요가 없음
         //GunMuzzle.LookAt(GunMuzzle.position + GunMuzzle.forward * len);
 
-            //바라보는 방향은 GunMuzzle.forward
-            //바라보는 곳의 좌표는 GunMuzzle.position + GunMuzzle.forward * len
+        //바라보는 방향은 GunMuzzle.forward
+        //바라보는 곳의 좌표는 GunMuzzle.position + GunMuzzle.forward * len
 
         MyInput();
 
-    }
-
-    public Vector3 GetAttackpoint()
-    {
-/*        if (attackPoint != null)
-            return attackPoint;*/
-        return GunMuzzle.position;
     }
     private void MyInput()
     {

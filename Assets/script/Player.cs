@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,6 +6,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    //플레이어가 사용하는 시네마캠
+    public CinemachineVirtualCamera Player_cam;
+
     //public MouseItem mouseItem = new MouseItem();
     public float maxHealth = 100f;
     public float currentHealth;
@@ -32,6 +36,8 @@ public class Player : MonoBehaviour
 
     public void Initialize()
     {
+        //Debug.Log(GameObject.Find("Cam").name);
+        Player_cam = GameObject.Find("Cam").transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();
         life = true;
         currentHealth = maxHealth;
         Cursor.lockState = CursorLockMode.Locked;
