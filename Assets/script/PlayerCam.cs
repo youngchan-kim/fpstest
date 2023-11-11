@@ -12,15 +12,52 @@ public class PlayerCam : MonoBehaviour
 
     public Transform orientation;
 
-    Transform playerBady;
+    Transform playerBady, playerChestTr, playerHeadTr, playerHipsTr;
+    Transform attackpoint;
+    Transform activeGun;
+
+    Animator animator;
 
     float xRotation;
     float yRotation;
     private void Start()
     {
         playerBady = transform.parent;
+        
+        attackpoint = activeGun.GetChild(0).GetChild(0);
+        Debug.Log(attackpoint.name);
+        animator = GetComponentInParent<Animator>();
+        if (animator)
+        { 
+            playerChestTr = animator.GetBoneTransform(HumanBodyBones.Chest);
+            playerHeadTr = animator.GetBoneTransform(HumanBodyBones.Head);
+            playerHipsTr = animator.GetBoneTransform(HumanBodyBones.Hips);
+           
+        }
+        //LookHead = activeGun.GetComponent<GunSystem>().GetAttackpoint();
+
     }
-    
+
+
+    Vector3 HipsDir = new Vector3(0, -40, 0);
+    Vector3 ChestDir = new Vector3(0, -40, 0);
+
+    private void Operation_boneRitation()
+    {
+        
+        //ChestDir를 총이 바라보는 것으로 바꿔준다면 상체는 총이 바라보는 곳을 바라봄
+        //ChestDir = attackpoint.position + attackpoint.forward*100f;
+        playerChestTr.LookAt(ChestDir); //상체를 카메라 보는방향으로 보기
+        //Debug.Log(activeGun.GetComponent<GunSystem>().GetAttackpoint());
+        //playerHeadTr.LookAt(activeGun.GetComponent<GunSystem>().GetAttackpoint()); // 머리를 총구가 바라보는 방향 보기
+        //타겟의 방향과 총구의 방향이 일치하려면 필요한 Vector3값
+        //OriDir.position = StaticViewAngle.static_Obj_to_Target_Dir(orientation.position, activeGun.GetComponent<GunSystem>().GetAttackpoint());
+        //float s =  StaticViewAngle.static_Obj_ViewAngle_in_Target_Angle(OriDir, playerHipsTr.forward);
+        //타겟의 방향만큼
+        //playerHipsTr.Rotate(new Vector3(0,90,0));
+        //playerHipsTr.LookAt(OriDir);
+    }
+
     void Update()
     {
         //Debug.Log(transform.parent.name);
