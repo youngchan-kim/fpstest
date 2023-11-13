@@ -126,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void MovePlayer()
     {
+        //문제 움직일때 Y축으로 움직여지는 현상
         //움직이는 방향을 계산
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
        

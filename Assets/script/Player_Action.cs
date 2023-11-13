@@ -16,14 +16,14 @@ public class Player_Action : MonoBehaviour
     Transform playerChestTr, playerHeadTr, playerHipsTr;
 
     Vector3 ChestOffset = new Vector3(0, -40, 0);
-    Vector3 ChestDir = new Vector3();
+    Vector3 ChestDir;
     Vector3 HipsDir = new Vector3(0, -40, 0);
     //gunSystem을 가진 오브젝트
     Transform gun;
     //해당 오브젝트의 총구
     GunSystem gunSystem;
 
-    CinemachineVirtualCamera cam;
+   // CinemachineVirtualCamera cam;
     Vector3 LookHead;
     //플레이어의 애니매이션의 본을 움직여야 허리가 돌아간다.
     private void Start()
@@ -31,9 +31,9 @@ public class Player_Action : MonoBehaviour
         //활성화된 총기를 알아야함
         //test용으로 첫번째 총기만 
         // Debug.Log(transform.parent.GetChild(1).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0).name);
-        gun = transform.GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0);
-        gunSystem = gun.GetComponent<GunSystem>();
-        cam = transform.GetComponent<Player>().Player_cam;
+        gun = transform.GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0);
+        gunSystem = gun.GetChild(0).GetComponent<GunSystem>();
+       // cam = transform.GetComponent<Player>().Player_cam;
 
 
         anim = transform.GetChild(0).GetComponent<Animator>();
@@ -57,15 +57,12 @@ public class Player_Action : MonoBehaviour
     {
 
         //ChestDir를 총이 바라보는 것으로 바꿔준다면 상체는 총이 바라보는 곳을 바라봄
-        ChestDir = gunSystem.GetMuzzleTr().position + gunSystem.GetMuzzleTr().forward * 100f;
+        //ChestDir = gunSystem.GetMuzzleTr().position + gunSystem.GetMuzzleTr().forward * 100f;
 
-        // 머리를 총구가 바라보는 방향 보기
-        playerHeadTr.LookAt(gunSystem.GetMuzzleTr().position); 
-        
         //총을 조준했을때 총이 앞으로 향하도록하기 위한 상체의 회전값
         playerChestTr.Rotate(new Vector3(0, 45, 0));
+        playerHeadTr.LookAt(orientation);
 
-        
     }
 
     public void MoveAnim(float vertical, float horizon)
@@ -119,13 +116,13 @@ public class Player_Action : MonoBehaviour
         {
             case true:
                 //Debug.Log(transform.position + transform.forward * 10f);
-                cam.LookAt = orientation;
+                //cam.LookAt = orientation;
                 orientation.position = playerHeadTr.position + playerHeadTr.forward * 5f;
                 anim.SetBool("Aim", false);
                 return false;
             case false:
                 //Debug.Log(muzzlepoint.position + muzzlepoint.forward * 10f);
-                cam.LookAt = gunSystem.GetAttackPointtr();
+                //cam.LookAt = gunSystem.GetAttackPointtr();
                 anim.SetBool("Aim", true);
                 return true;
         }
