@@ -129,15 +129,15 @@ public class PlayerMovement : MonoBehaviour
         //문제 움직일때 Y축으로 움직여지는 현상
         //움직이는 방향을 계산
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-       
-
+        
         //땅위에 있을때
-        if(grounded)
+        if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
         //공중에 있을때
-        else if(!grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f*airMultiplier, ForceMode.Force);
+        /*
+            else if(!grounded)
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f*airMultiplier, ForceMode.Force);*/
     }
 
     private void SpeedControl()

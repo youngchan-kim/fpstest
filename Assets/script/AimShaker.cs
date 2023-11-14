@@ -7,7 +7,7 @@ public class AimShaker : MonoBehaviour
     float x = 0;
     float y = 0;
     //총구가 바라보는 곳의 position를 변경해준다.?
-    Vector3 Look_aim;
+    Vector2 Look_aim;
     
 
     public IEnumerator AimShake(float spreed)
@@ -19,22 +19,20 @@ public class AimShaker : MonoBehaviour
         Look_aim.y += y;
 
         yield return null;
+        x = y = 0; 
+
     }
 
-    public Vector3 GetLookpoint() { return Look_aim; }
+    //사용되는 곳 찾아볼 것
+    public Vector2 GetLookpoint() { return Look_aim; }
 
+    //사용 되는 곳 에임중 마우스의 값을 강제적으로 추가할때 사용
     public float GetAimX()
     {
-        if (x == 0)
-            return 0;
-        else
-            return x;
+        return x;
     }
     public float GetAimY()
     {
-        if (y == 0)
-            return 0;
-        else
-            return y;
+        return y;
     }
 }

@@ -132,13 +132,7 @@ public class TargetCheck : MonoBehaviour
     //시야각을 Scenes에서 보여주는 코드
     void OnDrawGizmos()
     {
-        /*
-        RaycastHit hit;
-        // Physics.SphereCast (레이저를 발사할 위치, 구의 반경, 발사 방향, 충돌 결과, 최대 거리)
-        if (Physics.SphereCast(transform.position, radius, transform.forward, out hit, 0)) { }
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.forward * hit.distance);
-        Gizmos.DrawWireSphere(transform.position + transform.forward * hit.distance, radius);*/
+
 
         Handles.color = _blue;
         // DrawSolidArc(시작점, 노멀벡터(법선벡터), 그려줄 방향 벡터, 각도, 반지름)

@@ -9,7 +9,6 @@ public class Cam_ScreenCenter : MonoBehaviour
 
     private float range;
     private float maxrange = 100f;
-    GameObject look; //바라보는 최대 위치를 확인하기위해 사용
 
     GameObject aim; //에임의 위치를 set하기 위해 사용
 
@@ -19,8 +18,8 @@ public class Cam_ScreenCenter : MonoBehaviour
 
     private Vector3 ScreenMax;
     private Vector3 ScreenMin;
-    //private Vector3 ScreenMaxPoint;
-    //private Vector3 ScreenMinPoint;
+
+    public AimShaker aimshaker;
 
     public LayerMask layermask;
     Camera maincam;
@@ -29,10 +28,9 @@ public class Cam_ScreenCenter : MonoBehaviour
         //Camera는 메인 카메라를 tag로 찾는다.
         maincam = Camera.main;
         range = maxrange;
-        Player_Eyes = transform.GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(2);
+        Player_Eyes = transform.GetChild(0).GetChild(4).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(2);
         Debug.Log(Player_Eyes);
-        look = transform.GetChild(1).gameObject;
-        aim = transform.GetChild(2).gameObject;
+        aim = transform.GetChild(1).gameObject;
     }
     private void Update()
     {
@@ -63,15 +61,12 @@ public class Cam_ScreenCenter : MonoBehaviour
         }
         else //ray가 없는 경우 에임의 위치를 변경
         {
-            //에임의 위치를 확인하기 위한 코드
+            //에임의 위치를 확인하기 위한 코드 최대에임 위치
             aim.transform.position = ScreenMaxPoint;
             range = maxrange;
         }
-
-        //에임의 위치를 확인하기 위한 코드 최대에임 위치
-        look.transform.position = ScreenMaxPoint;
+        //aim.transform.position = new Vector3(transform.position.x + aimshaker.GetAimX(), transform.position.y + aimshaker.GetAimY(), transform.position.z);
         
-        //Player_Head.transform.LookAt(aim.transform.position);
         Debug.DrawLine(Camera.main.transform.position, ScreenMaxPoint, Color.yellow);
     }
 

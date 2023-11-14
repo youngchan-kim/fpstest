@@ -19,11 +19,11 @@ public class GunSystem : MonoBehaviour
     AimShaker MuzzleAimShaker;
     //공격 할 지점
     //총의 muzzle오브젝트로부터 직선 방향 최대값 필요
-    Transform attackPoint;
+    public Transform attackPoint;
     
     //총이 맞는 곳의 이펙트
-    /*[SerializeField]
-    public GameObject bulletHoleGraphic;*/
+    [SerializeField]
+    public GameObject bulletHoleGraphic;
 
 
     //GameMgr의 GUIMgr로 관리
@@ -51,7 +51,7 @@ public class GunSystem : MonoBehaviour
     Vector3 target_position;
     //촐구가 바라보는 방향
     //muzzle의 방향이 바라보는 방향임
-    public Vector3 direction;
+    Vector3 direction;
 
     //public ItemObject bullet;
     float total_reloadTime;
@@ -86,7 +86,7 @@ public class GunSystem : MonoBehaviour
         MuzzleAimShaker = GunMuzzle.GetComponent<AimShaker>();
         //Debug.Log(GunMuzzle);
         muzzleFlashparticle = transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>();
-        attackPoint = GunMuzzle.GetChild(0);
+        
     }
     //public int CheckGunParts()
     //{
@@ -109,21 +109,12 @@ public class GunSystem : MonoBehaviour
             //SetText
             text.SetText(bulletsLeft + "/" + player.GetInven_Find_Item(bullet));
         }*/
-        //총구가 바라보는 방향 선으로 확인
+        //달릴때는 어택 포인트를 조준할 수 없다.
+        //transform.LookAt(null);
+        transform.LookAt(attackPoint.transform.position);
         Debug.DrawLine(GunMuzzle.position, GunMuzzle.position + GunMuzzle.forward*len, Color.red);
-        attackPoint.position = GunMuzzle.position + GunMuzzle.forward * len;
-        
-        //Debug.Log("어택 포인트가 가리키는 좌표 "+attackPoint.transform.position);
-        //GunMuzzle.LookAt(MuzzleAimShaker.GetLookpoint());
-        //Debug.Log(GunMuzzle.position + GunMuzzle.forward * len);
-        //이미 바라보는 곳임으로 LookAt으로 다시 바라볼 필요가 없음
-        //GunMuzzle.LookAt(GunMuzzle.position + GunMuzzle.forward * len);
-
-        //바라보는 방향은 GunMuzzle.forward
-        //바라보는 곳의 좌표는 GunMuzzle.position + GunMuzzle.forward * len
 
         MyInput();
-
     }
     private void MyInput()
     {
@@ -143,7 +134,7 @@ public class GunSystem : MonoBehaviour
             if (Input.GetKey(KeyCode.Mouse0) && shoot)
             {
                 //반동
-                //StartCoroutine(GunMuzzle.GetComponent<AimShaker>().AimShake(Gun_property.spread));
+                StartCoroutine(attackPoint.GetComponent<AimShaker>().AimShake(Gun_property.spread));
                 muzzleFlashparticle.Play();
                 shoot = false;
             }
@@ -156,7 +147,7 @@ public class GunSystem : MonoBehaviour
             //Debug.Log("단발" + shooting);
             if (Input.GetKeyDown(KeyCode.Mouse0) && shoot)
             {
-                //StartCoroutine(GunMuzzle.GetComponent<AimShaker>().AimShake(Gun_property.spread));
+                StartCoroutine(attackPoint.GetComponent<AimShaker>().AimShake(Gun_property.spread));
                 muzzleFlashparticle.Play();
                 shoot = false;
             }
@@ -164,7 +155,7 @@ public class GunSystem : MonoBehaviour
         }
 
         //R키가 눌렸고 남은 탄이 탄창보다 작고 리로드 중이 아닐때 호출한다.
-        //if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < Gun_property.magazineSize && !reloading) Reload();
+        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < Gun_property.magazineSize && !reloading) Reload();
 
         //Shoot
         //쏠준비됨 혹은 슈팅중이고 재장전중이지 않으며 장전된 탄의 수가 0보다 클때
@@ -173,7 +164,9 @@ public class GunSystem : MonoBehaviour
         {
             bulletsShot = Gun_property.bulletsPerTap;
             Shoot();
+
         }
+       
     }
 
     private void Shoot()
@@ -191,21 +184,15 @@ public class GunSystem : MonoBehaviour
            /* if (rayHit.collider.GetComponent<Enemy>())
                 rayHit.collider.GetComponent<DamegeSystem>().TakeDamage(Gun_property.damage);*/
 
-            //var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
+            var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
 
         }
-
-        //Debug.DrawLine(firePosition.transform.position, rayHit.point, Color.blue);
-
-
-        //Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
-        //Instantiate(muzzleFlashparticle, attackPoint.transform.position, Quaternion.identity);
 
         bulletsLeft--;
         bulletsShot--;
         //총 쏘면서 바뀐 속성 리셋
         total_timeBetweenShooting = Gun_property.timeBetweenShooting + 0;
-        Debug.Log(total_timeBetweenShooting);
+        //Debug.Log(total_timeBetweenShooting);
         Invoke("ResetShot", total_timeBetweenShooting);
 
         //총을 쏠때 연사시간
@@ -224,34 +211,34 @@ public class GunSystem : MonoBehaviour
     }
 
 
-    /*private void Reload()
+    private void Reload()
     {
         reloading = true;
         total_reloadTime = Gun_property.reloadTime + 0;
         Invoke("ReloadFinished", total_reloadTime);
-    }*/
+    }
 
 
-    /*private void ReloadFinished()
+    private void ReloadFinished()
     {
         total_magazineSize = Gun_property.magazineSize + 0;
-        int haveBullet = player.GetInven_Find_Item(bullet);
+        //int haveBullet = player.GetInven_Find_Item(bullet);
         int addBullet = 0;
         addBullet = total_magazineSize - bulletsLeft;
 
-        if (haveBullet <= addBullet)
+        /*if (haveBullet <= addBullet)
         {
             bulletsLeft = bulletsLeft + haveBullet;
-            player.SetInven_Find_Item(bullet, 0);
+            //player.SetInven_Find_Item(bullet, 0);
         }
         else
         {
             bulletsLeft = addBullet;
-            player.SetInven_Find_Item(bullet, haveBullet- addBullet);
-        }
+            //player.SetInven_Find_Item(bullet, haveBullet- addBullet);
+        }*/
         reloading = false;
-        player.InventRefresh();
-    }*/
+        //player.InventRefresh();
+    }
 
     /* public Sprite GetSprite()
      {

@@ -12,7 +12,7 @@ public class MoveCamera : MonoBehaviour
     Vector3 pos;
     private void Start()
     {
-        Head = transform.parent.GetChild(3).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0);
+        Head = transform.parent.GetChild(4).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0);
     }
     // Update is called once per frame
     public void Update()

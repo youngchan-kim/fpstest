@@ -6,23 +6,18 @@ using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
-    //public AimShaker aim;
+    
     private float sensX = 400;
     private float sensY = 400;
 
-    public Transform orientation, CamPos;
-
-    Transform playerBady, playerChestTr, playerHeadTr, playerHipsTr;
-    Transform attackpoint;
-    Transform activeGun;
-
-    Animator animator;
-
+    Transform playerBady;
+    public AimShaker aim;
     float xRotation;
     float yRotation;
     private void Start()
     {
         playerBady = transform.parent;
+        aim = playerBady.parent.GetChild(1).GetComponent<AimShaker>();
     }
 
     void Update()
@@ -34,15 +29,15 @@ public class PlayerCam : MonoBehaviour
 
         //마우스의 움직인 좌표값은 X좌표값은 Y축의 회전에 더해주고 Y좌표 값은 X축의 회전에 빼준다.
         //Debug.Log(aim.GetAimX() + "  " + aim.GetAimY());
-        yRotation += (mouseX /*+ aim.GetAimX()*/);
-
-        xRotation -= (mouseY /*+ aim.GetAimY()*/);
+        yRotation += mouseX;
+        yRotation += aim.GetAimX();
+        xRotation -= mouseY;
+        xRotation -= aim.GetAimY();
         //x축화전에 90도가 넘어가면 뒤집히지 않도록 고정해준다.
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         
         //마우스가 회전한 만큼PlayerRotate를 회전시킴
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        //orientation.position = activeGun.GetComponent<GunSystem>().GetAttackpoint();
         //플레이어의 몸의 회전을 y축으로만 회전함
         playerBady.rotation = Quaternion.Euler(0, yRotation, 0);
     }
