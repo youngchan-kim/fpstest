@@ -552,6 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ff3af74433e4cf4eb101d2ccc0ff9fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LookPoint: {fileID: 0}
 --- !u!195 &3298633150339008123
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2758,9 +2759,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 8148859474763377276}
     m_Modifications:
     - target: {fileID: 834716913606385019, guid: a238c5c7349d9bb4a966f993d3df8656, type: 3}
+      propertyPath: GunMuzzle
+      value: 
+      objectReference: {fileID: 4995345259560815096}
+    - target: {fileID: 834716913606385019, guid: a238c5c7349d9bb4a966f993d3df8656, type: 3}
       propertyPath: attackPoint
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3447338090754848959}
     - target: {fileID: 834716913606385019, guid: a238c5c7349d9bb4a966f993d3df8656, type: 3}
       propertyPath: Gun_property
       value: 
@@ -2850,5 +2855,10 @@ PrefabInstance:
 --- !u!4 &2193856945351518619 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 860391781948575495, guid: a238c5c7349d9bb4a966f993d3df8656, type: 3}
+  m_PrefabInstance: {fileID: 1549973298711275164}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4995345259560815096 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5823599125530898276, guid: a238c5c7349d9bb4a966f993d3df8656, type: 3}
   m_PrefabInstance: {fileID: 1549973298711275164}
   m_PrefabAsset: {fileID: 0}

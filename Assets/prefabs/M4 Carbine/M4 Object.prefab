@@ -5045,15 +5045,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5566538718169349693}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: 0, z: 74.4}
+  m_LocalRotation: {x: -0.4443739, y: 0.5186889, z: 0.41791663, w: 0.5990321}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4818035818314484744}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: -75, y: 75, z: 8.825}
 --- !u!114 &834716913606385019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5068,8 +5068,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Gun_property: {fileID: 0}
   GunMuzzle: {fileID: 0}
+  attackPoint: {fileID: 0}
+  bulletHoleGraphic: {fileID: 0}
   text: {fileID: 0}
-  direction: {x: 0, y: 0, z: 0}
 --- !u!114 &8945454408837089945
 MonoBehaviour:
   m_ObjectHideFlags: 0
