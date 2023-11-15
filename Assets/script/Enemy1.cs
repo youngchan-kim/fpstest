@@ -13,11 +13,14 @@ public class Enemy1 : TargetCheck
 {
 
     //target은 Player임
+    [Header("타겟")]
     public LayerMask target_Mask;
-
+    [Header("땅")]
+    public LayerMask ground;
     //NavMeshAgent을 이용한 map의 크기를 알아올 수 있는지
     NavMeshAgent agent;
-
+    Transform Gun;
+    GunSystem gunSystem;
     //인식 범위
     //폭
     float Angle;
@@ -34,6 +37,8 @@ public class Enemy1 : TargetCheck
 
     public GameObject Spot_mark;
     Vector3 SpotDir;
+
+    //public Findattackpoint findattackpoint;
 
     //오브젝트의 회전을 위한 변수들 여기부터
     public bool isDelay = true;
@@ -87,11 +92,38 @@ public class Enemy1 : TargetCheck
         Initialize();
     }
 
+    public void Initialize()
+    {
+        
+        state = State.Idle;
+        agent = GetComponent<NavMeshAgent>();
+        Angle = 30f;
+        Attectlen = 30f;
+        nomal_site_len = Attectlen * 2;
+        reconnaissance_site_len = nomal_site_len * 2;
+        inv_len = reconnaissance_site_len * 0.01f;
 
+        walk_speed = 1.5f;
+        Run_speed = 3f;
+        life = true;
+        currentHealth = maxHealth;
+        atteck = 30;
+        isAtkDelay = true;
+        //애니메이션
+        anim.Initalize();
+        Debug.Log(transform.GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetChild(0).name);
+        Gun = transform.GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0);
+        gunSystem = Gun.GetComponent<GunSystem>();
+    }
+    public float maxlen()
+    {
+        return reconnaissance_site_len;
+    }
 
     // Update is called once per frame
     void Update()
     {
+        
         Hp();
         UpdateTarget(Angle, nomal_site_len, target_Mask);
         Spot_mark.transform.position = Spot;
@@ -132,25 +164,6 @@ public class Enemy1 : TargetCheck
         }
     }
 
-    public void Initialize()
-    {
-        state = State.Idle;
-        agent = GetComponent<NavMeshAgent>();
-        Angle = 30f;
-        Attectlen = 30f;
-        nomal_site_len = Attectlen * 2;
-        reconnaissance_site_len = nomal_site_len * 2;
-        inv_len = reconnaissance_site_len * 0.01f;
-
-        walk_speed = 1.5f;
-        Run_speed = 3f;
-        life = true;
-        currentHealth = maxHealth;
-        atteck = 30;
-        isAtkDelay = true;
-        //애니메이션
-        anim.Initalize();
-    }
 
     private void UpdateEscape()
     {
@@ -239,6 +252,7 @@ public class Enemy1 : TargetCheck
             base_rotation_y = transform.rotation.eulerAngles.y;
 
             state = State.Reconnaissance;
+
         }
 
     }
@@ -250,7 +264,6 @@ public class Enemy1 : TargetCheck
         }
         else
         {
-
             float distance = Vector3.Distance(transform.position, target.position);
             if (distance > nomal_site_len)
             {
@@ -290,7 +303,6 @@ public class Enemy1 : TargetCheck
             {
                 agent.speed = 0f;
 
-
                 //총이 없는 지
                 //if(have_gun)
 
@@ -299,6 +311,7 @@ public class Enemy1 : TargetCheck
                 //공격
                 if (isAtkDelay == true)
                 {
+
                     Atk_Play(1f);
                     //target.GetComponent<Player>().Damage(atteck);
                 }

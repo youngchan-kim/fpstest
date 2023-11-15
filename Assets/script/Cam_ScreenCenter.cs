@@ -29,7 +29,7 @@ public class Cam_ScreenCenter : MonoBehaviour
         maincam = Camera.main;
         range = maxrange;
         Player_Eyes = transform.GetChild(0).GetChild(4).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(2);
-        Debug.Log(Player_Eyes);
+        //Debug.Log(Player_Eyes);
         aim = transform.GetChild(1).gameObject;
     }
     private void Update()

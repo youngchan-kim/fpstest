@@ -22,7 +22,6 @@ public class Enemy_Action : MonoBehaviour
             ChestTr = anim.GetBoneTransform(HumanBodyBones.Chest);
             UpperChestTr = anim.GetBoneTransform(HumanBodyBones.Spine);
         }
-        //LookHead = activeGun.GetComponent<GunSystem>().GetAttackpoint();
     }
 
     public void LateUpdate()
@@ -33,16 +32,13 @@ public class Enemy_Action : MonoBehaviour
 
     private void Operation_boneRitation()
     {
-
         //ChestDir를 총이 바라보는 것으로 바꿔준다면 상체는 총이 바라보는 곳을 바라봄
         //ChestDir = gunSystem.GetMuzzleTr().position + gunSystem.GetMuzzleTr().forward * 100f;
 
         //총을 조준했을때 총이 앞으로 향하도록하기 위한 상체의 회전값
         ChestTr.Rotate(new Vector3(0, 45, 0));
         UpperChestTr.LookAt(LookPoint);
-
     }
-
 
     public void Initalize()
     {

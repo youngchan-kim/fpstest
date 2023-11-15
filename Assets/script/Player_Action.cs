@@ -14,11 +14,10 @@ public class Player_Action : MonoBehaviour
 
     //조준한뒤 플레이어의 애니매이션 부위별 회전
     Transform playerChestTr, playerUpperChestTr;
+    Transform HeadTr;
 
     //gunSystem을 가진 오브젝트
     Transform gun;
-    //해당 오브젝트의 총구
-    GunSystem gunSystem;
 
     //플레이어의 애니매이션의 본을 움직여야 허리가 돌아간다.
     private void Start()
@@ -27,7 +26,6 @@ public class Player_Action : MonoBehaviour
         //test용으로 첫번째 총기만 
         // Debug.Log(transform.parent.GetChild(1).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0).name);
         gun = transform.GetChild(0).GetChild(4).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0);
-        gunSystem = gun.GetChild(0).GetComponent<GunSystem>();
        // cam = transform.GetComponent<Player>().Player_cam;
 
 
@@ -36,10 +34,14 @@ public class Player_Action : MonoBehaviour
         {
             playerChestTr = anim.GetBoneTransform(HumanBodyBones.Chest);
             playerUpperChestTr = anim.GetBoneTransform(HumanBodyBones.Spine);
+            HeadTr = anim.GetBoneTransform(HumanBodyBones.Head);
         }
         //LookHead = activeGun.GetComponent<GunSystem>().GetAttackpoint();
     }
-
+    public Transform EnemyIsLookHaedTr()
+    {
+        return HeadTr;
+    }
     public void LateUpdate()
     {
         Operation_boneRitation();
