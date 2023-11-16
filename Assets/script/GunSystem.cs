@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class GunSystem : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class GunSystem : MonoBehaviour
     int bulletsLeft, bulletsShot;
 
     //bools
-    bool shooting, readyToShoot, reloading;
+    bool shootclick, readyToShoot, reloading;
     bool shoot;
 
     //공격한 곳
@@ -56,7 +57,7 @@ public class GunSystem : MonoBehaviour
     //public ItemObject bullet;
     float total_reloadTime;
     int total_magazineSize;
-    float total_timeBetweenShooting;
+    float total_timeBetweenshootclick;
 
     Player player;
     //스크립터블에 들어가야함
@@ -109,67 +110,105 @@ public class GunSystem : MonoBehaviour
             //SetText
             text.SetText(bulletsLeft + "/" + player.GetInven_Find_Item(bullet));
         }*/
-        //달릴때는 어택 포인트를 조준할 수 없다.
-        //transform.LookAt(null);
+
         transform.LookAt(attackPoint.transform.position);
         Debug.DrawLine(GunMuzzle.position, GunMuzzle.position + GunMuzzle.forward*len, Color.red);
 
         MyInput();
     }
+
+    //총은 단발 연사관련 입력이 들어왔을때 실행되어야한다.
+    public void AllowButtonHold()
+    {
+        if (Gun_property.allowButtonHold)
+            Gun_property.allowButtonHold = false;
+        else Gun_property.allowButtonHold = true;
+    }
+
+    public void ClickToShoot(bool click)
+    {
+        shootclick = click;
+    }
+    public bool FiringIsPossible()
+    {
+        if (shoot && shootclick)
+            return true;
+        return false;
+    }
+    public bool ReadyToShoot()
+    {
+        if(readyToShoot && !reloading)
+            return true; 
+        return false;
+    }
+    public bool BulletIsEmpty()
+    {
+        if (bulletsLeft > 0)
+            return true; 
+        return false;
+    }
+
+    //단발인지 연사인지에 따라 조건으로 실해되어야함
+    //발사가 입력되었을때 실행되어야함
+    public void Firing(Transform target)
+    {       
+        StartCoroutine(attackPoint.GetComponent<AimShaker>().AimShake(Gun_property.spread));
+        muzzleFlashparticle.Play();
+        shoot = false;
+        //Shoot
+        //쏠준비됨 혹은 슈팅중이고 재장전중이지 않으며 장전된 탄의 수가 0보다 클때
+        bulletsShot = Gun_property.bulletsPerTap;
+        Shoot(target);
+    }
+    
+
     private void MyInput()
     {
         //연사와 단발을 B키를 통해 조작할 수 있다.
-        if (Input.GetKeyDown(KeyCode.B))
+        /*if (Input.GetKeyDown(KeyCode.B))
             if (Gun_property.allowButtonHold)
                 Gun_property.allowButtonHold = false;
-            else Gun_property.allowButtonHold = true;
+            else Gun_property.allowButtonHold = true;*/
         //if (!Input.GetKeyUp(KeyCode.Mouse0))
-        //버튼 눌림 체크가 false이면 shooting은 눌렸을 때 ture;
+        //버튼 눌림 체크가 false이면 shootclick은 눌렸을 때 ture;
         //연사 가능 일때
         if (Gun_property.allowButtonHold)
         {
-            
-            shooting = Input.GetKey(KeyCode.Mouse0);
-            //Debug.Log("연사"+shooting);
-            if (Input.GetKey(KeyCode.Mouse0) && shoot)
+            shootclick = Input.GetKey(KeyCode.Mouse0);
+            if (Input.GetKey(KeyCode.Mouse0))
             {
-                //반동
-                StartCoroutine(attackPoint.GetComponent<AimShaker>().AimShake(Gun_property.spread));
-                muzzleFlashparticle.Play();
-                shoot = false;
+                if(FiringIsPossible()&& ReadyToShoot()&& BulletIsEmpty())
+                {
+                    // Firing();
+                }
             }
         }
         //연사 불가는 일때
         else
         {
-            
-            shooting = Input.GetKeyDown(KeyCode.Mouse0);
-            //Debug.Log("단발" + shooting);
-            if (Input.GetKeyDown(KeyCode.Mouse0) && shoot)
+            shootclick = Input.GetKeyDown(KeyCode.Mouse0);
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                StartCoroutine(attackPoint.GetComponent<AimShaker>().AimShake(Gun_property.spread));
-                muzzleFlashparticle.Play();
-                shoot = false;
+                if (FiringIsPossible() && ReadyToShoot() && BulletIsEmpty())
+                    {
+                    // Firing();
+                    }
             }
 
         }
 
         //R키가 눌렸고 남은 탄이 탄창보다 작고 리로드 중이 아닐때 호출한다.
-        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < Gun_property.magazineSize && !reloading) Reload();
-
-        //Shoot
-        //쏠준비됨 혹은 슈팅중이고 재장전중이지 않으며 장전된 탄의 수가 0보다 클때
-       
-        if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
-        {
-            bulletsShot = Gun_property.bulletsPerTap;
-            Shoot();
-
-        }
-       
+        if (Input.GetKeyDown(KeyCode.R) && ReloadIsPossible()) Reload();
     }
 
-    private void Shoot()
+    public bool ReloadIsPossible()
+    {
+        if (bulletsLeft < Gun_property.magazineSize && !reloading)
+            return true;
+        return false;
+    }
+
+    private void Shoot(Transform target)
     {
         readyToShoot = false;
 
@@ -181,8 +220,12 @@ public class GunSystem : MonoBehaviour
         if (Physics.Raycast(GunMuzzle.position, firedirection, out rayHit, Gun_property.range, Gun_property.what_can_Shoot))
         {
             //Debug.Log(rayHit.collider.name);
-           /* if (rayHit.collider.GetComponent<Enemy>())
-                rayHit.collider.GetComponent<DamegeSystem>().TakeDamage(Gun_property.damage);*/
+            if (rayHit.collider == target)
+            {
+                //타겟의 DamegeSystem으로 데미지를 넣어줌
+                //rayHit.collider.GetComponent<DamegeSystem>().TakeDamage(Gun_property.damage);
+                Debug.Log("타겟에게 데미지를 입혔습니다.");
+            }
 
             var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
 
@@ -191,9 +234,9 @@ public class GunSystem : MonoBehaviour
         bulletsLeft--;
         bulletsShot--;
         //총 쏘면서 바뀐 속성 리셋
-        total_timeBetweenShooting = Gun_property.timeBetweenShooting + 0;
-        //Debug.Log(total_timeBetweenShooting);
-        Invoke("ResetShot", total_timeBetweenShooting);
+        total_timeBetweenshootclick = Gun_property.timeBetweenshootclick + 0;
+        //Debug.Log(total_timeBetweenshootclick);
+        Invoke("ResetShot", total_timeBetweenshootclick);
 
         //총을 쏠때 연사시간
         if (bulletsShot > 0 && bulletsLeft > 0)
@@ -210,8 +253,8 @@ public class GunSystem : MonoBehaviour
         shoot = true;
     }
 
-
-    private void Reload()
+    //장전시 호출
+    public void Reload()
     {
         reloading = true;
         total_reloadTime = Gun_property.reloadTime + 0;
@@ -243,6 +286,7 @@ public class GunSystem : MonoBehaviour
     /* public Sprite GetSprite()
      {
          return Gun_property.sprites;
-     }*/
+     }
+    */
 
 }

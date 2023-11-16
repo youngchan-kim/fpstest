@@ -9,7 +9,7 @@ using UnityEngine.Animations;
 using UnityEngine.UI;
 
 
-public class Enemy1 : TargetCheck
+public class Enemy : TargetCheck
 {
 
     //target은 Player임
@@ -252,10 +252,10 @@ public class Enemy1 : TargetCheck
             base_rotation_y = transform.rotation.eulerAngles.y;
 
             state = State.Reconnaissance;
-
         }
 
     }
+
     private void UpdateRun()
     {
         if (target == null)
@@ -313,7 +313,15 @@ public class Enemy1 : TargetCheck
                 {
 
                     Atk_Play(1f);
-                    //target.GetComponent<Player>().Damage(atteck);
+                    Debug.Log(gunSystem.BulletIsEmpty());
+                    Debug.Log(gunSystem.ReadyToShoot());
+                    Debug.Log(gunSystem.FiringIsPossible());
+                    if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
+                    {
+                        gunSystem.Firing(target);
+                    }
+                    else if (!gunSystem.ReadyToShoot())
+                        gunSystem.Reload();
                 }
                 //state = State.Die;
                 anim.Move(0);
@@ -350,7 +358,9 @@ public class Enemy1 : TargetCheck
     }
     public void Atk_Play(float time)
     {
+        gunSystem.ClickToShoot(false);
         if (isDelay == true) StartCoroutine(AtkTimeCoroutin(time));
+        gunSystem.ClickToShoot(true);
     }
     public void DB_Play(float time)
     {

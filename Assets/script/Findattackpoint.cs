@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class Findattackpoint : MonoBehaviour
 {
     Transform BaseObject;
-    Enemy1 enemy1;
+    Enemy enemy;
     float len;
     Transform attackPoint;
     float notGround;
@@ -15,7 +15,7 @@ public class Findattackpoint : MonoBehaviour
     {
 
         BaseObject = transform.parent.parent.parent.parent.parent.parent.parent.parent;
-        enemy1 = BaseObject.GetComponent<Enemy1>();
+        enemy = BaseObject.GetComponent<Enemy>();
         
         attackPoint = BaseObject.GetChild(1);
         Debug.Log(attackPoint.name);
@@ -25,7 +25,7 @@ public class Findattackpoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        len = enemy1.maxlen();
+        len = enemy.maxlen();
         LooktheLine();
         transform.LookAt(attackPoint);
     }

@@ -13,7 +13,7 @@ public class Gun_Scriptable : ScriptableObject
     //GunSystem의 속성
     public int damage;
     //총의 제어권
-    public float timeBetweenShooting;
+    public float timeBetweenshootclick;
     //확산
     public float spread;
     //범위
