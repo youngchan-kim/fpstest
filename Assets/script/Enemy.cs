@@ -21,7 +21,8 @@ public class Enemy : TargetCheck
     NavMeshAgent agent;
     Transform Gun;
     GunSystem gunSystem;
-    //인식 범위
+
+    //인식 범위 : 길이의 다향성을 줄일 것
     //폭
     float Angle;
     //길이
@@ -59,9 +60,14 @@ public class Enemy : TargetCheck
 
 
     //NPC의 기본 정보
-    public float maxHealth = 100f;
-    public float currentHealth;
+    float maxHealth = 100f;
+    float maxHealvolume = 80;
     bool life;
+
+    [Serialize]
+    public HP_System hp;
+    DamegeSystem damegeSystem;
+
     float atteck;
     bool isAtkDelay;
 
@@ -89,12 +95,12 @@ public class Enemy : TargetCheck
     // Start is called before the first frame update
     void Start()
     {
+        damegeSystem = GetComponent<DamegeSystem>();
         Initialize();
     }
 
     public void Initialize()
     {
-        
         state = State.Idle;
         agent = GetComponent<NavMeshAgent>();
         Angle = 30f;
@@ -106,14 +112,15 @@ public class Enemy : TargetCheck
         walk_speed = 1.5f;
         Run_speed = 3f;
         life = true;
-        currentHealth = maxHealth;
+        
         atteck = 30;
         isAtkDelay = true;
         //애니메이션
         anim.Initalize();
-        Debug.Log(transform.GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetChild(0).name);
+        //Debug.Log(transform.GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetChild(0).name);
         Gun = transform.GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0);
         gunSystem = Gun.GetComponent<GunSystem>();
+        hp.Initialize(maxHealth, maxHealvolume, life);
     }
     public float maxlen()
     {
@@ -123,8 +130,7 @@ public class Enemy : TargetCheck
     // Update is called once per frame
     void Update()
     {
-        
-        Hp();
+
         UpdateTarget(Angle, nomal_site_len, target_Mask);
         Spot_mark.transform.position = Spot;
         if (life == true)
@@ -154,15 +160,10 @@ public class Enemy : TargetCheck
                     break;
             }
         }
+
     }
 
-    public void Hp()
-    {
-        if(currentHealth  <50)
-        {
-            state = State.Escape;
-        }
-    }
+
 
 
     private void UpdateEscape()
@@ -313,12 +314,11 @@ public class Enemy : TargetCheck
                 {
 
                     Atk_Play(1f);
-                    Debug.Log(gunSystem.BulletIsEmpty());
-                    Debug.Log(gunSystem.ReadyToShoot());
-                    Debug.Log(gunSystem.FiringIsPossible());
+                    //Debug.Log(gunSystem.FiringIsPossible());
                     if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
                     {
-                        gunSystem.Firing(target);
+                        anim.Shoot();
+                        gunSystem.Firing();
                     }
                     else if (!gunSystem.ReadyToShoot())
                         gunSystem.Reload();
@@ -338,18 +338,6 @@ public class Enemy : TargetCheck
 
     }
 
-    public void Damage(float damage_value)
-    {
-        if (currentHealth > 0)
-        {
-            currentHealth -= damage_value;
-        }
-        else
-        {
-            currentHealth = 0f;
-            state = State.Die;
-        }
-    }
 
     //오브젝트를 회전 시켜 타겟을 찾기
     public void Rotate_Play(float time)

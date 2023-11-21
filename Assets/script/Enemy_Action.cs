@@ -52,6 +52,10 @@ public class Enemy_Action : MonoBehaviour
     {
         if (anim) anim.SetFloat("Move", value);
     }
+    public void Shoot()
+    {
+        if (anim) anim.SetTrigger("IsShoot");
+    }
 
     public void Die()
     {

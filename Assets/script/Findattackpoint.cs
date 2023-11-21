@@ -18,7 +18,7 @@ public class Findattackpoint : MonoBehaviour
         enemy = BaseObject.GetComponent<Enemy>();
         
         attackPoint = BaseObject.GetChild(1);
-        Debug.Log(attackPoint.name);
+        //Debug.Log(attackPoint.name);
         notGround = 0.01f;
     }
 

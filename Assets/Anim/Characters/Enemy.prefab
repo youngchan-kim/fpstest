@@ -531,14 +531,15 @@ MonoBehaviour:
   target_Mask:
     serializedVersion: 2
     m_Bits: 0
+  ground:
+    serializedVersion: 2
+    m_Bits: 0
   Spot_mark: {fileID: 0}
   isDelay: 1
   y_rotation: 0
   var_rotation_y: 0
   base_rotation_y: 0
   DeadBox: {fileID: 0}
-  maxHealth: 100
-  currentHealth: 0
   anim: {fileID: 0}
 --- !u!114 &8060928059356852478
 MonoBehaviour:

@@ -17,7 +17,7 @@ public class GunSystem : MonoBehaviour
     //총의 muzzle오브젝트
     public Transform GunMuzzle;
 
-    AimShaker MuzzleAimShaker;
+    public AimShaker MuzzleAimShaker;
     //공격 할 지점
     //총의 muzzle오브젝트로부터 직선 방향 최대값 필요
     public Transform attackPoint;
@@ -34,14 +34,14 @@ public class GunSystem : MonoBehaviour
 
     //사격 이펙트
     //muzzle오브젝트 하위 오브젝트에 있음
-    ParticleSystem muzzleFlashparticle;
+    public ParticleSystem muzzleFlashparticle;
 
     //남은 탄창, 쏠수 있는 탄
     int bulletsLeft, bulletsShot;
 
     //bools
     bool shootclick, readyToShoot, reloading;
-    bool shoot;
+    bool shoot =true;
 
     //공격한 곳
     //??
@@ -59,7 +59,7 @@ public class GunSystem : MonoBehaviour
     int total_magazineSize;
     float total_timeBetweenshootclick;
 
-    Player player;
+    //Player player;
     //스크립터블에 들어가야함
     int len = 100;
     public Transform GetMuzzleTr()
@@ -73,7 +73,7 @@ public class GunSystem : MonoBehaviour
 
     private void Awake()
     { 
-        player = GameMgr.Instance.player.GetComponent<Player>();
+        //player = GameMgr.Instance.player.GetComponent<Player>();
         //pickup = GetComponent<GunPickUp>();
         //탄창사이즈 만큼 남은 탄을 채워준다.
         //bulletsLeft = 0;
@@ -114,7 +114,7 @@ public class GunSystem : MonoBehaviour
         transform.LookAt(attackPoint.transform.position);
         Debug.DrawLine(GunMuzzle.position, GunMuzzle.position + GunMuzzle.forward*len, Color.red);
 
-        MyInput();
+        //MyInput();
     }
 
     //총은 단발 연사관련 입력이 들어왔을때 실행되어야한다.
@@ -123,6 +123,10 @@ public class GunSystem : MonoBehaviour
         if (Gun_property.allowButtonHold)
             Gun_property.allowButtonHold = false;
         else Gun_property.allowButtonHold = true;
+    }
+    public bool HoldButtonUse()
+    {
+        return Gun_property.allowButtonHold;
     }
 
     public void ClickToShoot(bool click)
@@ -150,15 +154,17 @@ public class GunSystem : MonoBehaviour
 
     //단발인지 연사인지에 따라 조건으로 실해되어야함
     //발사가 입력되었을때 실행되어야함
-    public void Firing(Transform target)
-    {       
+    public void Firing()
+    {
+        //Debug.Log("호출");
         StartCoroutine(attackPoint.GetComponent<AimShaker>().AimShake(Gun_property.spread));
-        muzzleFlashparticle.Play();
+        if(!muzzleFlashparticle.isPlaying)
+            muzzleFlashparticle.Play();
         shoot = false;
         //Shoot
         //쏠준비됨 혹은 슈팅중이고 재장전중이지 않으며 장전된 탄의 수가 0보다 클때
         bulletsShot = Gun_property.bulletsPerTap;
-        Shoot(target);
+        Shoot();
     }
     
 
@@ -208,7 +214,7 @@ public class GunSystem : MonoBehaviour
         return false;
     }
 
-    private void Shoot(Transform target)
+    private void Shoot()
     {
         readyToShoot = false;
 
@@ -219,14 +225,19 @@ public class GunSystem : MonoBehaviour
         Vector3 firedirection = GunMuzzle.forward;
         if (Physics.Raycast(GunMuzzle.position, firedirection, out rayHit, Gun_property.range, Gun_property.what_can_Shoot))
         {
+
             //Debug.Log(rayHit.collider.name);
-            if (rayHit.collider == target)
+            //수정
+            //일단 쏘고 맞은 대상이 데미지 시스템이 있는지 확인 할것
+            Debug.Log(rayHit.collider.name);
+            if (rayHit.collider.GetComponent<DamegeSystem>())
             {
+
                 //타겟의 DamegeSystem으로 데미지를 넣어줌
-                //rayHit.collider.GetComponent<DamegeSystem>().TakeDamage(Gun_property.damage);
+                rayHit.collider.GetComponent<DamegeSystem>().TakeDamage(Gun_property.damage);
                 Debug.Log("타겟에게 데미지를 입혔습니다.");
             }
-
+            
             var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
 
         }
