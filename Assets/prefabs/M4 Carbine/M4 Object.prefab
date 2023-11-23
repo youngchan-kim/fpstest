@@ -5063,14 +5063,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5566538718169349693}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a65e5b82a4c238c4ea03bd0f2d46bcc5, type: 3}
+  m_Script: {fileID: 11500000, guid: 22bc7ba2087ded44e8f3a7ec179cf527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Gun_property: {fileID: 0}
   GunMuzzle: {fileID: 0}
+  MuzzleAimShaker: {fileID: 0}
   attackPoint: {fileID: 0}
   bulletHoleGraphic: {fileID: 0}
   text: {fileID: 0}
+  muzzleFlashparticle: {fileID: 0}
 --- !u!114 &8945454408837089945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5080,9 +5082,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5566538718169349693}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14bf1d5f62ad7754cbd8b9df04eb1a78, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e96dac9fab98fa4cbe9aa0020d0e97a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  mainCamera: {fileID: 0}
+  scope_parts: {fileID: 0}
+  scopedFOV: 0
 --- !u!1 &5830889411696714368
 GameObject:
   m_ObjectHideFlags: 0

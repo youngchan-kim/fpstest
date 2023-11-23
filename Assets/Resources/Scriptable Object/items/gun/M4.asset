@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b5512ba5179339478433b79fb8d0a13, type: 3}
+  m_Name: M4
+  m_EditorClassIdentifier: 
+  Id: 1
+  damage: 10
+  timeBetweenShooting: 0.1
+  spread: 0.01
+  range: 100
+  reloadTime: 1
+  timeBetweenShots: 100
+  magazineSize: 30
+  bulletsPerTap: 1
+  allowButtonHold: 1
+  Equipped_parts_Scopes: 0
+  sprites: {fileID: 21300046, guid: 6674e8c43c63e4f4184cbd009379498d, type: 3}
+  what_can_Shoot:
+    serializedVersion: 2
+    m_Bits: 8384
