@@ -58,6 +58,8 @@ public class Enemy : TargetCheck
     public GameObject DeadBox;
 
 
+    //적이면 머리를 조준 아니면 정면 조준
+    Findattackpoint ATKpoint;
 
     //NPC의 기본 정보
     float maxHealth = 100f;
@@ -95,7 +97,7 @@ public class Enemy : TargetCheck
     // Start is called before the first frame update
     void Start()
     {
-        
+        ATKpoint = GetComponent<Findattackpoint>();
         damegeSystem = GetComponent<DamegeSystem>();
         Initialize();
     }
@@ -103,7 +105,7 @@ public class Enemy : TargetCheck
     public void Initialize()
     {
         //Debug.Log(transform.GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetChild(0).name);
-        Gun = transform.GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0);
+        Gun = transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0);
         //GetComponent 
         //NavMeshAgent
         agent = GetComponent<NavMeshAgent>();
@@ -146,6 +148,7 @@ public class Enemy : TargetCheck
         }
         UpdateTarget(Angle, nomal_site_len, target_Mask);
         Spot_mark.transform.position = Spot;
+       
         if (life == true)
         {
             //각 상태에서의 처리를 해준다.
@@ -248,11 +251,12 @@ public class Enemy : TargetCheck
         if (target != null)
         {
             state = State.Run;
+            ATKpoint.LookTargetCheck(target);
             //애니메이션도 바꿔줘야함
         }
-
         else
         {
+            ATKpoint.LookTargetCheck(null);
             //기본 상태에서 탐색 모드로 바뀔 때 처음 한번 실행되어야한다.
             SpotDir = Spot - transform.position;
 
@@ -313,7 +317,7 @@ public class Enemy : TargetCheck
             else if (distance < Attectlen)
             {
                 agent.speed = 0f;
-
+                ATKpoint.LookTargetCheck(target);
                 //총이 없는 지
                 //if(have_gun)
 
@@ -322,7 +326,7 @@ public class Enemy : TargetCheck
                 //공격
                 if (isAtkDelay == true)
                 {
-
+                    
                     Atk_Play(1f);
                     //Debug.Log(gunSystem.FiringIsPossible());
                     if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())

@@ -88,8 +88,9 @@ public class GunSystem : MonoBehaviour
             .parent.parent.parent.parent.GetChild(1);
         GunMuzzle = transform.GetChild(0).GetChild(0);
         MuzzleAimShaker = GunMuzzle.GetComponent<AimShaker>();
-        //Debug.Log(GunMuzzle);
-        muzzleFlashparticle = transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>();
+      
+        muzzleFlashparticle = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<ParticleSystem>();
+        //Debug.Log(transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).name);
 
     }
     //public int CheckGunParts()
@@ -238,7 +239,6 @@ public class GunSystem : MonoBehaviour
             }
 
             var t = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
-
         }
 
         bulletsLeft--;

@@ -94,6 +94,7 @@ public class TargetCheck : MonoBehaviour
                         if (0 != ((1 << rayHit.transform.gameObject.layer) & target_Mask))
                         {
                             //Debug.Log("타겟과 오브젝트사이에 장애물이 없다.");
+
                             target = checktarget;
                             Target_Watching();
                         }

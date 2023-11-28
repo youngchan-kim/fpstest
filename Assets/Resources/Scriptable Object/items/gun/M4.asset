@@ -18,7 +18,7 @@ MonoBehaviour:
   spread: 0.01
   range: 100
   reloadTime: 1
-  timeBetweenShots: 100
+  timeBetweenshootclick: 0
   magazineSize: 30
   bulletsPerTap: 1
   allowButtonHold: 1
@@ -26,4 +26,4 @@ MonoBehaviour:
   sprites: {fileID: 21300046, guid: 6674e8c43c63e4f4184cbd009379498d, type: 3}
   what_can_Shoot:
     serializedVersion: 2
-    m_Bits: 8384
+    m_Bits: 8392

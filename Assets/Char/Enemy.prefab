@@ -273,6 +273,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: humanoid Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 5051231313914454113, guid: e14303758a55b154fb405e92d04a1cd0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051231313914454113, guid: e14303758a55b154fb405e92d04a1cd0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e14303758a55b154fb405e92d04a1cd0, type: 3}
 --- !u!4 &6292182984401494006 stripped

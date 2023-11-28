@@ -6,17 +6,19 @@ using UnityEngine.UIElements;
 
 public class Findattackpoint : MonoBehaviour
 {
-    Transform BaseObject;
+    Transform EyeObject;
     Enemy enemy;
     float len;
     Transform attackPoint;
     void Start()
     {
 
-        BaseObject = transform.parent.parent.parent.parent.parent.parent.parent.parent;
-        enemy = BaseObject.GetComponent<Enemy>();
+        EyeObject = transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(0);
+        //Debug.Log(transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(0).name);
+        enemy = GetComponent<Enemy>();
         
-        attackPoint = BaseObject.GetChild(1);
+        attackPoint = transform.GetChild(1);
+        //Debug.Log(attackPoint.name);
     }
 
     // Update is called once per frame
@@ -24,19 +26,20 @@ public class Findattackpoint : MonoBehaviour
     {
         len = enemy.maxlen();
         LooktheLine();
-        transform.LookAt(attackPoint);
+        //attackPoint.position = EyeObject.position + EyeObject.forward * len;
     }
-    //머리가 바라보는 곳이 땅인지 체크할 것
+
+    //머리가 바라보는 곳이 타겟이면 머리를 아니면 정면을
     public void LookTargetCheck(Transform target)
     {
         if (target != null)
             attackPoint = target.GetComponent<Player_Action>().EnemyIsLookHaedTr();
         else
-            attackPoint.position = transform.position + transform.forward * len;
+            attackPoint.position = EyeObject.position + EyeObject.forward * len;
     }
 
 void LooktheLine()
     {
-        Debug.DrawLine(transform.position, transform.position+transform.forward*len, Color.blue);
+        Debug.DrawLine(EyeObject.position, EyeObject.position+ EyeObject.forward*len, Color.blue);
     }
 }

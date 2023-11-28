@@ -14,6 +14,10 @@ public class Player_Action : MonoBehaviour
     Transform playerChestTr, playerUpperChestTr;
     Transform HeadTr;
 
+    //공격가능한 곳
+    Transform ATKPoint;
+
+
     //gunSystem을 가진 오브젝트
     Transform gun;
 
@@ -38,6 +42,7 @@ public class Player_Action : MonoBehaviour
         }
         //LookHead = activeGun.GetComponent<GunSystem>().GetAttackpoint();
         LookDir = transform.GetChild(0).GetChild(3);
+        ATKPoint = transform.GetChild(1);
     }
     public Transform EnemyIsLookHaedTr()
     {
@@ -62,16 +67,18 @@ public class Player_Action : MonoBehaviour
 
         //총을 조준했을때 총이 앞으로 향하도록하기 위한 상체의 회전값
         playerChestTr.Rotate(new Vector3(0, 45, 0));
-        playerUpperChestTr.LookAt(LookDir);
+        playerUpperChestTr.LookAt(ATKPoint);
+        //HeadTr.LookAt(ATKPoint);
+        //팔이 총을 기준으로 위치가 옮겨지는 Pivot코드 있어야함
 
     }
     public void MoveAnim(float vertical, float horizon)
     {
 
-        if (vertical != 0 || horizon != 0)
+        /*if (vertical != 0 || horizon != 0)
         {
             Debug.Log("방향이 입력됨");
-        }
+        }*/
         switch (vertical)
         {
             case 1:

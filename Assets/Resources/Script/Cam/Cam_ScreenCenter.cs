@@ -22,6 +22,7 @@ public class Cam_ScreenCenter : MonoBehaviour
     Camera maincam;
     private void Start()
     {
+        //Debug.Log(aimshaker.name);
         //Camera는 메인 카메라를 tag로 찾는다.
         maincam = Camera.main;
         range = maxrange;

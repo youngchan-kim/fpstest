@@ -6,10 +6,10 @@ public class Enemy_Action : MonoBehaviour
 {
     Animator anim;
     //아바타가 보는 방향
-    public Transform LookPoint;
+    Transform LookPoint;
 
     //케릭터의 애니매이션 부위별 회전
-    Transform ChestTr, UpperChestTr;
+    Transform ChestTr, UpperChestTr, HeadTr;
 
 
     //플레이어의 애니매이션의 본을 움직여야 허리가 돌아간다.
@@ -20,7 +20,9 @@ public class Enemy_Action : MonoBehaviour
         {
             ChestTr = anim.GetBoneTransform(HumanBodyBones.Chest);
             UpperChestTr = anim.GetBoneTransform(HumanBodyBones.Spine);
+            HeadTr = anim.GetBoneTransform(HumanBodyBones.Head);
         }
+        LookPoint = transform.GetChild(1);
     }
 
     public void LateUpdate()
@@ -31,12 +33,11 @@ public class Enemy_Action : MonoBehaviour
 
     private void Operation_boneRitation()
     {
-        //ChestDir를 총이 바라보는 것으로 바꿔준다면 상체는 총이 바라보는 곳을 바라봄
-        //ChestDir = gunSystem.GetMuzzleTr().position + gunSystem.GetMuzzleTr().forward * 100f;
-
         //총을 조준했을때 총이 앞으로 향하도록하기 위한 상체의 회전값
         ChestTr.Rotate(new Vector3(0, 45, 0));
+        //상체는 공격할 곳을 바라봄
         UpperChestTr.LookAt(LookPoint);
+        HeadTr.LookAt(LookPoint);
     }
 
     public void Initalize()
