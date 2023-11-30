@@ -13,9 +13,9 @@ public class Enemy : TargetCheck
 {
 
     //target은 Player임
-    [Header("타겟")]
+    [Header("target")]
     public LayerMask target_Mask;
-    [Header("땅")]
+    [Header("ground")]
     public LayerMask ground;
     //NavMeshAgent을 이용한 map의 크기를 알아올 수 있는지
     NavMeshAgent agent;
@@ -28,10 +28,12 @@ public class Enemy : TargetCheck
     //길이
     float nomal_site_len;
 
-    //장소 도착 인정 범위
-    float inv_len;
+
     //공격 범위는 인식 범위보다 짧아야한다.
-    float Attectlen;
+    [SerializeField]
+    public float Attectlen;
+    //장소 도착 인정 범위
+    public float in_spot_len;
 
     //탐색 길이
     float reconnaissance_site_len;
@@ -53,10 +55,6 @@ public class Enemy : TargetCheck
     public float base_rotation_y;
     Quaternion VarRotation;
     //오브젝트의 회전을 위한 변수 여기까지
-
-    //Object가 없어진경우 사용되는 변수들
-    public GameObject DeadBox;
-
 
     //적이면 머리를 조준 아니면 정면 조준
     Findattackpoint ATKpoint;
@@ -80,6 +78,7 @@ public class Enemy : TargetCheck
 
     //애니메이션
     public Enemy_Action anim;
+
 
 
     //상태의 종류
@@ -107,10 +106,8 @@ public class Enemy : TargetCheck
         state = State.Idle;
 
         Angle = 30f;
-        Attectlen = 30f;
         nomal_site_len = Attectlen * 2;
         reconnaissance_site_len = nomal_site_len * 2;
-        inv_len = reconnaissance_site_len * 0.01f;
 
         walk_speed = 1.5f;
         Run_speed = 3f;
@@ -134,7 +131,7 @@ public class Enemy : TargetCheck
         anim.Initalize();
         hp.Initialize(maxHealth, maxHealvolume, life);
 
-
+        
     }
     public float maxlen()
     {
@@ -144,14 +141,15 @@ public class Enemy : TargetCheck
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(hp.GetLife());
+        //Debug.Log(hp.GetLife());
         if (!hp.GetLife())
         {
             state = State.Die;
         }
         UpdateTarget(Angle, nomal_site_len, target_Mask);
         Spot_mark.transform.position = Spot;
-        ATKpoint.LookTargetCheck(target);
+        if(target == null)
+            ATKpoint.LookTargetCheck(null);
         if (life == true)
         {
             //각 상태에서의 처리를 해준다.
@@ -192,8 +190,10 @@ public class Enemy : TargetCheck
 
     private void UpdateReconnaissance()
     {
+        anim.Move(1);
         if (target != null)
         {
+
             state = State.Run;
         }
         else
@@ -207,7 +207,7 @@ public class Enemy : TargetCheck
             agent.destination = Spot;
 
             //도착 장소에 도착하면 새로운 장소 지정
-            if (distance < inv_len)
+            if (distance < in_spot_len)
             {
                 Spot = StaticRandomPosition.RandomPoint(transform.position, reconnaissance_site_len);
                 //Debug.Log("현재 회전값  : " + transform.rotation.eulerAngles + "입니다.");
@@ -218,8 +218,6 @@ public class Enemy : TargetCheck
                 transform.forward = SpotDir.normalized;
                 //이때 오브젝트가 회전값 y를 빼내어사용한다.
                 base_rotation_y = transform.rotation.eulerAngles.y;
-
-                //Base_rotation_Y(Spot);
             }
 
             if (target != null) state = State.Idle;
@@ -239,7 +237,6 @@ public class Enemy : TargetCheck
                     //t값은 시간에 따라 1이 되어야한다.
                 }
                 transform.rotation = Quaternion.Lerp(transform.rotation, VarRotation, 0.01f);
-                anim.Move(1);
             }
         }
     }
@@ -274,6 +271,7 @@ public class Enemy : TargetCheck
 
     private void UpdateRun()
     {
+        anim.Move(1);
         if (target == null)
         {
             state = State.Idle;
@@ -293,9 +291,8 @@ public class Enemy : TargetCheck
             }
             //속도 설정 : 기본 속도
             agent.speed = Run_speed;
-            anim.Move(1);
+
             agent.destination = target.transform.position;
-            //Idle();
         }
 
     }
@@ -309,48 +306,41 @@ public class Enemy : TargetCheck
         }
         else
         {
+            anim.Move(0);
             float distance = Vector3.Distance(transform.position, target.position);
             if (distance > Attectlen)
             {
+                anim.Shoot(false);
                 state = State.Idle;
                 //이동 애니메이션을 실행해줘야함
             }
-            else if (distance < Attectlen)
+            else if (distance <= Attectlen)
             {
                 agent.speed = 0f;
                 ATKpoint.LookTargetCheck(target);
-                //총이 없는 지
-                //if(have_gun)
-
-                //총이 있는 지
-
                 //공격
                 if (isAtkDelay == true)
                 {
-                    
+                    //Debug.Log(gunSystem.FiringIsPossible()); 
                     Atk_Play(1f);
-                    //Debug.Log(gunSystem.FiringIsPossible());
                     if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
                     {
-                        anim.Shoot();
                         gunSystem.Firing();
                     }
                     else if (!gunSystem.ReadyToShoot())
                         gunSystem.Reload();
                 }
-                //state = State.Die;
-                anim.Move(0);
             }
         }
     }
+
     private void UpdateDie()
     {
-        anim.Die();
-        //DeadBox.SetActive(true);
-        //DeadBox.transform.position = gameObject.transform.position;
-        if(isDBDelay)
+        if (isDBDelay)
+        {
+            anim.Die();
             DB_Play(3f);
-
+        }
     }
 
 
@@ -362,12 +352,13 @@ public class Enemy : TargetCheck
     public void Atk_Play(float time)
     {
         gunSystem.ClickToShoot(false);
-        if (isDelay == true) StartCoroutine(AtkTimeCoroutin(time));
+        if (isAtkDelay == true) StartCoroutine(AtkTimeCoroutin(time));
+        anim.Shoot(true);
         gunSystem.ClickToShoot(true);
     }
     public void DB_Play(float time)
     {
-        if (isDelay == true) StartCoroutine(Dead_Body_TimeCoroutin(time));
+        if (isDBDelay == true) StartCoroutine(Dead_Body_TimeCoroutin(time));
     }
     IEnumerator TimeCoroutin(float time)
     {
@@ -401,10 +392,7 @@ public class Enemy : TargetCheck
     {
         isAtkDelay = false;
 
-        //5초에 한번 true가 된다.
-        //5초 뒤에 아래의 실행문이 한번실행된다.
         yield return new WaitForSeconds(time);
-
         isAtkDelay = true;
     }
     IEnumerator Dead_Body_TimeCoroutin(float time)

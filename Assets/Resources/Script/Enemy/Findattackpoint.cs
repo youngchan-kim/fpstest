@@ -6,17 +6,17 @@ using UnityEngine.UIElements;
 
 public class Findattackpoint : MonoBehaviour
 {
-    Transform EyeObject;
+    Transform EyeObject, DirObject;
     Enemy enemy;
     float len;
-    Transform attackPoint;
+    public Transform attackPoint;
     void Start()
     {
 
         EyeObject = transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(0);
         //Debug.Log(transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(0).name);
         enemy = GetComponent<Enemy>();
-        
+        DirObject = transform.GetChild(0).GetChild(3);
         attackPoint = transform.GetChild(1);
     }
 
@@ -37,13 +37,13 @@ public class Findattackpoint : MonoBehaviour
         }
         else
         {
-            attackPoint.position = EyeObject.position + EyeObject.forward * len;
+            attackPoint.position = DirObject.position;
         }
-        
+
     }
 
-void LooktheLine()
+    void LooktheLine()
     {
-        Debug.DrawLine(EyeObject.position, EyeObject.position+ EyeObject.forward*len, Color.blue);
+        Debug.DrawLine(EyeObject.position, EyeObject.position + EyeObject.forward * len, Color.blue);
     }
 }

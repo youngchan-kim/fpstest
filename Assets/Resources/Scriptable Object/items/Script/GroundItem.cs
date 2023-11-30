@@ -12,8 +12,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     Transform PlayerObject;
     private void Start()
     {
-
-        PlayerObject = GameMgr.Instance.player.transform.Find("PlayerObject");
+        PlayerObject = GameMgr.Instance.player.transform;
     }
     public void OnAfterDeserialize()
     {
@@ -35,8 +34,9 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
         {
             amount = item.data.amount;
         }
-
-        //Debug.Log(amount+"1번");
+        
+        Debug.Log("PlayerObject의 이름" + PlayerObject.name);
+        Debug.Log("other의 이름" + other.name);
         if (PlayerObject.name == other.name)
         {
             item.data.item_object = gameObject;
