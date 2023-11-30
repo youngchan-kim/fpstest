@@ -46,6 +46,7 @@ public class Player_Action : MonoBehaviour
     }
     public Transform EnemyIsLookHaedTr()
     {
+        //Debug.Log(HeadTr.position);
         return HeadTr;
     }
     public void LateUpdate()

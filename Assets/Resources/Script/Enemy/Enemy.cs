@@ -104,6 +104,21 @@ public class Enemy : TargetCheck
 
     public void Initialize()
     {
+        state = State.Idle;
+
+        Angle = 30f;
+        Attectlen = 30f;
+        nomal_site_len = Attectlen * 2;
+        reconnaissance_site_len = nomal_site_len * 2;
+        inv_len = reconnaissance_site_len * 0.01f;
+
+        walk_speed = 1.5f;
+        Run_speed = 3f;
+        life = true;
+
+        isAtkDelay = true;
+        isDBDelay = true;
+
         //Debug.Log(transform.GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetChild(0).name);
         Gun = transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0);
         //GetComponent 
@@ -119,20 +134,7 @@ public class Enemy : TargetCheck
         anim.Initalize();
         hp.Initialize(maxHealth, maxHealvolume, life);
 
-        state = State.Idle;
-        
-        Angle = 30f;
-        Attectlen = 30f;
-        nomal_site_len = Attectlen * 2;
-        reconnaissance_site_len = nomal_site_len * 2;
-        inv_len = reconnaissance_site_len * 0.01f;
 
-        walk_speed = 1.5f;
-        Run_speed = 3f;
-        life = true;
-
-        isAtkDelay = true;
-        isDBDelay = true;
     }
     public float maxlen()
     {
@@ -142,13 +144,14 @@ public class Enemy : TargetCheck
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(hp.GetLife());
         if (!hp.GetLife())
         {
             state = State.Die;
         }
         UpdateTarget(Angle, nomal_site_len, target_Mask);
         Spot_mark.transform.position = Spot;
-       
+        ATKpoint.LookTargetCheck(target);
         if (life == true)
         {
             //각 상태에서의 처리를 해준다.
@@ -251,12 +254,10 @@ public class Enemy : TargetCheck
         if (target != null)
         {
             state = State.Run;
-            ATKpoint.LookTargetCheck(target);
             //애니메이션도 바꿔줘야함
         }
         else
         {
-            ATKpoint.LookTargetCheck(null);
             //기본 상태에서 탐색 모드로 바뀔 때 처음 한번 실행되어야한다.
             SpotDir = Spot - transform.position;
 
