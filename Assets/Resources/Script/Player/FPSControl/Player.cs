@@ -37,6 +37,8 @@ public class Player : PickUpController
         gunSystem = Gun.GetChild(0).GetComponent<GunSystem>();
 
         damegeSystem = GetComponent<DamegeSystem>();
+        //Debug.Log(GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).name);
+        InventoryUI = GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).gameObject;
         //hpBar.SetMaxHealth(maxHealth);
     }
 
@@ -90,8 +92,6 @@ public class Player : PickUpController
         //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
         if (Physics.Raycast(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward, out rayHit,  4f, Item_Mask))
         {
-            /*Debug.Log("보고있는 아이템");
-            Debug.Log(rayHit.transform.parent.GetComponent<GroundItem>());*/
             if (Input.GetKeyDown(KeyCode.F))
             {
                 PickUp(rayHit);
@@ -154,12 +154,12 @@ public class Player : PickUpController
     public void OnApplicationQuit()
     {
         //@슬롯
-/*        
+        
         Groundinventory.Container.Clear();
         inventory.Container.Clear();
         Equipinventory.Container.Clear();
         Guninventory.Container.Clear();
-*/
+
     }
 
 }

@@ -11,11 +11,10 @@ public sealed class GameMgr : MonoBehaviour
     [Header("Enemy")]
     [SerializeField]
     public GameObject enumy;
-    /*
-    [Header("GUIMgr")]
+    [Header("UI")]
     [SerializeField]
-    public GUIMgr uiMgr;
-    */
+    public GameObject GUI_Mgr;
+
     static GameMgr instance = null;
     
     public static GameMgr Instance
@@ -46,6 +45,7 @@ public sealed class GameMgr : MonoBehaviour
     {
         player.GetComponent<Player>().Initialize();
         enumy.GetComponent<Enemy>().Initialize();
+        GUI_Mgr.GetComponent<GUI_Mgr>().Initialize();
     }
     public GameObject GetCollierPlayer()
     {

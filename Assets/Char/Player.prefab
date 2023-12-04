@@ -82,6 +82,7 @@ Transform:
   m_Children:
   - {fileID: 4151273637199161336}
   - {fileID: 5572885538201200763}
+  - {fileID: 5978038411153843957}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -127,18 +128,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63788397d856efc469eb1b98d595fc83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Groundinventory: {fileID: 0}
-  inventory: {fileID: 0}
-  Equipinventory: {fileID: 0}
-  Guninventory: {fileID: 0}
+  Groundinventory: {fileID: 11400000, guid: 979ea0cd16104d24c9085a324689516c, type: 2}
+  inventory: {fileID: 11400000, guid: f67be386492b52c42aa8de4e5469ec75, type: 2}
+  Equipinventory: {fileID: 11400000, guid: 42c09b1bf5c78064e932465c073128fb, type: 2}
+  Guninventory: {fileID: 11400000, guid: 07e6282161e91c249b23f382fa9bc001, type: 2}
   pickup: 0
   equipped: 0
   Dropzon_layermask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   Item_Mask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   hp: {fileID: 5751495409690410820}
   hpBar: {fileID: 0}
   playercam: {fileID: 4845097620494451732}
@@ -157,16 +158,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalInput: 0
   verticalInput: 0
-  moveSpeed: 0
-  groundDrag: 0
-  jumpForce: 0
-  jumpCooldown: 0
-  airMultiplier: 0
+  moveSpeed: 4
+  groundDrag: 4
+  jumpForce: 4
+  jumpCooldown: 1
+  airMultiplier: 0.4
   jumpKey: 32
-  playerHeight: 0
+  playerHeight: 1
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   orientation: {fileID: 6791128697448961031}
 --- !u!114 &1709680368246304030
 MonoBehaviour:
@@ -195,7 +196,7 @@ MonoBehaviour:
   aimshaker: {fileID: 0}
   layermask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
 --- !u!114 &3914223996985782811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,8 +221,83 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c9dd3b687ab9f4c8c2a897b394eba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHp: 0
-  CurrentHp: 0
+  MaxHp: 100
+  CurrentHp: 100
+--- !u!1 &6809673999987427226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5978038411153843957}
+  - component: {fileID: 6250018701479625151}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5978038411153843957
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6809673999987427226}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2142059424269130446}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!20 &6250018701479625151
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6809673999987427226}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 8400000, guid: 58494958e15f2ba4180881fdd6fd5ff7, type: 2}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1001 &9173585501161270601
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -35,13 +35,13 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
             amount = item.data.amount;
         }
         
-        Debug.Log("PlayerObject의 이름" + PlayerObject.name);
-        Debug.Log("other의 이름" + other.name);
+        //Debug.Log("PlayerObject의 이름" + PlayerObject.name);
+        //Debug.Log("other의 이름" + other.name);
         if (PlayerObject.name == other.name)
         {
+            //Debug.Log(item);
             item.data.item_object = gameObject;
-
-                GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item/*.data*/, amount);
+            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item/*.data*/, amount);
         }
     }
 

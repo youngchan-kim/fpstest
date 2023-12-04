@@ -131,7 +131,7 @@ public class Enemy : TargetCheck
         anim.Initalize();
         hp.Initialize(maxHealth, maxHealvolume, life);
 
-        
+
     }
     public float maxlen()
     {
@@ -148,7 +148,7 @@ public class Enemy : TargetCheck
         }
         UpdateTarget(Angle, nomal_site_len, target_Mask);
         Spot_mark.transform.position = Spot;
-        if(target == null)
+        if (target == null)
             ATKpoint.LookTargetCheck(null);
         if (life == true)
         {
@@ -294,8 +294,8 @@ public class Enemy : TargetCheck
 
             agent.destination = target.transform.position;
         }
-
     }
+
     private void UpdateAttack()
     {
         //agent.isStopped = true;

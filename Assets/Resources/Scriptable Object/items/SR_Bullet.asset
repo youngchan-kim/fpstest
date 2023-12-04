@@ -21,6 +21,8 @@ MonoBehaviour:
     Name: SR_Bullet
     Id: 3
     buffs: []
+    addHeal: 0
     amount: 30
     item_object: {fileID: 0}
-    item_object_Prefab: {fileID: 4190188518135334347, guid: d8ccf5a24bfe1d74da3896ecd2039b03, type: 3}
+    item_object_Prefab: {fileID: 0}
+    inven_in_active: 0

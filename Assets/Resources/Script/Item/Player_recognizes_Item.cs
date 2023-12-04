@@ -16,6 +16,7 @@ public enum InventoryType
 
 public class Player_recognizes_Item : MonoBehaviour
 {
+    [SerializeField]
     public InventoryObject Groundinventory, inventory, Equipinventory, Guninventory;
     //private bool player_recognizes = false;
     GroundItem groundItem;
@@ -37,10 +38,10 @@ public class Player_recognizes_Item : MonoBehaviour
     int slotnum;
     public LayerMask Dropzon_layermask;
 
-/*    private void Update()
+    private void Update()
     {
-        Player_recognizes();
-    }*/
+        
+    }
 
     //키보드로 먹을때
     public void Pickup_Swap_Item(Collider Coll)
@@ -188,7 +189,7 @@ public class Player_recognizes_Item : MonoBehaviour
 
     public void Item_Removed(InventoryObject item_out_inven, int inven_num, Item item )
     {
-        Debug.Log("반응 확인");
+        //Debug.Log("반응 확인");
         item_out_inven.ClearItem(item.Id, inven_num);
         pickup = false;
     }
