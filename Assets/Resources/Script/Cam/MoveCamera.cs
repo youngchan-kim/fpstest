@@ -12,7 +12,8 @@ public class MoveCamera : MonoBehaviour
     Vector3 pos;
     private void Start()
     {
-        Head = transform.parent.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0);
+        //Debug.Log(transform.parent.parent.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).name);
+        Head = transform.parent.parent.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0);
     }
     // Update is called once per frame
     public void Update()
@@ -20,7 +21,7 @@ public class MoveCamera : MonoBehaviour
         //Debug.Log(Head.name);
         /*pos = Head.position + (Vector3.up * 0.1f) + (Vector3.forward * 0.1f);
         cameraPosition.position = pos;*/
-        transform.position = Head.GetChild(0).position;
+        transform.position = Head.GetChild(3).position;
        
     }
 }

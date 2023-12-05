@@ -27,9 +27,12 @@ public class Player_Action : MonoBehaviour
     {
         //활성화된 총기를 알아야함
         //test용으로 첫번째 총기만 
-        
-        gun = transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0)
-            .GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0);
+       /* Debug.Log(transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).name);
+        Debug.Log(transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).name);
+        Debug.Log(transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0)
+            .GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(4).GetChild(0).name);*/
+        gun = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0)
+            .GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(4).GetChild(0);
         // cam = transform.GetComponent<Player>().Player_cam;
 
 

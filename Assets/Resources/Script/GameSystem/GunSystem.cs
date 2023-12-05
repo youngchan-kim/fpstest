@@ -85,7 +85,7 @@ public class GunSystem : MonoBehaviour
     {
         //Debug.Log(transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.GetChild(1).name);
         attackPoint = transform.parent.parent.parent.parent.parent.parent.parent
-            .parent.parent.parent.parent.GetChild(1);
+            .parent.parent.parent.parent.parent.GetChild(1);
         GunMuzzle = transform.GetChild(0).GetChild(0);
         MuzzleAimShaker = GunMuzzle.GetComponent<AimShaker>();
       

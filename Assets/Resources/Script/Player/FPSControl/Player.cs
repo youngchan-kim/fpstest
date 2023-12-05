@@ -16,7 +16,7 @@ public class Player : PickUpController
 
 
     public GameObject playercam;
-    public GameObject InventoryUI;
+    //public GameObject InventoryUI;
     private bool mode_chage;
 
 
@@ -30,15 +30,15 @@ public class Player : PickUpController
     {
         anim = GetComponent<Animator>();
 
-        Gun = transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0)
-            .GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5);
+        Gun = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0)
+            .GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(4);
         //총의 시스템을 사용하는 것임으로 활성화 된 총기가 있는지
         //내가 현재 손에 들고 있는 총이 맞는지 확인
         gunSystem = Gun.GetChild(0).GetComponent<GunSystem>();
 
         damegeSystem = GetComponent<DamegeSystem>();
         //Debug.Log(GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).name);
-        InventoryUI = GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).gameObject;
+        //InventoryUI = GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).gameObject;
         //hpBar.SetMaxHealth(maxHealth);
     }
 
@@ -128,7 +128,7 @@ public class Player : PickUpController
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             playercam.gameObject.SetActive(mode_chage);
-            InventoryUI.SetActive(!mode_chage);
+            //InventoryUI.SetActive(!mode_chage);
             mode_chage = !mode_chage;  
         }
 

@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         anim = GetComponent<Player_Action>();
+        orientation = transform.GetChild(0).GetChild(1).GetChild(2);
     }
 
     // Update is called once per frame

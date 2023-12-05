@@ -15,8 +15,8 @@ public class PlayerCam : MonoBehaviour
     {
         //humanoid Player
         playerBady = transform.parent;
-        //Debug.Log(playerBady.parent.GetChild(1).name);
-        aim = playerBady.parent.GetChild(1).GetComponent<AimShaker>();
+        //Debug.Log(playerBady.parent.parent.GetChild(1).name);
+        aim = playerBady.parent.parent.GetChild(1).GetComponent<AimShaker>();
     }
 
     void Update()
