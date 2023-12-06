@@ -6,17 +6,18 @@ using UnityEngine.UIElements;
 
 public class Findattackpoint : MonoBehaviour
 {
-    Transform EyeObject, DirObject;
+    [SerializeField]
+    public Transform EyeObject, DirObject;
     Enemy enemy;
     float len;
     public Transform attackPoint;
     void Start()
     {
 
-        EyeObject = transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(0);
+        EyeObject = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).Find("EyePos");
         //Debug.Log(transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(0).name);
         enemy = GetComponent<Enemy>();
-        DirObject = transform.GetChild(0).GetChild(3);
+        DirObject = transform.GetChild(0).GetChild(1).Find("Dir");
         attackPoint = transform.GetChild(1);
     }
 

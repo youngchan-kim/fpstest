@@ -116,8 +116,8 @@ public class Enemy : TargetCheck
         isAtkDelay = true;
         isDBDelay = true;
 
-        //Debug.Log(transform.GetChild(0).GetChild(3).GetChild(2).GetChild(0).GetChild(0).name);
-        Gun = transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetChild(0);
+        //Debug.Log(transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).name);
+        Gun = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(4).GetChild(0);
         //GetComponent 
         //NavMeshAgent
         agent = GetComponent<NavMeshAgent>();
