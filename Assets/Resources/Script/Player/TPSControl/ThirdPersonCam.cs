@@ -7,71 +7,77 @@ using UnityEngine;
 public class ThirdPersonCam : MonoBehaviour
 {
     [Header("References")]
+    //
     public Transform orientation;
+
     public Transform player;
+
     public Transform playerObj;
+
     public Rigidbody rb;
 
     public float rotationSpeed;
-
+/*
     public Transform RightLookAt;
-    public Transform LeftLookAt;
+    public Transform LeftLookAt;*/
 
-    public GameObject thirdPersonCam;
-    public GameObject rightWaveCam;
-    public GameObject leftWaveCam;
+    public GameObject TPC;
+/*    public GameObject rightWaveCam;
+    public GameObject leftWaveCam;*/
 
     protected CameraStyle curentStyle;
     public enum CameraStyle
     {
-        Basic,
-        RightWave,
-        LeftWave,
-        OnePerson,
-        Topdown
+        Basic
+        /*             ,
+               RightWave,
+                LeftWave,
+                OnePerson,
+                Topdown*/
     }
 
-    public CameraStyle GetCameraStyle()
-    {
-        return curentStyle;
-    }
+    /*  public CameraStyle GetCameraStyle()
+      {
+          return curentStyle;
+      }*/
 
     //
-    int wavecontrol = 0;
+    /* int wavecontrol = 0;*/
 
     private void Start()
     {
+        TPC = GameObject.FindWithTag("TPC_Cam");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     private void Update()
     {
-        wavecontrol = WaveControl(wavecontrol);
+        //wavecontrol = WaveControl(wavecontrol);
         //카메라 스타일 바꾸기
-        if (wavecontrol == 0)
-        {
-            
-            if (curentStyle == CameraStyle.RightWave)
-                thirdPersonCam.transform.localPosition.Set(rightWaveCam.transform.position.x + 10, rightWaveCam.transform.position.y, rightWaveCam.transform.position.z);
-            else if (curentStyle == CameraStyle.LeftWave)
-                thirdPersonCam.transform.position.Set(leftWaveCam.transform.position.x - 10, leftWaveCam.transform.position.y, leftWaveCam.transform.position.z);
-            SwitchCameraStyle(CameraStyle.Basic); 
-        }
-        else if (wavecontrol == 1 && curentStyle == CameraStyle.Basic)
-        {
-            rightWaveCam.transform.position.Set(thirdPersonCam.transform.position.x - 10, thirdPersonCam.transform.position.y, thirdPersonCam.transform.position.z);
-            SwitchCameraStyle(CameraStyle.RightWave);
-        }
-        else if (wavecontrol == -1 && curentStyle == CameraStyle.Basic)
-        {
-            leftWaveCam.transform.position.Set(thirdPersonCam.transform.position.x + 10, thirdPersonCam.transform.position.y, thirdPersonCam.transform.position.z);
-            SwitchCameraStyle(CameraStyle.LeftWave);
-        }
+        /* if (wavecontrol == 0)
+         {
+
+             if (curentStyle == CameraStyle.RightWave)
+                 thirdPersonCam.transform.localPosition.Set(rightWaveCam.transform.position.x + 10, rightWaveCam.transform.position.y, rightWaveCam.transform.position.z);
+             else if (curentStyle == CameraStyle.LeftWave)
+                 thirdPersonCam.transform.position.Set(leftWaveCam.transform.position.x - 10, leftWaveCam.transform.position.y, leftWaveCam.transform.position.z);
+             SwitchCameraStyle(CameraStyle.Basic); 
+         }*/
+        /* else if (wavecontrol == 1 && curentStyle == CameraStyle.Basic)
+         {
+             rightWaveCam.transform.position.Set(thirdPersonCam.transform.position.x - 10, thirdPersonCam.transform.position.y, thirdPersonCam.transform.position.z);
+             SwitchCameraStyle(CameraStyle.RightWave);
+         }
+         else if (wavecontrol == -1 && curentStyle == CameraStyle.Basic)
+         {
+             leftWaveCam.transform.position.Set(thirdPersonCam.transform.position.x + 10, thirdPersonCam.transform.position.y, thirdPersonCam.transform.position.z);
+             SwitchCameraStyle(CameraStyle.LeftWave);
+         }*/
         
-        
+
         //카메라에서 플레이어까지의 방향을 계산하여 전방이 어디인지 알아내기
-        Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
+        Vector3 viewDir = player.position - new Vector3(TPC.transform.position.x, player.position.y, TPC.transform.position.z);
 
         //카메라가 바라보는 방향은viewDir.normalized값을쓴다.
         orientation.forward = viewDir.normalized;
@@ -79,32 +85,35 @@ public class ThirdPersonCam : MonoBehaviour
         // rotate player object
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-        Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        if (curentStyle == CameraStyle.Basic)
+
+        Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        //플레이어 오브젝트의 정면을 입력받은 방향으로 선형 보간사용으로 부드럽게  회전시킴 
+        if (inputDir != Vector3.zero)
+            playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+        /*if (curentStyle == CameraStyle.Basic)
         {
             if (inputDir != Vector3.zero)
                 playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
 
-        }
-        else if (curentStyle == CameraStyle.RightWave)
-        {
-            Vector3 dirToRightWaveLookAt = RightLookAt.position - new Vector3(transform.position.x, RightLookAt.position.y, transform.position.z);
-            orientation.forward = dirToRightWaveLookAt.normalized;
-            playerObj.forward = dirToRightWaveLookAt.normalized;          
-        }
-        else if (curentStyle == CameraStyle.LeftWave)
-        {
-            Vector3 dirToLeftWaveLookAt = LeftLookAt.position - new Vector3(transform.position.x, LeftLookAt.position.y, transform.position.z);
-            orientation.forward = dirToLeftWaveLookAt.normalized;
+        }*/
+        /* else if (curentStyle == CameraStyle.RightWave)
+         {
+             Vector3 dirToRightWaveLookAt = RightLookAt.position - new Vector3(transform.position.x, RightLookAt.position.y, transform.position.z);
+             orientation.forward = dirToRightWaveLookAt.normalized;
+             playerObj.forward = dirToRightWaveLookAt.normalized;          
+         }
+         else if (curentStyle == CameraStyle.LeftWave)
+         {
+             Vector3 dirToLeftWaveLookAt = LeftLookAt.position - new Vector3(transform.position.x, LeftLookAt.position.y, transform.position.z);
+             orientation.forward = dirToLeftWaveLookAt.normalized;
 
-            playerObj.forward = dirToLeftWaveLookAt.normalized;
-           
-        }
-        
+             playerObj.forward = dirToLeftWaveLookAt.normalized;
+
+         }*/
     }
 
-    private int WaveControl(int wavecontrol)
+   /* private int WaveControl(int wavecontrol)
     {
         
         if (Input.GetKeyDown(KeyCode.Q))
@@ -122,9 +131,9 @@ public class ThirdPersonCam : MonoBehaviour
                 wavecontrol -= 1;
         }
         return wavecontrol;
-    }
+    }*/
 
-    private void SwitchCameraStyle(CameraStyle newStyle)
+    /*private void SwitchCameraStyle(CameraStyle newStyle)
     {
         rightWaveCam.SetActive(false);
         leftWaveCam.SetActive(false);
@@ -134,6 +143,5 @@ public class ThirdPersonCam : MonoBehaviour
         else if (newStyle == CameraStyle.RightWave) { rightWaveCam.SetActive(true);  }
         else if (newStyle == CameraStyle.LeftWave) { leftWaveCam.SetActive(true);  }
         curentStyle = newStyle;
-    }
-
+    }*/
 }

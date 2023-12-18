@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 4305993783618085009}
   - component: {fileID: 6695876771649285122}
   - component: {fileID: 2697655164184469853}
-  - component: {fileID: 8032370063686411636}
   m_Layer: 3
   m_Name: Player Jammo
   m_TagString: Player
@@ -254,22 +253,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHp: 100
   CurrentHp: 100
---- !u!114 &8032370063686411636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6394791618652790058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a7c1e7c7b1769d42bbe7a6e999c116b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aimshaker: {fileID: 0}
-  layermask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &8181683693692699771
 GameObject:
   m_ObjectHideFlags: 0

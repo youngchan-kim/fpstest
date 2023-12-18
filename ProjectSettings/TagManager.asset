@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Dir
+  - TPC_Cam
   layers:
   - Default
   - TransparentFX
