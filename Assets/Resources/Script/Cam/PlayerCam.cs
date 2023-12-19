@@ -7,16 +7,22 @@ public class PlayerCam : MonoBehaviour
     private float sensX = 400;
     private float sensY = 400;
 
-    Transform playerBady;
+    
     public AimShaker aim;
     float xRotation;
     float yRotation;
+
+    [SerializeField]
+    public Transform playerBady;
+    public Transform Dir;
     private void Start()
     {
         //humanoid Player
-        playerBady = transform.parent;
+        //FPS에서 TPS로 변경되면서 비활성
+        //playerBady = transform.parent;
+
         //Debug.Log(playerBady.parent.parent.GetChild(1).name);
-        aim = playerBady.parent.parent.GetChild(1).GetComponent<AimShaker>();
+        aim = playerBady.GetChild(1).GetComponent<AimShaker>();
     }
 
     void Update()
@@ -37,7 +43,11 @@ public class PlayerCam : MonoBehaviour
 
         //마우스가 회전한 만큼PlayerRotate를 회전시킴
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+        
+        //FPS의 경우 해당됨
         //플레이어의 몸의 회전을 y축으로만 회전함
-        playerBady.rotation = Quaternion.Euler(0, yRotation, 0);
+        //playerBady.rotation = Quaternion.Euler(0, yRotation, 0);
+        //TPS의 경우
+        Dir.rotation = Quaternion.Euler(0, yRotation, 0);
     }
 }
