@@ -122,7 +122,6 @@ GameObject:
   - component: {fileID: 2406719731321417482}
   - component: {fileID: 2406719731321417495}
   - component: {fileID: 2406719731321417480}
-  - component: {fileID: 2406719731321417481}
   m_Layer: 0
   m_Name: Wall_Arc_90_02
   m_TagString: Untagged
@@ -196,27 +195,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &2406719731321417481
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2406719731321417483}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 638f44b41e0a6471486ec2c4e9ca96fd, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2406719731360203954
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,7 +324,6 @@ GameObject:
   - component: {fileID: 2406719731578136757}
   - component: {fileID: 2406719731578136754}
   - component: {fileID: 2406719731578136755}
-  - component: {fileID: 2406719731578136756}
   m_Layer: 0
   m_Name: Floor_01
   m_TagString: Untagged
@@ -419,19 +396,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2406719731578136756
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2406719731578136758}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.0000029, y: 3.000002, z: 0.02}
-  m_Center: {x: -1.5000005, y: -1.5000007, z: 0.00000013113421}
 --- !u!1 &2406719731791832046
 GameObject:
   m_ObjectHideFlags: 0
