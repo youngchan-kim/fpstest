@@ -10,6 +10,7 @@ public class TargetCheck : MonoBehaviour
     //target에 갱신하기전 체크 단계의 target
     Transform checktarget;
     //실제로 갱신되는 target
+    //[SerializeField]
     public Transform target;
 
     //Vector3
@@ -94,7 +95,6 @@ public class TargetCheck : MonoBehaviour
                         if (0 != ((1 << rayHit.transform.gameObject.layer) & target_Mask))
                         {
                             //Debug.Log("타겟과 오브젝트사이에 장애물이 없다.");
-
                             target = checktarget;
                             Target_Watching();
                         }

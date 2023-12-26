@@ -227,6 +227,7 @@ MonoBehaviour:
   layermask:
     serializedVersion: 2
     m_Bits: 4294967295
+  TPSCam_Holder: {fileID: 0}
 --- !u!114 &6695876771649285122
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -69,7 +69,7 @@ public class Cam_ScreenCenter : MonoBehaviour
             aim.transform.position = ScreenMaxPoint;
             range = maxrange;
         }
-        Debug.Log("출력");
+        //Debug.Log("출력");
         Debug.DrawLine(Camera.main.transform.position, ScreenMaxPoint, Color.yellow);
     }
 

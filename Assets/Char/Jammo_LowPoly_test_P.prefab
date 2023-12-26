@@ -4039,6 +4039,37 @@ Transform:
   m_Father: {fileID: 684990565300694556}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6212472949134301453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 477641431996425627}
+  m_Layer: 0
+  m_Name: TPSCamHold
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &477641431996425627
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6212472949134301453}
+  m_LocalRotation: {x: 0.30818114, y: -0.22583865, z: -0.14063339, w: 0.9133694}
+  m_LocalPosition: {x: 0.018756043, y: 0.017425202, z: 0.016610652}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3315998898064275051}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6423028381266367486
 GameObject:
   m_ObjectHideFlags: 0
@@ -4810,6 +4841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1eef883e93e26f4d92b3c1565fd80ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TPS_Cam_pos: {fileID: 0}
 --- !u!114 &8065603452662118788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4823,6 +4855,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aim: {fileID: 0}
+  playerBady: {fileID: 0}
+  Dir: {fileID: 0}
 --- !u!1 &7498546984885748785
 GameObject:
   m_ObjectHideFlags: 0
@@ -5788,6 +5822,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1374300977319557379}
+  - {fileID: 477641431996425627}
   m_Father: {fileID: 9157758825459009984}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

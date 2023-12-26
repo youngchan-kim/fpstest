@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 489210}
   - component: {fileID: 3317574}
   - component: {fileID: 2378300}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_HalfArc_90_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 414920}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_HalfArc_90_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
