@@ -10,18 +10,18 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
-  - Enemy
-  - Item
-  - map
-  - invisible
   - Ground
   - Wall
-  - Baricade
+  - Roof
   - Object
-  - TargetObject
+  - Baricate
+  - Player
+  - Enemy
+  - Item
+  - GroundItem
   - 
   - 
   - 
