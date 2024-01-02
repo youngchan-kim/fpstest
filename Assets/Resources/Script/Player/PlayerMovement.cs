@@ -125,6 +125,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void MovePlayer()
     {
+
         //움직이는 방향을 계산
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
        

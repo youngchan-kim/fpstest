@@ -1637,7 +1637,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1708721316191181066, guid: 42f219252af22164c9f72fdffb2c9e25, type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1708721316191181066, guid: 42f219252af22164c9f72fdffb2c9e25, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -3705,7 +3705,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3942768999867035440, guid: 42f219252af22164c9f72fdffb2c9e25, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3942768999867035440, guid: 42f219252af22164c9f72fdffb2c9e25, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -4325,7 +4325,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4499364044111467996, guid: 42f219252af22164c9f72fdffb2c9e25, type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4499364044111467996, guid: 42f219252af22164c9f72fdffb2c9e25, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -4949,7 +4949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5206457612354570177, guid: 42f219252af22164c9f72fdffb2c9e25, type: 3}
       propertyPath: m_Name
-      value: BigSquareRoom
+      value: 2DoorBigRoom
       objectReference: {fileID: 0}
     - target: {fileID: 5206457612354570177, guid: 42f219252af22164c9f72fdffb2c9e25, type: 3}
       propertyPath: m_IsActive
@@ -6949,7 +6949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7777882907339958820, guid: 42f219252af22164c9f72fdffb2c9e25, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7777882907339958820, guid: 42f219252af22164c9f72fdffb2c9e25, type: 3}
       propertyPath: m_StaticEditorFlags

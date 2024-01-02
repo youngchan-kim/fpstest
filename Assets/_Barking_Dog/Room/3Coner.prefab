@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 6215871273256637293}
   - component: {fileID: 5655144003429148448}
   - component: {fileID: 869570266220808897}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wall_coll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1232,7 +1232,7 @@ GameObject:
   - component: {fileID: 8018471051177732067}
   - component: {fileID: 243180771746520190}
   - component: {fileID: 1032262763780684992}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wall_Coner_coll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1373,7 +1373,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5801337025658104901}
   - component: {fileID: 4425926599326372906}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Roof_coll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1533,7 +1533,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6688495473986429926}
   - component: {fileID: 3535376318229999527}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground_coll
   m_TagString: Untagged
   m_Icon: {fileID: 0}

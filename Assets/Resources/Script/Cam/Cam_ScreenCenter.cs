@@ -24,7 +24,7 @@ public class Cam_ScreenCenter : MonoBehaviour
     [SerializeField]
     [Header("RayStart_Position")]
     public Transform TPSCam_Holder;
-
+    public Transform Dir;
     private void Start()
     {
         //Debug.Log(aimshaker.name);
@@ -32,6 +32,7 @@ public class Cam_ScreenCenter : MonoBehaviour
         maincam = Camera.main;
         range = maxrange;
         aim = transform.GetChild(1).gameObject;
+        Dir = transform.GetChild(0).GetChild(1).GetChild(2);
     }
     private void Update()
     {
@@ -58,7 +59,7 @@ public class Cam_ScreenCenter : MonoBehaviour
         //플레이어가 보는 곳에 물체가 있는 경우
         //에임에 걸리는 물체들은 layermask에 적용
         //Ray의 시작 지점은 Camhold가 있는 곳
-
+        
         if (Physics.Raycast(TPSCam_Holder.position, diraction, out rayhitObject, maxrange, layermask))
         {
             aim.transform.position = rayhitObject.point;
@@ -69,6 +70,7 @@ public class Cam_ScreenCenter : MonoBehaviour
             aim.transform.position = ScreenMaxPoint;
             range = maxrange;
         }
+        Dir.LookAt(aim.transform.position); 
         //Debug.Log("출력");
         Debug.DrawLine(Camera.main.transform.position, ScreenMaxPoint, Color.yellow);
     }
