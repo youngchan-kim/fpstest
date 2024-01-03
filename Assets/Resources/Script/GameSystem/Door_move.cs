@@ -12,23 +12,23 @@ public class Door_move : MonoBehaviour
     Vector3 Left_end, Right_end;
     public void Start()
     {
-        Left_start = new Vector3(Left.position.x, Left.position.y, Left.position.z);
-        Left_end = new Vector3(Left.position.x, Left.position.y, Left.position.z - 3f);
+        Left_start = new Vector3(Left.localPosition.x, Left.localPosition.y, Left.localPosition.z);
+        Left_end = new Vector3(Left.localPosition.x, Left.localPosition.y, Left.localPosition.z - 3f);
 
-        Right_start = new Vector3(Right.position.x, Right.position.y, Right.position.z);
-        Right_end = new Vector3(Right.position.x, Right.position.y, Right.position.z + 3f);
+        Right_start = new Vector3(Right.localPosition.x, Right.localPosition.y, Right.localPosition.z);
+        Right_end = new Vector3(Right.localPosition.x, Right.localPosition.y, Right.localPosition.z + 3f);
 
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        Left.position = Left_end;
-        Right.position = Right_end;
+        Left.localPosition = Left_end;
+        Right.localPosition = Right_end;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Left.position = Left_start;
-        Right.position = Right_start;
+        Left.localPosition = Left_start;
+        Right.localPosition = Right_start;
     }
 }

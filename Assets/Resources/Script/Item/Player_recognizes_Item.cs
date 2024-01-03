@@ -40,7 +40,10 @@ public class Player_recognizes_Item : MonoBehaviour
 
     private void Update()
     {
-        
+        if( Physics.Raycast(transform.position, Vector3.down, out RaycastHit rayHit, 100f, Dropzon_layermask))
+        {
+            Debug.Log(rayHit.point);
+        }
     }
 
     //키보드로 먹을때
@@ -134,17 +137,19 @@ public class Player_recognizes_Item : MonoBehaviour
         {
             //ItemActiveCheck().SetActive(false);
         }*/
-        Debug.Log(obj.slot_item_object);
-        
-       Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit rayHit, 100f, Dropzon_layermask);
-        hitPos = rayHit.point;
-        hitPos.y += 0.01f;
-        if (obj.totalamount != 0)
+        //Debug.Log(obj.slot_item_object);
+        Debug.Log(transform.name);
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit Hit, 10f))
         {
-            grountitem = Instantiate(obj.item.item_object_Prefab, hitPos, Quaternion.LookRotation(GameMgr.Instance.player.transform.forward));
-            grountitem.GetComponent<GroundItem>().amount = obj.totalamount;
+            Debug.Log("땅 인식1");
+            hitPos = Hit.point;
+            hitPos.y += 0.01f;
+            if (obj.totalamount != 0)
+            {
+                grountitem = Instantiate(obj.item.item_object_Prefab, hitPos, Quaternion.LookRotation(GameMgr.Instance.player.transform.forward));
+                grountitem.GetComponent<GroundItem>().amount = obj.totalamount;
+            }
         }
-
     }
 
 

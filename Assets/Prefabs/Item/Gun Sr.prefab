@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1360977175712432066}
   - component: {fileID: 8192305056030641166}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: Sniper Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 3849593564370230172}
   - component: {fileID: 3849593564370230170}
   - component: {fileID: 3849593564370230173}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Sniper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 3865992893041346292}
   - component: {fileID: 3865992893041346293}
   - component: {fileID: 3865992893041346294}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Gun Sr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,6 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 1feb269ad21bf6245b0fa489bea2c739, type: 2}
+  amount: 0
 --- !u!135 &3865992893041346294
 SphereCollider:
   m_ObjectHideFlags: 0

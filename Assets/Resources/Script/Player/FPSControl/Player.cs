@@ -16,13 +16,15 @@ public class Player : PickUpController
 
 
     public GameObject playercam;
-    //public GameObject InventoryUI;
+    public GameObject InventoryUI;
+    public bool Hold_contorl_check;
     private bool mode_chage;
 
 
     RaycastHit rayHit;
     Transform Gun;
     GunSystem gunSystem;
+
 
     Animator anim;
 
@@ -38,8 +40,9 @@ public class Player : PickUpController
 
         damegeSystem = GetComponent<DamegeSystem>();
         //Debug.Log(GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).name);
-        //InventoryUI = GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).gameObject;
+        InventoryUI = GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).gameObject;
         //hpBar.SetMaxHealth(maxHealth);
+        Hold_contorl_check = false;
     }
 
     public void Initialize()
@@ -51,52 +54,52 @@ public class Player : PickUpController
     // Update is called once per frame
     private void Update()
     {
-        if (gunSystem.HoldButtonUse())
+        /*Debug.Log("케릭터 위치" + transform.position);
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit rayHit, 100f, Dropzon_layermask))
         {
-            gunSystem.ClickToShoot(Input.GetKey(KeyCode.Mouse0));
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
-                {
-                    //anim.Shoot();
-                    gunSystem.Firing();
-                }
-
-            }
-        }
-        else
+            
+            Debug.Log("케릭터 바닥 위치" + rayHit.point);
+        }*/
+        /*Debug.Log(Hold_contorl_check);*/
+        if (Hold_contorl_check == false)
         {
-            gunSystem.ClickToShoot(Input.GetKeyDown(KeyCode.Mouse0));
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (gunSystem.HoldButtonUse())
             {
-                if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
+                gunSystem.ClickToShoot(Input.GetKey(KeyCode.Mouse0));
+                if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    //anim.Shoot();
-                    gunSystem.Firing();
+                    if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
+                    {
+                        //anim.Shoot();
+                        gunSystem.Firing();
+                    }
                 }
             }
+            else
+            {
+                gunSystem.ClickToShoot(Input.GetKeyDown(KeyCode.Mouse0));
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
+                    {
+                        //anim.Shoot();
+                        gunSystem.Firing();
+                    }
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.R) && gunSystem.ReloadIsPossible())
+                gunSystem.Reload();
         }
-        if (Input.GetKeyDown(KeyCode.R) && gunSystem.ReloadIsPossible())
-            gunSystem.Reload();
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            playercam.gameObject.SetActive(mode_chage);
-            //Inventory.SetActive(!mode_chage);
-            mode_chage = !mode_chage;
-        }
-
-    
-
         //Debug.DrawRay(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward * 5f, Color.black, 0.2f);
         //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
-        if (Physics.Raycast(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward, out rayHit,  4f, Item_Mask))
+        if (Physics.Raycast(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward, out rayHit, 4f, Item_Mask))
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
                 PickUp(rayHit);
             }
         }
+
 
         //itemDatabase save & load test code
         /*if (Input.GetKeyDown(KeyCode.End))
@@ -128,12 +131,10 @@ public class Player : PickUpController
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             playercam.gameObject.SetActive(mode_chage);
-            //InventoryUI.SetActive(!mode_chage);
-            mode_chage = !mode_chage;  
+            InventoryUI.SetActive(!mode_chage);
+            mode_chage = !mode_chage;
+            CuserControl(mode_chage);
         }
-
-        CuserControl(mode_chage);
-        
     }
     void CuserControl(bool mode_chage)
     {
@@ -141,6 +142,7 @@ public class Player : PickUpController
         if (mode_chage == false) Cursor.lockState = CursorLockMode.Locked;
         else Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = mode_chage;
+        Hold_contorl_check = !Hold_contorl_check;
     }
 
 

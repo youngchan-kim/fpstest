@@ -159,15 +159,14 @@ public abstract class UserInterface : MonoBehaviour
             }*/
             return;
         }
-        //Debug.Log(MouseData.slotHoveredOver.name);
-        //Debug.Log(MouseData.slotHoveredOver.activeSelf);
-        Debug.Log(MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].name);
-        Debug.Log(MouseData.slotHoveredOver);
+       
+/*        Debug.Log(MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].name);
+        Debug.Log(MouseData.slotHoveredOver);*/
 
         if (MouseData.slotHoveredOver)
         {
 
-            Debug.Log("확인5");
+            //Debug.Log("확인5");
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
 
             int endInventoryID = mouseHoverSlotData.GetInventoryID();
@@ -194,11 +193,11 @@ public abstract class UserInterface : MonoBehaviour
                         }
                         else
                         {
-                            Debug.Log("다른 인벤에서 캐릭터 인벤으로 들어옴");
-                            Debug.Log(slotsOnInterface[obj].slot_item_object);
+                            //Debug.Log("다른 인벤에서 캐릭터 인벤으로 들어옴");
+                            //Debug.Log(slotsOnInterface[obj].slot_item_object);
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object);
-                            Debug.Log("찾는것" + InventoryID);
+                            //Debug.Log("찾는것" + InventoryID);
                             player.Add_Item(endInventoryID, slotsOnInterface[obj].item, slotsOnInterface[obj].totalamount);
                             player.Item_Removed(slotsOnInterface[obj].parent.inventory, endInventoryID, slotsOnInterface[obj].item);
 

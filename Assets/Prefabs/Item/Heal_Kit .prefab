@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2728236884632203538}
   - component: {fileID: 2728236884632203537}
   - component: {fileID: 2728236884632203534}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: 'Heal_Kit '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1036968827518876, guid: b1f79bc72c7086542a923e6545cc40d2, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1854425252707494, guid: b1f79bc72c7086542a923e6545cc40d2, type: 3}
       propertyPath: m_Name
@@ -78,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1854425252707494, guid: b1f79bc72c7086542a923e6545cc40d2, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4426672102238918, guid: b1f79bc72c7086542a923e6545cc40d2, type: 3}
       propertyPath: m_LocalScale.x

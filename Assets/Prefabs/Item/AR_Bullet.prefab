@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6342158402979851622}
   - component: {fileID: 8199566850204839602}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: First_aid_kit_1_Mat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 6344695837576674564}
   - component: {fileID: 6344695837576674567}
   - component: {fileID: 6344695837576674584}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: AR_Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

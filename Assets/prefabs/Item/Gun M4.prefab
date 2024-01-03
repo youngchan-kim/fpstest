@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5330394481861556739}
   - component: {fileID: 5330394481861556740}
   - component: {fileID: 5330394481861556741}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Gun M4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: b1d0b059b4e13e04bb26cddaac31ac66, type: 2}
+  amount: 0
 --- !u!135 &5330394481861556741
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -70,7 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6952020697500777945}
   - component: {fileID: 2713664402819732983}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: M4 Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
