@@ -16,9 +16,9 @@ public class StaticInterface: UserInterface
         {
             var obj = slots[i];
 
-            //AddEvent(obj, EventTriggerType.PointerEnter, delegate { OnEnter(obj); });
-            //AddEvent(obj, EventTriggerType.PointerDown, (eventData) => { if (eventData is PointerEventData wherebuttondata) { Debug.Log("인벤토리PointerDown"); OnDown(obj, wherebuttondata.button); } });
-            //AddEvent(obj, EventTriggerType.PointerUp, (eventData) => { if (eventData is PointerEventData wherebuttondata) { Debug.Log("인벤토리PointerUp"); OnUp(obj, wherebuttondata.button); } });
+            AddEvent(obj, EventTriggerType.PointerEnter, delegate { OnEnter(obj); });
+            AddEvent(obj, EventTriggerType.PointerDown, (eventData) => { if (eventData is PointerEventData wherebuttondata) { Debug.Log("인벤토리PointerDown"); OnDown(obj, wherebuttondata.button); } });
+            AddEvent(obj, EventTriggerType.PointerUp, (eventData) => { if (eventData is PointerEventData wherebuttondata) { Debug.Log("인벤토리PointerUp"); OnUp(obj, wherebuttondata.button); } });
 
             AddEvent(obj, EventTriggerType.PointerExit, delegate { OnExit(obj); });
             AddEvent(obj, EventTriggerType.BeginDrag, delegate { OnDragStart(obj); });

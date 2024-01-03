@@ -60,7 +60,6 @@ GameObject:
   - component: {fileID: 4146683520844103121}
   - component: {fileID: 3138948558846844004}
   - component: {fileID: 7447610194280512409}
-  - component: {fileID: 3911882531710692944}
   m_Layer: 6
   m_Name: Enemy Jammo
   m_TagString: Untagged
@@ -163,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c990af294c3997040b801a6c8768f9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackPoint: {fileID: 0}
 --- !u!114 &4146683520844103121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9c2dee9c31eb04da41b0f7f48d667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EyeObject: {fileID: 0}
+  DirObject: {fileID: 0}
   attackPoint: {fileID: 0}
 --- !u!114 &3138948558846844004
 MonoBehaviour:
@@ -202,19 +204,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHp: 0
   CurrentHp: 0
---- !u!114 &3911882531710692944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4314164176706786480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9c2dee9c31eb04da41b0f7f48d667f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackPoint: {fileID: 0}
 --- !u!1 &7573378915090313909
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,6 +242,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4687879074248069127}
     m_Modifications:
+    - target: {fileID: 1060505044236883385, guid: 189332ca037838a469fdefb7262daf2f, type: 3}
+      propertyPath: attackPoint
+      value: 
+      objectReference: {fileID: 1353747371409567166}
     - target: {fileID: 1068075354143246277, guid: 189332ca037838a469fdefb7262daf2f, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1

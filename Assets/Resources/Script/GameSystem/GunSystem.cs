@@ -20,6 +20,7 @@ public class GunSystem : MonoBehaviour
     public AimShaker MuzzleAimShaker;
     //공격 할 지점
     //총의 muzzle오브젝트로부터 직선 방향 최대값 필요
+    [SerializeField]
     public Transform attackPoint;
 
     //총이 맞는 곳의 이펙트
@@ -31,6 +32,7 @@ public class GunSystem : MonoBehaviour
     //남은 탄 표시
     [SerializeField]
     public TextMeshProUGUI text;
+
 
     //사격 이펙트
     //muzzle오브젝트 하위 오브젝트에 있음
@@ -83,15 +85,7 @@ public class GunSystem : MonoBehaviour
     }
     private void Start()
     {
-        //Debug.Log(transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.GetChild(1).name);
-        attackPoint = transform.parent.parent.parent.parent.parent.parent.parent
-            .parent.parent.parent.parent.parent.GetChild(1);
-        GunMuzzle = transform.GetChild(0).GetChild(0);
         MuzzleAimShaker = GunMuzzle.GetComponent<AimShaker>();
-      
-        muzzleFlashparticle = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<ParticleSystem>();
-        //Debug.Log(transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).name);
-
     }
     //public int CheckGunParts()
     //{
@@ -161,6 +155,7 @@ public class GunSystem : MonoBehaviour
     public void Firing()
     {
         //Debug.Log("호출");
+        //? M4는 실행되고 저격총은 오류가 난다. 
         StartCoroutine(attackPoint.GetComponent<AimShaker>().AimShake(Gun_property.spread));
         if (!muzzleFlashparticle.isPlaying)
             muzzleFlashparticle.Play();

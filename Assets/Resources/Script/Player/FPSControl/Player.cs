@@ -22,7 +22,6 @@ public class Player : PickUpController
 
 
     RaycastHit rayHit;
-    Transform Gun;
     GunSystem gunSystem;
 
 
@@ -31,13 +30,7 @@ public class Player : PickUpController
     void Start()
     {
         anim = GetComponent<Animator>();
-
-        Gun = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0)
-            .GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(4);
-        //총의 시스템을 사용하는 것임으로 활성화 된 총기가 있는지
-        //내가 현재 손에 들고 있는 총이 맞는지 확인
-        gunSystem = Gun.GetChild(0).GetComponent<GunSystem>();
-
+        
         damegeSystem = GetComponent<DamegeSystem>();
         //Debug.Log(GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).name);
         InventoryUI = GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).gameObject;
@@ -51,23 +44,37 @@ public class Player : PickUpController
         hp.Initialize(maxHealth, maxHealvolume, life);
         Cursor.lockState = CursorLockMode.Locked;
     }
+
+
+    public void GunSystem_chage()
+    {
+        //총의 시스템을 사용하는 것임으로 활성화 된 총기가 있는지
+        //내가 현재 손에 들고 있는 총이 맞는지 확인
+
+        for (int i = 0; i < Gun_Objects.childCount; i++)
+        {
+            if (Gun_Objects.GetChild(i).gameObject.activeSelf == true)
+            {
+                gunSystem = Gun_Objects.GetChild(i).GetComponent<GunSystem>();
+                break;
+            }
+            else
+                gunSystem = null;
+        }
+    }
     // Update is called once per frame
     private void Update()
     {
-        /*Debug.Log("케릭터 위치" + transform.position);
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit rayHit, 100f, Dropzon_layermask))
+        GunSystem_chage();
+        if (Hold_contorl_check == false && gunSystem!=null)
         {
-            
-            Debug.Log("케릭터 바닥 위치" + rayHit.point);
-        }*/
-        /*Debug.Log(Hold_contorl_check);*/
-        if (Hold_contorl_check == false)
-        {
+           
             if (gunSystem.HoldButtonUse())
             {
                 gunSystem.ClickToShoot(Input.GetKey(KeyCode.Mouse0));
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
+                    
                     if (gunSystem.BulletIsEmpty() && gunSystem.ReadyToShoot() && gunSystem.FiringIsPossible())
                     {
                         //anim.Shoot();
@@ -98,6 +105,7 @@ public class Player : PickUpController
             {
                 PickUp(rayHit);
             }
+            GunSystem_chage();
         }
 
 
@@ -112,20 +120,25 @@ public class Player : PickUpController
         }*/
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+
             Debug.Log("1번눌림" );
             GunActive(0);
+            GunSystem_chage();
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             GunActive(1);
+            GunSystem_chage();
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             GunActive(2);
+            GunSystem_chage();
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             GunActive(3);
+            GunSystem_chage();
         }
 
         if (Input.GetKeyDown(KeyCode.Tab))

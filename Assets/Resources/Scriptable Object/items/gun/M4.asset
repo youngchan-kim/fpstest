@@ -15,7 +15,7 @@ MonoBehaviour:
   Id: 1
   damage: 10
   timeBetweenShooting: 0.1
-  spread: 0.01
+  spread: 1
   range: 100
   reloadTime: 1
   timeBetweenshootclick: 0.1
@@ -26,4 +26,4 @@ MonoBehaviour:
   sprites: {fileID: 21300046, guid: 6674e8c43c63e4f4184cbd009379498d, type: 3}
   what_can_Shoot:
     serializedVersion: 2
-    m_Bits: 32712
+    m_Bits: 8136

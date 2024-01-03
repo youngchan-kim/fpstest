@@ -159,10 +159,10 @@ public abstract class UserInterface : MonoBehaviour
             }*/
             return;
         }
-       
-/*        Debug.Log(MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].name);
-        Debug.Log(MouseData.slotHoveredOver);*/
 
+        /*        Debug.Log(MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].name);*/
+
+        Debug.Log(MouseData.slotHoveredOver);
         if (MouseData.slotHoveredOver)
         {
 
@@ -170,6 +170,7 @@ public abstract class UserInterface : MonoBehaviour
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
 
             int endInventoryID = mouseHoverSlotData.GetInventoryID();
+            Debug.Log(endInventoryID);
             switch (endInventoryID)
             {
                 case 0:
@@ -219,6 +220,7 @@ public abstract class UserInterface : MonoBehaviour
                         {
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object);
+                            
                         }
                         //확인  스왑 함수가 사용 되는 게 InventoryID != 3)인 경우 if문 실행후에 꼭 실행 되어야하는지 아니면 
                         //스왑함수 가 가장 먼저 실행 되어도 상관 없는지 확인후 코드 수정
@@ -227,11 +229,13 @@ public abstract class UserInterface : MonoBehaviour
                         {
                             player.GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
                                 , mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
+
                         }
+
                     }
                     break;
             }
-
+/*            player.GunSystem_chage();*/
             DragEnd = true;
         }
     }

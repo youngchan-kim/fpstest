@@ -37,6 +37,8 @@ public class Player_recognizes_Item : MonoBehaviour
 
     int slotnum;
     public LayerMask Dropzon_layermask;
+    [SerializeField]
+    public Transform Gun_Objects;
 
     private void Update()
     {
@@ -85,7 +87,7 @@ public class Player_recognizes_Item : MonoBehaviour
 
     //드래그엔드일때 사용
     public void ItemPickup_inventory_System(ItemObject _itemObject, GameObject ground_Item)
-    {
+        {
         Item _item = _itemObject.data;
         switch(_itemObject.type)
         {
@@ -280,8 +282,6 @@ public class Player_recognizes_Item : MonoBehaviour
         }
         
     }
-
-
     public void GunActive(int sellect)
     {
         if (Gunslot[sellect] != null)
@@ -358,13 +358,14 @@ public class Player_recognizes_Item : MonoBehaviour
     //아이템 id 찾기
     GameObject Gun_Item_ID_Check(int Id)
     {
-        int ItemListcount = transform.GetChild(1).GetChild(0).GetChild(0).childCount;
-        for (int i = 0; i < ItemListcount; i++)
+        
+        int ItemList = Gun_Objects.childCount;
+        for (int i = 0; i < ItemList; i++)
         {
-            if (Id == transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i).transform.GetComponent<GunSystem>().Gun_property.Id)
+            if (Id == Gun_Objects.GetChild(i).GetComponent<GunSystem>().Gun_property.Id)
             {
-                //Debug.Log(transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i).gameObject.name);
-                return transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i).gameObject;
+                //Debug.Log(Gun_Objects.GetChild(i).gameObject.name);
+                return Gun_Objects.GetChild(i).gameObject;
             }
         }
         return null;
