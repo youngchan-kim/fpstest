@@ -14,18 +14,18 @@ public class Player : PickUpController
     bool life;
     public HPBar hpBar;
 
-
     public GameObject playercam;
     public GameObject InventoryUI;
     public bool Hold_contorl_check;
     private bool mode_chage;
 
-
     RaycastHit rayHit;
     GunSystem gunSystem;
 
-
     Animator anim;
+
+    [SerializeField]
+    public Transform head;
 
     void Start()
     {
@@ -97,13 +97,16 @@ public class Player : PickUpController
             if (Input.GetKeyDown(KeyCode.R) && gunSystem.ReloadIsPossible())
                 gunSystem.Reload();
         }
-        //Debug.DrawRay(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward * 5f, Color.black, 0.2f);
+
+
+        Debug.DrawRay(playercam.transform.position, transform.GetComponent<Cam_ScreenCenter>().Cam_Dir() * 4f, Color.black, 0.2f);
         //플레이어가 총을 쥡기위한 범위 내에 있는지와 E키가 눌렸는지 확인
-        if (Physics.Raycast(GameMgr.Instance.player.transform.localPosition, GameMgr.Instance.player.transform.GetChild(1).forward, out rayHit, 4f, Item_Mask))
+        if (Physics.Raycast(playercam.transform.position, transform.GetComponent<Cam_ScreenCenter>().Cam_Dir(), out rayHit, 4f, Item_Mask))
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
                 PickUp(rayHit);
+                transform.GetComponent<PlayerMovement>().Pickup_Item_Motion();
             }
             GunSystem_chage();
         }

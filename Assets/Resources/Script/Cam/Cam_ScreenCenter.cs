@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Cam_ScreenCenter : MonoBehaviour
@@ -25,6 +26,10 @@ public class Cam_ScreenCenter : MonoBehaviour
     [Header("RayStart_Position")]
     public Transform TPSCam_Holder;
     public Transform Dir;
+
+
+    Vector3 ScreenMinPoint,ScreenMaxPoint;
+    Vector3 diraction;
     private void Start()
     {
         //Debug.Log(aimshaker.name);
@@ -50,11 +55,11 @@ public class Cam_ScreenCenter : MonoBehaviour
         //뷰포인트의 중간점을 갱신하게 되는데 업데이트 하지않고 한번만 호출한게 문제였다.
         //카메라가 바라보는 곳의 중앙
 
-        Vector3 ScreenMinPoint = maincam.ViewportToWorldPoint(ScreenMin);
-        Vector3 ScreenMaxPoint = maincam.ViewportToWorldPoint(ScreenMax);
-        
+        ScreenMinPoint = maincam.ViewportToWorldPoint(ScreenMin);
+        ScreenMaxPoint = maincam.ViewportToWorldPoint(ScreenMax);
+
         //Ray의 방향은 화면으로 부터의 중앙으로 최대최소거리의 빼기값
-        Vector3 diraction = ScreenMaxPoint - ScreenMinPoint;
+        diraction = ScreenMaxPoint - ScreenMinPoint;
 
         //플레이어가 보는 곳에 물체가 있는 경우
         //에임에 걸리는 물체들은 layermask에 적용
@@ -75,6 +80,10 @@ public class Cam_ScreenCenter : MonoBehaviour
         Debug.DrawLine(Camera.main.transform.position, ScreenMaxPoint, Color.yellow);
     }
 
+    public Vector3 Cam_Dir()
+    {
+        return diraction;
+    }
     public void SetMaxRange(float anotherrange)
     {
         maxrange = anotherrange;

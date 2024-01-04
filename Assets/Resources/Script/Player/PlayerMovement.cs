@@ -68,12 +68,8 @@ public class PlayerMovement : MonoBehaviour
             anim.Reloading();
             StartCoroutine(ReloadTimer());
         }
-        //아이템 루팅 모션
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            anim.PickUpMotion();
-            StartCoroutine(PickupTimer());
-        }
+
+
         if (Input.GetKeyDown(KeyCode.J))
         {
             anim.Drink_A_Heal();
@@ -123,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
             anim.Crouch();
         }
     }
+
     private void MovePlayer()
     {
 
@@ -168,6 +165,14 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("점프를 누를수 있습니다." + jumpCooldown+"초 지났습니다.");
         readyToJump = true;  
     }
+
+    //아이템 루팅 모션
+    public void Pickup_Item_Motion()
+    {
+        anim.PickUpMotion();
+        StartCoroutine(PickupTimer());
+    }
+
     IEnumerator JumpingTimer()
     {
         yield return new WaitForSeconds(0.5f);
@@ -188,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
     }
     IEnumerator ReloadTimer()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
         anim.Reloading();
         StopCoroutine(ReloadTimer());
     }

@@ -40,13 +40,6 @@ public class Player_recognizes_Item : MonoBehaviour
     [SerializeField]
     public Transform Gun_Objects;
 
-    private void Update()
-    {
-        if( Physics.Raycast(transform.position, Vector3.down, out RaycastHit rayHit, 100f, Dropzon_layermask))
-        {
-            Debug.Log(rayHit.point);
-        }
-    }
 
     //키보드로 먹을때
     public void Pickup_Swap_Item(Collider Coll)
@@ -65,18 +58,16 @@ public class Player_recognizes_Item : MonoBehaviour
                     Add_Item(Guninventory.InventoryID, _item, ground_stript.amount);
                     Item_Removed(Groundinventory, Guninventory.InventoryID, _item);
                     break;
-
-                case ItemType.Helmet:
-                case ItemType.Bag:
-                case ItemType.Armor:
-                    Add_Item(Equipinventory.InventoryID, _item, ground_stript.amount);
-                    Item_Removed(Groundinventory, Equipinventory.InventoryID, _item);
-
-                    break;
                 case ItemType.Bullet:
                     Add_Item(inventory.InventoryID, _item, ground_stript.amount);
                     Item_Removed(Groundinventory, inventory.InventoryID, _item);
                     //Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(_item), inventory.GetEmptySlot());
+                    break;
+                case ItemType.Medical:
+                    //아이템 슬롯에 아이템 넣어야함
+                    Add_Item(inventory.InventoryID, _item, ground_stript.amount);
+                    Item_Removed(Groundinventory, inventory.InventoryID, _item);
+                    //힐템은 해당 아이템 상호작용전까지는 비활성화 상태이다.
                     break;
             }
         }
@@ -114,7 +105,8 @@ public class Player_recognizes_Item : MonoBehaviour
                 break;
             case ItemType.Medical:
                 //아이템 슬롯에 아이템 넣어야함
-
+                Add_Item(inventory.InventoryID, _item, _itemObject.data.amount);
+                Item_Removed(Groundinventory, inventory.InventoryID, _item);
                 //힐템은 해당 아이템 상호작용전까지는 비활성화 상태이다.
                 break;
         }
@@ -248,6 +240,7 @@ public class Player_recognizes_Item : MonoBehaviour
         }
         return 0;
     }
+
     public void SetInven_Find_Item(ItemObject _item, int num)
     {
         for (int i = 0; i < inventory.Container.Items.Length; i++)

@@ -13,6 +13,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     private void Start()
     {
         PlayerObject = GameMgr.Instance.player.transform;
+        //Debug.Log(PlayerObject.name);
     }
     public void OnAfterDeserialize()
     {

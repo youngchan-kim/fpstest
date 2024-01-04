@@ -734,7 +734,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208913283}
-  m_LocalRotation: {x: -1e-45, y: -1e-45, z: -0, w: 1}
+  m_LocalRotation: {x: 3e-45, y: -1e-45, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4443,6 +4443,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5639924009285200972, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
+      propertyPath: head
+      value: 
+      objectReference: {fileID: 1772101509}
+    - target: {fileID: 5639924009285200972, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
       propertyPath: playercam
       value: 
       objectReference: {fileID: 253205830}
@@ -4452,7 +4456,7 @@ PrefabInstance:
       objectReference: {fileID: 1837348823}
     - target: {fileID: 5639924009285200972, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
       propertyPath: Item_Mask.m_Bits
-      value: 40960
+      value: 49152
       objectReference: {fileID: 0}
     - target: {fileID: 5639924009285200972, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
       propertyPath: Dropzon_layermask.m_Bits
@@ -5270,6 +5274,11 @@ PrefabInstance:
       objectReference: {fileID: 1197605389}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3dcc69938e7b56a468dc63da836b855c, type: 3}
+--- !u!4 &1772101509 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2194381720575319571, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
+  m_PrefabInstance: {fileID: 1286949199}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1773319441
 GameObject:
   m_ObjectHideFlags: 0
