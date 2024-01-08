@@ -113,35 +113,4 @@ public class ThirdPersonCam : MonoBehaviour
          }*/
     }
 
-   /* private int WaveControl(int wavecontrol)
-    {
-        
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (wavecontrol >= 0)
-                wavecontrol -= 1;
-            else if (wavecontrol == -1)
-                wavecontrol += 1;
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (wavecontrol <= 0)
-                wavecontrol += 1;
-            else if (wavecontrol == 1)
-                wavecontrol -= 1;
-        }
-        return wavecontrol;
-    }*/
-
-    /*private void SwitchCameraStyle(CameraStyle newStyle)
-    {
-        rightWaveCam.SetActive(false);
-        leftWaveCam.SetActive(false);
-        thirdPersonCam.SetActive(false);
-
-        if (newStyle == CameraStyle.Basic) { thirdPersonCam.SetActive(true); }
-        else if (newStyle == CameraStyle.RightWave) { rightWaveCam.SetActive(true);  }
-        else if (newStyle == CameraStyle.LeftWave) { leftWaveCam.SetActive(true);  }
-        curentStyle = newStyle;
-    }*/
 }

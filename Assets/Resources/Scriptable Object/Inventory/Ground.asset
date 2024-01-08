@@ -17,69 +17,94 @@ MonoBehaviour:
   database: {fileID: 11400000, guid: b78aff4f7a7166c46bafd0a1afca8698, type: 2}
   Container:
     Items:
-    - AllowedItems: 
+    - AllowedItems: 0400000005000000
       name: 
       item:
         Name: 
         Id: -1
         buffs: []
+        addHeal: 0
         amount: 0
         item_object: {fileID: 0}
         item_object_Prefab: {fileID: 0}
+        inven_in_active: 0
       slot_item_object: {fileID: 0}
       totalamount: 0
-    - AllowedItems: 
+    - AllowedItems: 0400000005000000
       name: 
       item:
         Name: 
         Id: -1
         buffs: []
+        addHeal: 0
         amount: 0
         item_object: {fileID: 0}
         item_object_Prefab: {fileID: 0}
+        inven_in_active: 0
       slot_item_object: {fileID: 0}
       totalamount: 0
-    - AllowedItems: 
+    - AllowedItems: 0400000005000000
       name: 
       item:
         Name: 
         Id: -1
         buffs: []
+        addHeal: 0
         amount: 0
         item_object: {fileID: 0}
         item_object_Prefab: {fileID: 0}
+        inven_in_active: 0
       slot_item_object: {fileID: 0}
       totalamount: 0
-    - AllowedItems: 
+    - AllowedItems: 0400000005000000
       name: 
       item:
         Name: 
         Id: -1
         buffs: []
+        addHeal: 0
         amount: 0
         item_object: {fileID: 0}
         item_object_Prefab: {fileID: 0}
+        inven_in_active: 0
       slot_item_object: {fileID: 0}
       totalamount: 0
-    - AllowedItems: 
+    - AllowedItems: 0400000005000000
       name: 
       item:
         Name: 
         Id: -1
         buffs: []
+        addHeal: 0
         amount: 0
         item_object: {fileID: 0}
         item_object_Prefab: {fileID: 0}
+        inven_in_active: 0
       slot_item_object: {fileID: 0}
       totalamount: 0
-    - AllowedItems: 
+    - AllowedItems: 0400000005000000
       name: 
       item:
         Name: 
         Id: -1
         buffs: []
+        addHeal: 0
         amount: 0
         item_object: {fileID: 0}
         item_object_Prefab: {fileID: 0}
+        inven_in_active: 0
+      slot_item_object: {fileID: 0}
+      totalamount: 0
+    - AllowedItems: 0400000005000000
+      name: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+        addHeal: 0
+        amount: 0
+        item_object: {fileID: 0}
+        item_object_Prefab: {fileID: 0}
+        inven_in_active: 0
       slot_item_object: {fileID: 0}
       totalamount: 0

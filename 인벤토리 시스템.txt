@@ -1,0 +1,28 @@
+IFormatter을 사용
+객체를 문자열로 변환시켜주는 인터페이스이다.
+
+BinaryFormatter클래스를 생성하여 
+IFormatter 를 BinaryFormatter클래스로 초기화한다.
+BinaryFormatter클래스는 개체 또는 연결된 개체의 전체 그래프를 이진 형식으로 직렬화 및 역직렬화한다.
+이진형식으로 변환
+
+Stream은 파일 네트워크 등에서 데이터를 바이트 단위로 읽고 쓰는 클래스
+Stream의 상속 클래스중 FileStream가 있다.
+사용시
+byte[] 배열로 데이터를 읽거나 저장함 -> 형변환이 요구됨
+FileStream의 구성은
+
+Public FileStream
+(
+    string path, // 경로부분
+    FileMode mode,
+    FileAccess access
+)
+형식으로 되어 있다.
+
+아래 코드
+Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
+string.Concat()은 ()안의 string타입을 이어붙인다.
+string path == string.Concat(Application.persistentDataPath, savePath)
+FileMode mode 사용할 방식과
+FileAccess access 접근 방식

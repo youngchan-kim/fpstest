@@ -199,9 +199,12 @@ public abstract class UserInterface : MonoBehaviour
                             player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object);
                             //Debug.Log("찾는것" + InventoryID);
+                            /*
+                            아래 코드는 아이템을 습득하면 아이템을 마우스가 마지막으로 가리킨 곳의 인벤토리에 습득하게한다.
                             player.Add_Item(endInventoryID, slotsOnInterface[obj].item, slotsOnInterface[obj].totalamount);
+                            아래 코드는 아이템을 습득하면 습득후 아이템이 속해 있던 인벤에서 없어진다.
                             player.Item_Removed(slotsOnInterface[obj].parent.inventory, endInventoryID, slotsOnInterface[obj].item);
-
+                            */
                         }
 
                         //inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);

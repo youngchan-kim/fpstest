@@ -113,14 +113,14 @@ public class Player : PickUpController
 
 
         //itemDatabase save & load test code
-        /*if (Input.GetKeyDown(KeyCode.End))
+        if (Input.GetKeyDown(KeyCode.End))
         {
             inventory.Save();
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             inventory.Load();
-        }*/
+        }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
 

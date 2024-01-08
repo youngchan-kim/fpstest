@@ -5,8 +5,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEditor;
 using System.Runtime.Serialization;
-using static UnityEditor.Progress;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+/*using static UnityEditor.Progress;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;*/
 
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
 
@@ -27,7 +27,7 @@ public class InventoryObject : ScriptableObject
     //아이템 항목 추가 기능
     public bool AddItem(Item _item, InventoryType inventoryType, int itemamount)
     {
-        if (EmptySlotCount <= 0)
+        if (SlotCount <= 0)
             return false;
 
         InventorySlot slot = FindItemOnInventory(_item);
@@ -38,7 +38,7 @@ public class InventoryObject : ScriptableObject
             return true;
         }
         else if (inventoryType == InventoryType.other)
-        {            
+        {
             if (!database.Items[_item.Id].stackable || slot == null)
             {
                 SetEmptySlot(_item, itemamount);
@@ -53,15 +53,15 @@ public class InventoryObject : ScriptableObject
     //Ground
   public bool AddGroundItem(Item _item, int itemamount)
     {
-        if (EmptySlotCount <= 0)
+        if (SlotCount <= 0)
             return false;
         SetEmptySlot(_item, itemamount);
         return true;
     }
 
 
-    //내부의 첫 번째 빈 슬롯을 찾는함수
-    public int EmptySlotCount
+    //내부의 슬롯의 갯수를 리턴하기 위한 프로퍼티
+    public int SlotCount
     {
         get
         {
@@ -77,6 +77,9 @@ public class InventoryObject : ScriptableObject
         }
     }
 
+    //인벤토리 내부에 같은 아이템이 있는지 확인
+    //같은 아이템이 없다면 null을 리턴
+    //같은아이템이 있다면 같은 아이템이 있는 슬롯을 리턴한다.
     public InventorySlot FindItemOnInventory(Item _item)
     {
         for (int i = 0; i < Container.Items.Length; i++)
@@ -94,6 +97,8 @@ public class InventoryObject : ScriptableObject
     {
         for (int i = 0; i < Container.Items.Length; i++)
         {
+            //모든 아이템의 아이디-1보다 크거나 같은 아이디의 아이템이라면(모든)
+            //updateSlot함수 실행
             if (Container.Items[i].item.Id <= -1)
             {
                 Container.Items[i].UpdateSlot(_item, _amount);
@@ -169,7 +174,8 @@ public class InventoryObject : ScriptableObject
         
         for (int i = 0; i < Container.Items.Length; i++)
         {
-            //문제 //아이디 값이 같은데 걍 넘어감
+            //문제 //아이디 값이 같은데 걍 넘어감 // 왜 문제?
+            //아이디 값이 같으면 if문 실행
             if (Container.Items[i].item.Id == _Item_Id)
             {
                 if (inven_num != 0 && inven_num != -1)
