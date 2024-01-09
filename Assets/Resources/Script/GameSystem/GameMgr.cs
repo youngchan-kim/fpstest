@@ -14,6 +14,9 @@ public sealed class GameMgr : MonoBehaviour
     [Header("UI")]
     [SerializeField]
     public GameObject GUI_Mgr;
+    [Header("Item_Prefab")]
+    [SerializeField]
+    public GameObject Item_Mgr;
 
     static GameMgr instance = null;
     
@@ -46,6 +49,7 @@ public sealed class GameMgr : MonoBehaviour
         player.GetComponent<Player>().Initialize();
         enumy.GetComponent<Enemy>().Initialize();
         GUI_Mgr.GetComponent<GUI_Mgr>().Initialize();
+        Item_Mgr.GetComponent<Item_Mgr>().Initialize();
     }
     public GameObject GetCollierPlayer()
     {

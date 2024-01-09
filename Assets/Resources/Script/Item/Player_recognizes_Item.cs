@@ -42,10 +42,6 @@ public class Player_recognizes_Item : MonoBehaviour
 
     Transform Item_Prefab;
 
-    void Start()
-    {
-        Item_Prefab = GameMgr.Instance.AddComponent<Item_Mgr>().transform;
-    }
     //키보드로 먹을때
     public void Pickup_Swap_Item(Collider Coll)
     {
@@ -60,17 +56,17 @@ public class Player_recognizes_Item : MonoBehaviour
             {
                 case ItemType.Gun:
                     Debug.Log("아이템 픽업");
-                    Add_Item(Guninventory.InventoryID, _item, ground_stript.amount);
+                    Add_Item(Guninventory.InventoryID, _item, ground_stript.amount, ground_Item);
                     Item_Removed(Groundinventory, Guninventory.InventoryID, _item);
                     break;
                 case ItemType.Bullet:
-                    Add_Item(inventory.InventoryID, _item, ground_stript.amount);
+                    Add_Item(inventory.InventoryID, _item, ground_stript.amount, ground_Item);
                     Item_Removed(Groundinventory, inventory.InventoryID, _item);
                     //Groundinventory.SwapItems(Groundinventory.FindItemOnInventory(_item), inventory.GetEmptySlot());
                     break;
                 case ItemType.Medical:
                     //아이템 슬롯에 아이템 넣어야함
-                    Add_Item(inventory.InventoryID, _item, ground_stript.amount);
+                    Add_Item(inventory.InventoryID, _item, ground_stript.amount, ground_Item);
                     Item_Removed(Groundinventory, inventory.InventoryID, _item);
                     //힐템은 해당 아이템 상호작용전까지는 비활성화 상태이다.
                     break;
@@ -102,21 +98,18 @@ public class Player_recognizes_Item : MonoBehaviour
                 }
                 break;
             case ItemType.Bullet:
-                //아이템 슬롯에 아이템 넣어야함
-                //디스트로이하기 때문에 필요 없다.
-                //ground_Item.SetActive(false);
+                Add_Item(inventory.InventoryID, _item, _itemObject.data.amount, ground_Item);
+                Item_Removed(Groundinventory, inventory.InventoryID, _item);
                 //총알은 플레이어에게서 버려질때를 제외하면 부모 오브젝트가 없다.
                 //오브젝트 비활성화가 불가능하다.
                 break;
             case ItemType.Medical:
                 //아이템 슬롯에 아이템 넣어야함
-                Add_Item(inventory.InventoryID, _item, _itemObject.data.amount);
+                Add_Item(inventory.InventoryID, _item, _itemObject.data.amount, ground_Item);
                 Item_Removed(Groundinventory, inventory.InventoryID, _item);
                 //힐템은 해당 아이템 상호작용전까지는 비활성화 상태이다.
                 break;
         }
-        //클릭한아이템을 Items에서 제거해야함
-        //_item.groundobject.SetActive(false);
     }
 
 
@@ -140,6 +133,7 @@ public class Player_recognizes_Item : MonoBehaviour
         Debug.Log(transform.name);
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit Hit, 10f))
         {
+            Item_Prefab = GameMgr.Instance.Item_Mgr.transform;
             Debug.Log("땅 인식1");
             hitPos = Hit.point;
             hitPos.y += 0.01f;
@@ -154,9 +148,9 @@ public class Player_recognizes_Item : MonoBehaviour
 
     //추가 코드
     // 오브젝트 사이의 접촉이 일어난 순간 호출
-    public void On_The_Ground_Item(ItemObject item, int itemamount)
+    public void On_The_Ground_Item(ItemObject item, int itemamount, GameObject item_object)
     {
-        Groundinventory.AddGroundItem(item.data, itemamount);
+        Groundinventory.AddGroundItem(item.data, itemamount, item_object);
     }
 
     public void On_The_Ground_Item_Removed(ItemObject item)
@@ -165,24 +159,24 @@ public class Player_recognizes_Item : MonoBehaviour
         Groundinventory.Sort();
     }
 
-    public void Add_Item(int invenID, Item item, int itemamount)
+    public void Add_Item(int invenID, Item item, int itemamount, GameObject Item_object)
     {
         switch (invenID)
         {
             case 1:
-                if (inventory.AddItem(item, InventoryType.other, itemamount))
+                if (inventory.AddItem(item, InventoryType.other, itemamount, Item_object))
                 {
                     pickup = true;
                 }
                 break;
             case 2:
-                if (Equipinventory.AddItem(item, InventoryType.other, itemamount))
+                if (Equipinventory.AddItem(item, InventoryType.other, itemamount, Item_object))
                 {
                     pickup = true;
                 }
                 break;
             case 3:
-                if (Guninventory.AddItem(item, InventoryType.other, itemamount))
+                if (Guninventory.AddItem(item, InventoryType.other, itemamount, Item_object))
                 {
                     pickup = true;
                 }
@@ -191,7 +185,7 @@ public class Player_recognizes_Item : MonoBehaviour
     }
 
 
-    public void Item_Removed(InventoryObject item_out_inven, int inven_num, Item item )
+    public void Item_Removed(InventoryObject item_out_inven, int inven_num, Item item)
     {
         //Debug.Log("반응 확인");
         item_out_inven.ClearItem(item.Id, inven_num);

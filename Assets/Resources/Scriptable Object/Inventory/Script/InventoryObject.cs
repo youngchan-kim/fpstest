@@ -25,7 +25,7 @@ public class InventoryObject : ScriptableObject
 
 
     //아이템 항목 추가 기능
-    public bool AddItem(Item _item, InventoryType inventoryType, int itemamount)
+    public bool AddItem(Item _item, InventoryType inventoryType, int itemamount, GameObject Item_object)
     {
         if (SlotCount <= 0)
             return false;
@@ -33,7 +33,7 @@ public class InventoryObject : ScriptableObject
         InventorySlot slot = FindItemOnInventory(_item);
         if (inventoryType == InventoryType.Ground)
         {
-            SetEmptySlot(_item, itemamount);
+            SetEmptySlot(_item, itemamount, Item_object);
 
             return true;
         }
@@ -41,7 +41,7 @@ public class InventoryObject : ScriptableObject
         {
             if (!database.Items[_item.Id].stackable || slot == null)
             {
-                SetEmptySlot(_item, itemamount);
+                SetEmptySlot(_item, itemamount, Item_object);
 
                 return true;
             }
@@ -51,11 +51,11 @@ public class InventoryObject : ScriptableObject
     }
 
     //Ground
-  public bool AddGroundItem(Item _item, int itemamount)
+  public bool AddGroundItem(Item _item, int itemamount , GameObject item_object)
     {
         if (SlotCount <= 0)
             return false;
-        SetEmptySlot(_item, itemamount);
+        SetEmptySlot(_item, itemamount, item_object);
         return true;
     }
 
@@ -93,7 +93,7 @@ public class InventoryObject : ScriptableObject
     }
 
     //빈슬롯에 설정
-    public InventorySlot SetEmptySlot(Item _item, int _amount )
+    public InventorySlot SetEmptySlot(Item _item, int _amount, GameObject item_Prefab )
     {
         for (int i = 0; i < Container.Items.Length; i++)
         {
@@ -101,7 +101,7 @@ public class InventoryObject : ScriptableObject
             //updateSlot함수 실행
             if (Container.Items[i].item.Id <= -1)
             {
-                Container.Items[i].UpdateSlot(_item, _amount);
+                Container.Items[i].UpdateSlot(_item, _amount, item_Prefab);
                 return Container.Items[i];
             }
         }
@@ -128,8 +128,8 @@ public class InventoryObject : ScriptableObject
         if (item2.CanPlaceInSlot(item1.ItemObject)&& item1.CanPlaceInSlot(item2.ItemObject))
         {
             InventorySlot temp = new InventorySlot(item2.item, item2.totalamount);
-            item2.UpdateSlot(item1.item, item1.totalamount);
-            item1.UpdateSlot(temp.item, temp.totalamount);
+            item2.UpdateSlot(item1.item, item1.totalamount, item1.slot_item_object);
+            item1.UpdateSlot(temp.item, temp.totalamount, temp.slot_item_object);
         }
     }
     public void Sort()
@@ -168,7 +168,7 @@ public class InventoryObject : ScriptableObject
 
 
 
-    //#
+    //필드의 아이템 삭제
     public void ClearItem(int _Item_Id, int inven_num)
     {
         
@@ -212,7 +212,7 @@ public class InventoryObject : ScriptableObject
             Inventory newContainer = (Inventory)formatter.Deserialize(stream);
             for(int i =0; i<Container.Items.Length; i++)
             {
-                Container.Items[i].UpdateSlot(newContainer.Items[i].item, newContainer.Items[i].item.amount);
+                Container.Items[i].UpdateSlot(newContainer.Items[i].item, newContainer.Items[i].item.amount, GameMgr.Instance.Item_Mgr.transform.GetComponent<Item_Mgr>().Find_Prefab(newContainer.Items[i].item.Id));
             }
             stream.Close();
             Debug.Log("인벤토리 로드");
@@ -264,10 +264,11 @@ public class InventorySlot
         totalamount = _item.amount;
     }
     //저장할때 주로 사용
-    public void UpdateSlot(Item _item, int _amount)
+    public void UpdateSlot(Item _item, int _amount, GameObject item_Prefab)
     {
         item = _item;
         totalamount = _amount;
+        slot_item_object = item_Prefab;
     }
     public void SortSlot(Item _item, int _amount)
     {

@@ -45,7 +45,8 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
         if (PlayerObject.name == other.name)
         {
             //Debug.Log(item);
-            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item/*.data*/, amount);
+            Debug.Log(gameObject.name);
+            GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item/*.data*/, amount, gameObject);
         }
     }
 
