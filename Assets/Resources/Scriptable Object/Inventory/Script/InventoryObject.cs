@@ -233,9 +233,11 @@ public class InventorySlot
 
     [System.NonSerialized]
     public UserInterface parent;
+    [System.NonSerialized]
+    public GameObject slot_item_object;
     public string name;
     public Item item = new Item();
-    [HideInInspector]public GameObject slot_item_object;
+
     public int totalamount;
     public ItemObject ItemObject
     {
@@ -259,15 +261,13 @@ public class InventorySlot
     public InventorySlot(Item _item, int _amount)
     {
         item = _item;
-         totalamount = _item.amount;
-        //totalamount = -1;
+        totalamount = _item.amount;
     }
     //저장할때 주로 사용
     public void UpdateSlot(Item _item, int _amount)
     {
         item = _item;
         totalamount = _amount;
-        slot_item_object = _item.item_object;
     }
     public void SortSlot(Item _item, int _amount)
     {
@@ -299,3 +299,17 @@ public class InventorySlot
         return false;
     }
 }
+
+/*[System.Serializable]
+
+public class SaveInvent
+{
+    public ItemType[] AllowedItems = new ItemType[0];
+
+    [System.NonSerialized]
+    public UserInterface parent;
+    public string name;
+    public Item item = new Item();
+    public int totalamount;
+
+}*/

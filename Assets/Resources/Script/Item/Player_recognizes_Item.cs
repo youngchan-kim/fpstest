@@ -40,7 +40,12 @@ public class Player_recognizes_Item : MonoBehaviour
     [SerializeField]
     public Transform Gun_Objects;
 
+    Transform Item_Prefab;
 
+    void Start()
+    {
+        Item_Prefab = GameMgr.Instance.AddComponent<Item_Mgr>().transform;
+    }
     //키보드로 먹을때
     public void Pickup_Swap_Item(Collider Coll)
     {
@@ -140,7 +145,7 @@ public class Player_recognizes_Item : MonoBehaviour
             hitPos.y += 0.01f;
             if (obj.totalamount != 0)
             {
-                grountitem = Instantiate(obj.item.item_object_Prefab, hitPos, Quaternion.LookRotation(GameMgr.Instance.player.transform.forward));
+                grountitem = Instantiate(Item_Prefab.GetComponent<Item_Mgr>().Find_Prefab(obj.item.Id), hitPos, Quaternion.LookRotation(GameMgr.Instance.player.transform.forward));
                 grountitem.GetComponent<GroundItem>().amount = obj.totalamount;
             }
         }

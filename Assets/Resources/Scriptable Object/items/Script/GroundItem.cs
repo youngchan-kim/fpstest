@@ -15,6 +15,10 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
         PlayerObject = GameMgr.Instance.player.transform;
         //Debug.Log(PlayerObject.name);
     }
+    public int Get_item_ID()
+    {
+        return item.data.Id;
+    }
     public void OnAfterDeserialize()
     {
     }
@@ -41,7 +45,6 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
         if (PlayerObject.name == other.name)
         {
             //Debug.Log(item);
-            item.data.item_object = gameObject;
             GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item(item/*.data*/, amount);
         }
     }
