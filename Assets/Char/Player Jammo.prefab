@@ -164,19 +164,25 @@ MonoBehaviour:
   Equipinventory: {fileID: 11400000, guid: 42c09b1bf5c78064e932465c073128fb, type: 2}
   Guninventory: {fileID: 11400000, guid: 07e6282161e91c249b23f382fa9bc001, type: 2}
   pickup: 0
+  Gunslot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   equipped: 0
   Dropzon_layermask:
     serializedVersion: 2
-    m_Bits: 2048
-  Gun_Objects: {fileID: 0}
+    m_Bits: 64
+  Gun_Holder: {fileID: 122587479161056367}
   Item_Mask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 49152
   hp: {fileID: 2697655164184469853}
   hpBar: {fileID: 0}
   playercam: {fileID: 0}
   InventoryUI: {fileID: 0}
   Hold_contorl_check: 0
+  head: {fileID: 0}
 --- !u!114 &8023822371732609241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,11 +232,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7c1e7c7b1769d42bbe7a6e999c116b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimshaker: {fileID: 0}
+  aimshaker: {fileID: 3972446404081944854}
   layermask:
     serializedVersion: 2
-    m_Bits: 4294967295
-  TPSCam_Holder: {fileID: 0}
+    m_Bits: 6080
+  TPSCam_Holder: {fileID: 2732959224696728468}
   Dir: {fileID: 0}
 --- !u!114 &6695876771649285122
 MonoBehaviour:
@@ -503,8 +509,18 @@ PrefabInstance:
       objectReference: {fileID: 2875627874003498594}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b28d0dee37fa5064eb90d6eb08af44bc, type: 3}
+--- !u!4 &122587479161056367 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2521456264408801888, guid: b28d0dee37fa5064eb90d6eb08af44bc, type: 3}
+  m_PrefabInstance: {fileID: 2543838577361096207}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2609485029641488342 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 539103171322055129, guid: b28d0dee37fa5064eb90d6eb08af44bc, type: 3}
+  m_PrefabInstance: {fileID: 2543838577361096207}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2732959224696728468 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 477641431996425627, guid: b28d0dee37fa5064eb90d6eb08af44bc, type: 3}
   m_PrefabInstance: {fileID: 2543838577361096207}
   m_PrefabAsset: {fileID: 0}

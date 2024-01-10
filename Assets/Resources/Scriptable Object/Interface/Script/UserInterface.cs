@@ -196,7 +196,7 @@ public abstract class UserInterface : MonoBehaviour
                         {
                             //Debug.Log("다른 인벤에서 캐릭터 인벤으로 들어옴");
                             //Debug.Log(slotsOnInterface[obj].slot_item_object);
-                            player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
+                            player.ItemOjbectslotnum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object);
                             //Debug.Log("찾는것" + InventoryID);
                             /*
@@ -221,7 +221,7 @@ public abstract class UserInterface : MonoBehaviour
                     {
                         if (InventoryID != 3)
                         {
-                            player.ItemSlotNum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
+                            player.ItemOjbectslotnum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object);
                             
                         }

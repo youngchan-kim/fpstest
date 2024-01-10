@@ -1336,7 +1336,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 433181325}
-  m_LocalRotation: {x: -1e-45, y: 1e-45, z: 0, w: 1}
+  m_LocalRotation: {x: 3e-45, y: 1e-45, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1946,7 +1946,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586327705}
-  m_LocalRotation: {x: -1e-45, y: 1e-45, z: 0, w: 1}
+  m_LocalRotation: {x: 3e-45, y: 1e-45, z: 0, w: 1}
   m_LocalPosition: {x: 0.84095705, y: 1.3029681, z: 1.6589799}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3393,17 +3393,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &857682194 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3972446404081944854, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
-  m_PrefabInstance: {fileID: 1286949199}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17f9c8c0756ea6c4a991711c01c71591, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &857682195 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2875627874003498594, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
@@ -7717,18 +7706,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4305993783618085009, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
-      propertyPath: aimshaker
-      value: 
-      objectReference: {fileID: 857682194}
-    - target: {fileID: 4305993783618085009, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
-      propertyPath: TPSCam_Holder
-      value: 
-      objectReference: {fileID: 1420577757}
-    - target: {fileID: 4305993783618085009, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
-      propertyPath: layermask.m_Bits
-      value: 6080
-      objectReference: {fileID: 0}
     - target: {fileID: 4352890332268006523, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -7769,14 +7746,6 @@ PrefabInstance:
       propertyPath: Gun_Objects
       value: 
       objectReference: {fileID: 1837348823}
-    - target: {fileID: 5639924009285200972, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
-      propertyPath: Item_Mask.m_Bits
-      value: 49152
-      objectReference: {fileID: 0}
-    - target: {fileID: 5639924009285200972, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
-      propertyPath: Dropzon_layermask.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
     - target: {fileID: 6006896611152180412, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
       propertyPath: attackPoint
       value: 
@@ -8110,7 +8079,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449914373}
-  m_LocalRotation: {x: -1e-45, y: 1e-45, z: 0, w: 1}
+  m_LocalRotation: {x: 3e-45, y: 1e-45, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

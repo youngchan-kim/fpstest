@@ -24,10 +24,12 @@ public class Player_recognizes_Item : MonoBehaviour
 
     string itemname;
     GroundItem haveitem;
-    GameObject Activeitem;
+
     GameObject ItemList;
+
+    GameObject ActiveGun;
     //모든 스크립트에서 변경할 수 있게 하기 위함
-    public static GameObject[] Gunslot =  new GameObject[4];
+    public GameObject[] Gunslot =  new GameObject[4];
     //아이템의 실제정보를 가지고 있음
     public static GameObject[] Itemslot = new GameObject[4];
     public bool equipped;
@@ -35,10 +37,10 @@ public class Player_recognizes_Item : MonoBehaviour
     //월드 포지션을 가지기 위함
     private Vector3 hitPos;
 
-    int slotnum;
+    int Ojbectslotnum;
     public LayerMask Dropzon_layermask;
     [SerializeField]
-    public Transform Gun_Objects;
+    public Transform Gun_Holder;
 
     Transform Item_Prefab;
 
@@ -84,17 +86,16 @@ public class Player_recognizes_Item : MonoBehaviour
         switch(_itemObject.type)
         {
             case ItemType.Gun:
-                if (Activeitem = Gun_Item_ID_Check(_item.Id))
+                 //총의 빈 슬롯 체크
+                if (GetGunSlotEmpty())
                 {
-                    //플레이어가 총을 장착 여부와 슬롯이 차있는지 여부 확인
-                    if (GetGunSlotEmpty())
-                    {
-                        //해당 부분 오류
-                        //Activeitem.SetActive(true);
-                        Additem(Gunslot, Gun_Item_ID_Check(_item.Id));
-                        GunActive(0);
-                        ground_Item.SetActive(false);
-                    }
+
+                    ActiveGun = Gun_Item_ID_Check(_item.Id);
+                    
+                    AdditemObject(Gunslot, ActiveGun);
+                    GunActive(0);
+                    ground_Item.SetActive(false);
+
                 }
                 break;
             case ItemType.Bullet:
@@ -184,6 +185,10 @@ public class Player_recognizes_Item : MonoBehaviour
         }
     }
 
+    public void Gun_Load()
+    {
+        Gun_Item_ID_Check(Guninventory.inventory_inside_item_find_Id()).SetActive(true);
+    }    
 
     public void Item_Removed(InventoryObject item_out_inven, int inven_num, Item item)
     {
@@ -240,6 +245,7 @@ public class Player_recognizes_Item : MonoBehaviour
         return 0;
     }
 
+    //인벤토이 안의 아이템을 찾아서 초기화
     public void SetInven_Find_Item(ItemObject _item, int num)
     {
         for (int i = 0; i < inventory.Container.Items.Length; i++)
@@ -251,6 +257,7 @@ public class Player_recognizes_Item : MonoBehaviour
             }
         }
     }
+    //인벤토리 새로고침
     public void InventRefresh()
     {
         for (int i = 0; i < inventory.Container.Items.Length; i++)
@@ -261,6 +268,7 @@ public class Player_recognizes_Item : MonoBehaviour
             }
         }
     }
+    //인벤토리 정렬
     public void Inventsort(int invenID)
     {
         switch (invenID)
@@ -274,6 +282,8 @@ public class Player_recognizes_Item : MonoBehaviour
         }
         
     }
+
+    //총의 활성화
     public void GunActive(int sellect)
     {
         if (Gunslot[sellect] != null)
@@ -282,6 +292,7 @@ public class Player_recognizes_Item : MonoBehaviour
         }
         GunUnActive(sellect);
     }
+    //총의 슬롯이 비었는지 체크
     public bool GetGunSlotEmpty()
     {
         for (int i = 0; i < Gunslot.Length; i++)
@@ -291,16 +302,22 @@ public class Player_recognizes_Item : MonoBehaviour
         }
         return false;
     }
-    void Additem(GameObject[] Itemslot, GameObject item)
+
+    //아이템슬롯에 해당 아이템을 추가
+    void AdditemObject(GameObject[] Itemslot, GameObject item)
     {
-        if (slotnum == -1)
+        //슬롯번호가 -1이면
+        if (Ojbectslotnum == -1)
         {
+            //슬롯의 크기만큼 반복
             for (int i = 0; i < Itemslot.Length; i++)
             {
+                
                 if (Itemslot[i] != null)
                     Debug.Log(i + "번째 슬롯에 " + Itemslot[i] + " 있다.");
                 else
                     Debug.Log(i + "번째 슬롯에 없다.");
+                //슬롯이 비어있으면  해당슬롯을 아이템오브젝트로 초기화
                 if (Itemslot[i] == null)
                 {
                     Itemslot[i] = item;
@@ -310,15 +327,17 @@ public class Player_recognizes_Item : MonoBehaviour
         }
         else
         {
-            Itemslot[slotnum] = item;
+            Itemslot[Ojbectslotnum] = item;
         }
-        slotnum = -1;
+        Ojbectslotnum = -1;
     }
 
-    public void ItemSlotNum(int num)
+    //아이템 슬롯의 번호 설정
+    public void ItemOjbectslotnum(int num)
     {
-        slotnum = num;
+        Ojbectslotnum = num;
     }
+    //총 비활성화
     public void RemoveGun(int num)
     {
         for (int i = 0; i < Gunslot.Length; i++)
@@ -331,33 +350,33 @@ public class Player_recognizes_Item : MonoBehaviour
             }
         }
     }
-    public void GunSlot_swap(int slotnum1, int slotnum2)
-    {
-        GameObject temp = Gunslot[slotnum2];
-        Gunslot[slotnum2] = Gunslot[slotnum1];
-        Gunslot[slotnum1] = temp;
-        GunActive(slotnum2);
-    }
-
+    //총 비활성화
     public void GunUnActive(int sellect)
     {
         for (int i = 0; i < Gunslot.Length; i++)
         {
-            if ((sellect) != i && Gunslot[i] != null)
+            if (sellect != i && Gunslot[i] != null)
                 Gunslot[i].gameObject.SetActive(false);
         }
     }
-    //아이템 id 찾기
+
+    public void GunSlot_swap(int Ojbectslotnum1, int Ojbectslotnum2)
+    {
+        GameObject temp = Gunslot[Ojbectslotnum2];
+        Gunslot[Ojbectslotnum2] = Gunslot[Ojbectslotnum1];
+        Gunslot[Ojbectslotnum1] = temp;
+        GunActive(Ojbectslotnum2);
+    }
+
+
+    //총의 id 찾기
     GameObject Gun_Item_ID_Check(int Id)
     {
-        
-        int ItemList = Gun_Objects.childCount;
-        for (int i = 0; i < ItemList; i++)
+        for (int i = 0; i < Gun_Holder.childCount; i++)
         {
-            if (Id == Gun_Objects.GetChild(i).GetComponent<GunSystem>().Gun_property.Id)
+            if (Id == Gun_Holder.GetChild(i).GetComponent<GunSystem>().Gun_property.Id)
             {
-                //Debug.Log(Gun_Objects.GetChild(i).gameObject.name);
-                return Gun_Objects.GetChild(i).gameObject;
+                return Gun_Holder.GetChild(i).gameObject;
             }
         }
         return null;

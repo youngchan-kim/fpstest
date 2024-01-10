@@ -32,7 +32,6 @@ public class Player : PickUpController
         anim = GetComponent<Animator>();
         
         damegeSystem = GetComponent<DamegeSystem>();
-        //Debug.Log(GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).name);
         InventoryUI = GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).gameObject;
         //hpBar.SetMaxHealth(maxHealth);
         Hold_contorl_check = false;
@@ -51,16 +50,20 @@ public class Player : PickUpController
         //총의 시스템을 사용하는 것임으로 활성화 된 총기가 있는지
         //내가 현재 손에 들고 있는 총이 맞는지 확인
 
-        for (int i = 0; i < Gun_Objects.childCount; i++)
+        for (int i = 0; i < Gun_Holder.childCount; i++)
         {
-            if (Gun_Objects.GetChild(i).gameObject.activeSelf == true)
+            if (Gun_Holder.GetChild(i).gameObject.activeSelf == true)
             {
-                gunSystem = Gun_Objects.GetChild(i).GetComponent<GunSystem>();
+                gunSystem = Gun_Holder.GetChild(i).GetComponent<GunSystem>();
                 break;
             }
             else
                 gunSystem = null;
         }
+    }
+    public GunSystem GetGunSystem()
+    {
+        return gunSystem;
     }
     // Update is called once per frame
     private void Update()
@@ -116,10 +119,13 @@ public class Player : PickUpController
         if (Input.GetKeyDown(KeyCode.End))
         {
             inventory.Save();
+            Guninventory.Save();
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             inventory.Load();
+            Guninventory.Load();
+            Gun_Load();
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {

@@ -12,7 +12,7 @@ using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCou
 
 public class InventoryObject : ScriptableObject
 {
-    
+
     public int InventoryID;
     public string savePath;
     //public List<ItemObject> Container = new List<ItemObject>(); 에서로 변경
@@ -152,7 +152,6 @@ public class InventoryObject : ScriptableObject
                 break;
             }
         }
-       
     }
     public int ItemSlotNum(InventorySlot sellectslot)
     {
@@ -165,8 +164,20 @@ public class InventoryObject : ScriptableObject
         }
         return -1;
     }
+   //인벤토리 내부의 아이템의 아이디를 확인후 리턴해줌
+    public int inventory_inside_item_find_Id()
+    {
 
-
+        for (int i = 0; i < Container.Items.Length; i++)
+        {
+            if (Container.Items[i].item.Id != -1)
+            {
+                return Container.Items[i].item.Id;
+            }
+        }
+        //full inventory
+        return -1;
+    }
 
     //필드의 아이템 삭제
     public void ClearItem(int _Item_Id, int inven_num)
@@ -196,10 +207,16 @@ public class InventoryObject : ScriptableObject
         //설명
         IFormatter formatter = new BinaryFormatter();
         Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
-        //SerializationException: Type 'UnityEngine.GameObject' in Assembly 'UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' is not marked as serializable.발생
+        /*
+        SerializationException: Type 'UnityEngine.GameObject' in Assembly 'UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' is not marked as serializable.발생
+        Transform이나 GameObject의 타입은 직렬화 되지 않아서 나오는 오류이다
+         */
+        //InventorySlot의 내용을 stream의 설정에 맞추어 직렬화하여 저장한다.
+        //모든 Inventory의 정보를 저장 
         formatter.Serialize(stream, Container); 
         stream.Close();
         Debug.Log("인벤토리 저장");
+        
     }
     //
     [ContextMenu("Load")]
@@ -212,7 +229,7 @@ public class InventoryObject : ScriptableObject
             Inventory newContainer = (Inventory)formatter.Deserialize(stream);
             for(int i =0; i<Container.Items.Length; i++)
             {
-                Container.Items[i].UpdateSlot(newContainer.Items[i].item, newContainer.Items[i].item.amount, GameMgr.Instance.Item_Mgr.transform.GetComponent<Item_Mgr>().Find_Prefab(newContainer.Items[i].item.Id));
+                Container.Items[i].UpdateSlot(newContainer.Items[i].item, newContainer.Items[i].totalamount, GameMgr.Instance.Item_Mgr.transform.GetComponent<Item_Mgr>().Find_Prefab(newContainer.Items[i].item.Id));
             }
             stream.Close();
             Debug.Log("인벤토리 로드");
@@ -235,9 +252,9 @@ public class InventorySlot
     public UserInterface parent;
     [System.NonSerialized]
     public GameObject slot_item_object;
-    public string name;
+    //아이템의 정보
     public Item item = new Item();
-
+    //최종 아이템의 갯수
     public int totalamount;
     public ItemObject ItemObject
     {
@@ -302,15 +319,22 @@ public class InventorySlot
 }
 
 /*[System.Serializable]
-
-public class SaveInvent
+public class Save_Item
 {
+    public Save_Item(ItemType[] _AllowedItems, string _Name, int _Id, float _addHeal, int _amount, bool _inven_in_active)
+    {
+        AllowedItems = _AllowedItems;
+        Name = _Name;
+        Id = _Id;
+        addHeal = _addHeal;
+        amount = _amount;
+        inven_in_active = _inven_in_active;
+    }
     public ItemType[] AllowedItems = new ItemType[0];
-
-    [System.NonSerialized]
-    public UserInterface parent;
-    public string name;
-    public Item item = new Item();
-    public int totalamount;
-
-}*/
+    public string Name;
+    public int Id;
+    public float addHeal;
+    public int amount;
+    public bool inven_in_active;
+}
+*/
