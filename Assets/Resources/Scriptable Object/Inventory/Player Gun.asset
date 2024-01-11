@@ -19,12 +19,12 @@ MonoBehaviour:
     Items:
     - AllowedItems: 
       item:
-        Name: 
-        Id: -1
+        Name: Sniper
+        Id: 0
         addHeal: 0
-        amount: 0
+        amount: 1
         inven_in_active: 0
-      totalamount: 0
+      totalamount: 1
     - AllowedItems: 
       item:
         Name: 

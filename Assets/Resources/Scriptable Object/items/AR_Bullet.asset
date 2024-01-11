@@ -15,13 +15,11 @@ MonoBehaviour:
   uiDisplay: {fileID: 21300012, guid: 5163ae49a0de665458bba61cd20c99b1, type: 3}
   characterDisplay: {fileID: 0}
   stackable: 1
-  type: 5
+  type: 2
   description: AR Bullet
   data:
     Name: AR_Bullet
     Id: 2
-    buffs: []
+    addHeal: 0
     amount: 30
-    item_object: {fileID: 0}
-    item_object_Prefab: {fileID: 6344695837576674563, guid: cdc0c8a48f7fc734a829e9ab46a712a1, type: 3}
-  objectamount: 0
+    inven_in_active: 0

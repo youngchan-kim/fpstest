@@ -15,13 +15,11 @@ MonoBehaviour:
   uiDisplay: {fileID: 21300036, guid: 6674e8c43c63e4f4184cbd009379498d, type: 3}
   characterDisplay: {fileID: 0}
   stackable: 0
-  type: 3
+  type: 0
   description: 
   data:
     Name: Sniper
     Id: 0
-    buffs: []
     addHeal: 0
     amount: 1
-    item_object: {fileID: 0}
-    item_object_Prefab: {fileID: 3865992893041346291, guid: 137791a206f3f6f49a0a72d60b71dd29, type: 3}
+    inven_in_active: 0

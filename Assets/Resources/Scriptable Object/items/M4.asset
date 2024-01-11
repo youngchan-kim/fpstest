@@ -15,12 +15,11 @@ MonoBehaviour:
   uiDisplay: {fileID: 21300046, guid: 6674e8c43c63e4f4184cbd009379498d, type: 3}
   characterDisplay: {fileID: 592227386446531366, guid: 8302d4990ce6e604c985bd9217386af1, type: 3}
   stackable: 0
-  type: 3
+  type: 0
   description: 
   data:
     Name: M4
     Id: 1
-    buffs: []
+    addHeal: 0
     amount: 1
-    item_object: {fileID: 0}
-    item_object_Prefab: {fileID: 5330394481861556738, guid: 2e254a7352b4f374f914509cfb9f6cf0, type: 3}
+    inven_in_active: 0
