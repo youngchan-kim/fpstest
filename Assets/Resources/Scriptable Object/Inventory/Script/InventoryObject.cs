@@ -246,12 +246,13 @@ public class InventoryObject : ScriptableObject
 [System.Serializable]
 public class InventorySlot
 {
-    public ItemType[] AllowedItems = new ItemType[0];
-
     [System.NonSerialized]
     public UserInterface parent;
     [System.NonSerialized]
     public GameObject slot_item_object;
+
+    //가변배열과 다차원배열은 직렬화되지 않는다. 
+    public ItemType[] AllowedItems = new ItemType[0];
     //아이템의 정보
     public Item item = new Item();
     //최종 아이템의 갯수
@@ -317,24 +318,3 @@ public class InventorySlot
         return false;
     }
 }
-
-/*[System.Serializable]
-public class Save_Item
-{
-    public Save_Item(ItemType[] _AllowedItems, string _Name, int _Id, float _addHeal, int _amount, bool _inven_in_active)
-    {
-        AllowedItems = _AllowedItems;
-        Name = _Name;
-        Id = _Id;
-        addHeal = _addHeal;
-        amount = _amount;
-        inven_in_active = _inven_in_active;
-    }
-    public ItemType[] AllowedItems = new ItemType[0];
-    public string Name;
-    public int Id;
-    public float addHeal;
-    public int amount;
-    public bool inven_in_active;
-}
-*/

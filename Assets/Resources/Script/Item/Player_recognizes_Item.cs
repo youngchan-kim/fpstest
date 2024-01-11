@@ -187,7 +187,8 @@ public class Player_recognizes_Item : MonoBehaviour
 
     public void Gun_Load()
     {
-        Gun_Item_ID_Check(Guninventory.inventory_inside_item_find_Id()).SetActive(true);
+        AdditemObject(Gunslot, Gun_Item_ID_Check(Guninventory.inventory_inside_item_find_Id()));
+        GunActive(0);
     }    
 
     public void Item_Removed(InventoryObject item_out_inven, int inven_num, Item item)

@@ -206,8 +206,6 @@ public abstract class UserInterface : MonoBehaviour
                             player.Item_Removed(slotsOnInterface[obj].parent.inventory, endInventoryID, slotsOnInterface[obj].item);
                             */
                         }
-
-                        //inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
                     }
                     break;
                 case 2:

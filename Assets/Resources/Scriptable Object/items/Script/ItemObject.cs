@@ -1,19 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+[System.Serializable]
 public enum ItemType
 {
-    Helmet,
-    //방탄복
-    Armor,
-    Bag,
     Gun,
-    Medical,    
+    Medical,
     Bullet,
-    Chest,
-    Boots,
-    //기타
-    Default
 }
 
 //당장은 쓰지 않는 버프 종류
@@ -28,7 +23,7 @@ public enum Attributes
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory System/Items/item")]
 public class ItemObject : ScriptableObject
 {
-    
+
     public Sprite uiDisplay;
     public GameObject characterDisplay;
     public bool stackable;
@@ -43,11 +38,9 @@ public class Item
 {
     public string Name;
     public int Id = -1;
-    //public ItemBuff[] buffs;
     public float addHeal;
     public int amount;
     public bool inven_in_active;
-    //public ItemType itemType;
 
     public Item()
     {

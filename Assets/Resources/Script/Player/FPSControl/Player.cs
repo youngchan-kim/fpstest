@@ -129,7 +129,6 @@ public class Player : PickUpController
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-
             Debug.Log("1번눌림" );
             GunActive(0);
             GunSystem_chage();
