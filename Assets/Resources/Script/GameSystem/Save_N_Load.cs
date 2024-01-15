@@ -1,30 +1,37 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.IO;
+using System;
+using Unity.VisualScripting;
+using static UnityEditor.Progress;
+using System.ComponentModel;
 
 public class Save_N_Load : MonoBehaviour
 {
+    public Save_Path save_path;
     Player player;
     GunSystem gun;
-    string savePath;
+    public Fielditems fielditems;
+    SaveFieldItem savefielditem;
     // Start is called before the first frame update
     void Start()
     {
-        savePath = "/save";
         player = GameMgr.Instance.player.GetComponent<Player>();
     }
     void inventorySave(string savePath)
     {
         IFormatter formatter = new BinaryFormatter();
+        //Â C:\Users\A-01\AppData\LocalLow\DefaultCompany ê²½ë¡œì— íŒŒì¼ì´ ìƒì„±ë¨
         Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
 
     }
-    void FiedItemSave(string savePath)
+    public void FildItemSave()
     {
-
+        fielditems.SaveList();
+        savefielditem.Save("/FieldItem.Save");
     }
     void PlayerSave(string savePath)
     {
@@ -37,17 +44,64 @@ public class Save_N_Load : MonoBehaviour
     }
 }
 
-//ÇÏÀÌ¾î¶óÅ° »óÀÇ ¸ğµç ¿ÀºêÁ§Æ®Áß ¾ÆÀÌÅÛµé¸¸ Ã£¾Æ¼­ À§Ä¡¿Í ¾ÆÀÌÅÛ Á¤º¸¸¸µé ÀúÀå
-public class GroundItems
+//í•˜ì´ì–´ë¼í‚¤ ìƒì˜ ëª¨ë“  ì˜¤ë¸Œì íŠ¸ì¤‘
+//ì•„ì´í…œë“¤ë§Œ ì°¾ì•„ì„œ ìœ„ì¹˜ì™€ ì•„ì´í…œ ì •ë³´ë§Œë“¤ ì €ì¥
+[System.Serializable]
+public class Field_item_information
 {
     Vector3 pos;
-    Item item;
+    int itemID;
+    public void Get_Save_Information(Vector3 _pos, int _ItemID)
+    {
+        pos = _pos;
+        itemID = _ItemID;  
+    }
+}
+[System.Serializable]
+public class Field_item_List
+{
+    Field_item_information[] grounds = new Field_item_information[28];
 
+    public void Clear()
+    {
+        for (int i = 0; i < grounds.Length; i++)
+        {
+            grounds[i] = null;
+        }
+    }
+    public Field_item_information emptyarray()
+    {
+        for (int i = 0; i < grounds.Length; i++)
+        {
+            if(grounds[i] == null)
+                return grounds[i];
+        }
+        return null;
+    }
+}
+//í•˜ì´ì–´ë¼í‚¤ ìƒì˜ ëª¨ë“  ì˜¤ë¸Œì íŠ¸ì¤‘
+//ì•„ì´í…œë“¤ë§Œ ì°¾ì•„ì„œ ìœ„ì¹˜ì™€ ì•„ì´í…œ ì •ë³´ë§Œë“¤ ì €ì¥
+public class Fielditems : MonoBehaviour
+{
+    GroundItem[] groundsitem = FindObjectsOfType<GroundItem>();
+    public Field_item_List field_list;
+    //í•¨ìˆ˜ ì‹¤í–‰ì‹œ ëª¨ë“  í•„ë“œì— ìˆëŠ” ì•„ì´í…œì˜ ìµœì†Œì •ë³´ê°€ ì €ì¥ë¨
+    public void SaveList()
+    {
+        foreach (GroundItem item in groundsitem)
+        {
+            if (field_list.emptyarray() != null)
+                field_list.emptyarray().Get_Save_Information(item.Get_item_Pos(), item.Get_item_ID());
+            else
+                Debug.Log("í•„ë“œì— ìˆëŠ” ì•„ì´í…œì˜ ì €ì¥ ìŠ¬ë¡¯ì´ ë¶€ì¡±í•¨");
+        }
+    }
 }
 
 [System.Serializable]
-public class SaveGroundItem
+public class SaveFieldItem
 {
+    Field_item_List field_list;
     Vector3 pos;
     Item item;
 
@@ -55,9 +109,9 @@ public class SaveGroundItem
     {
         IFormatter formatter = new BinaryFormatter();
         Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
-       /* formatter.Serialize(stream, Container);
+        formatter.Serialize(stream, field_list);
         stream.Close();
-        Debug.Log("¸Ê »óÀÇ ¸ğµç ¾ÆÀÌÅÛÀÇ ÀúÀå");*/
+        Debug.Log("ë§µ ìƒì˜ ëª¨ë“  ì•„ì´í…œì˜ ì €ì¥");
     }
 }
 
@@ -80,4 +134,13 @@ public class SaveEnemys
 {
     Vector3 pos;
     Enemy enemy;
+}
+
+[CreateAssetMenu(fileName = "New SavePath", menuName = "Save System/SavePath")]
+public class Save_Path : ScriptableObject
+{
+    public string SavePath_FieldItem;
+    public string SavePath_InvenItem;
+    public string SavePath_FieldPlayer;
+    public string SavePath_FieldEnemy;
 }

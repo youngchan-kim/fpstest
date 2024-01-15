@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 using static UnityEditor.Progress;
 
 public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
@@ -10,8 +12,11 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     //데이터 바뀌도록할것
     public int amount;
     Transform PlayerObject;
+    Vector3 Pos;
     private void Start()
     {
+
+       
         PlayerObject = GameMgr.Instance.player.transform;
         //Debug.Log(PlayerObject.name);
     }
@@ -19,12 +24,17 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         return item.data.Id;
     }
+    public Vector3 Get_item_Pos()
+    {
+        return transform.position;
+    }
     public void OnAfterDeserialize()
     {
     }
 
     public void OnBeforeSerialize()
     {
+
 #if UNITY_EDITOR
         //GetComponentInChildren<SpriteRenderer>().sprite = item.uiDisplay;
         //EditorUtility.SetDirty(GetComponentInChildren<SpriteRenderer>());
@@ -59,4 +69,5 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
            
         }
     }    
+
 }

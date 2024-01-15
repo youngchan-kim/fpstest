@@ -27,6 +27,7 @@ public class Player : PickUpController
     [SerializeField]
     public Transform head;
 
+    Save_N_Load SL_System;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -35,6 +36,7 @@ public class Player : PickUpController
         InventoryUI = GameMgr.Instance.GUI_Mgr.transform.GetChild(0).GetChild(6).gameObject;
         //hpBar.SetMaxHealth(maxHealth);
         Hold_contorl_check = false;
+        SL_System = GetComponent<Save_N_Load>();
     }
 
     public void Initialize()
@@ -118,6 +120,7 @@ public class Player : PickUpController
         //itemDatabase save & load test code
         if (Input.GetKeyDown(KeyCode.End))
         {
+            SL_System.FildItemSave();
             inventory.Save();
             Guninventory.Save();
         }
