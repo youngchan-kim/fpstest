@@ -8,14 +8,18 @@ using System;
 using Unity.VisualScripting;
 using static UnityEditor.Progress;
 using System.ComponentModel;
+using System.Xml.Linq;
+using static UnityEditor.PlayerSettings;
+using UnityEngine.UIElements;
 
 public class Save_N_Load : MonoBehaviour
 {
-    public Save_Path save_path;
+    //public Save_Path save_path;
     Player player;
     GunSystem gun;
-    public Fielditems fielditems;
-    SaveFieldItem savefielditem;
+
+    Field_item_List field_list;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -28,19 +32,54 @@ public class Save_N_Load : MonoBehaviour
         Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
 
     }
-    public void FildItemSave()
-    {
-        fielditems.SaveList();
-        savefielditem.Save("/FieldItem.Save");
-    }
-    void PlayerSave(string savePath)
-    {
+   
 
-    }
-    void Load()
+/*    public void Clear()
     {
-        player.inventory.Load();
-        player.Guninventory.Load();
+        for (int i = 0; i < grounds.Length; i++)
+        {
+            grounds[i].SetIsempty();
+            grounds[i] = null;
+
+        }
+    }
+    public Field_item_information emptyarray()
+    {
+        for (int i = 0; i < grounds.Length; i++)
+        {
+            if (grounds[i].Getisnotempty() == false)
+                return grounds[i];
+        }
+        return null;
+    }*/
+    public void FieldItemSave()
+    {
+        GroundItem[] groundsitem = FindObjectsOfType<GroundItem>();
+        
+        field_list = new Field_item_List();
+        field_list.grounds = new Field_item_information[groundsitem.Length];
+        for (int i = 0; groundsitem.Length > i; i++)
+        {
+            field_list.grounds[i] = new(groundsitem[i].Get_item_Pos(), groundsitem[i].Get_item_ID());
+        }
+
+        string field_item_list = JsonUtility.ToJson(field_list);
+        string path = Application.persistentDataPath+ "/FieldItem.json";//Path.Combine(, );
+        File.WriteAllText(path, field_item_list);
+        Debug.Log("맵 상의 모든 아이템의 저장");
+    }
+    public void FieldItemLoad()
+    {
+        string path = Application.persistentDataPath + "/FieldItem.json";
+        if (File.Exists(path))
+        {
+            string jsonData = File.ReadAllText(path);
+            field_list = JsonUtility.FromJson<Field_item_List>(jsonData);
+            //list의 아이디와 비교하여 맞는 아이템을 스폰해줄것
+            //field_list
+            Debug.Log("인벤토리 로드");
+        }
+
     }
 }
 
@@ -49,70 +88,21 @@ public class Save_N_Load : MonoBehaviour
 [System.Serializable]
 public class Field_item_information
 {
-    Vector3 pos;
-    int itemID;
-    public void Get_Save_Information(Vector3 _pos, int _ItemID)
+    public float x,y,z;
+    public int itemID;
+    public Field_item_information(Vector3 pos, int _ItemID)
     {
-        pos = _pos;
+        x = pos.x;
+        y = pos.y;
+        z = pos.z;
         itemID = _ItemID;  
     }
 }
+
 [System.Serializable]
 public class Field_item_List
 {
-    Field_item_information[] grounds = new Field_item_information[28];
-
-    public void Clear()
-    {
-        for (int i = 0; i < grounds.Length; i++)
-        {
-            grounds[i] = null;
-        }
-    }
-    public Field_item_information emptyarray()
-    {
-        for (int i = 0; i < grounds.Length; i++)
-        {
-            if(grounds[i] == null)
-                return grounds[i];
-        }
-        return null;
-    }
-}
-//하이어라키 상의 모든 오브젝트중
-//아이템들만 찾아서 위치와 아이템 정보만들 저장
-public class Fielditems : MonoBehaviour
-{
-    GroundItem[] groundsitem = FindObjectsOfType<GroundItem>();
-    public Field_item_List field_list;
-    //함수 실행시 모든 필드에 있는 아이템의 최소정보가 저장됨
-    public void SaveList()
-    {
-        foreach (GroundItem item in groundsitem)
-        {
-            if (field_list.emptyarray() != null)
-                field_list.emptyarray().Get_Save_Information(item.Get_item_Pos(), item.Get_item_ID());
-            else
-                Debug.Log("필드에 있는 아이템의 저장 슬롯이 부족함");
-        }
-    }
-}
-
-[System.Serializable]
-public class SaveFieldItem
-{
-    Field_item_List field_list;
-    Vector3 pos;
-    Item item;
-
-    public void Save(string savePath)
-    {
-        IFormatter formatter = new BinaryFormatter();
-        Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
-        formatter.Serialize(stream, field_list);
-        stream.Close();
-        Debug.Log("맵 상의 모든 아이템의 저장");
-    }
+    public Field_item_information[] grounds;
 }
 
 [System.Serializable]

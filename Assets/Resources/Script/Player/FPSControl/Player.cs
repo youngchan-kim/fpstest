@@ -120,15 +120,16 @@ public class Player : PickUpController
         //itemDatabase save & load test code
         if (Input.GetKeyDown(KeyCode.End))
         {
-            SL_System.FildItemSave();
-            inventory.Save();
-            Guninventory.Save();
+            SL_System.FieldItemSave();
+/*            inventory.Save();
+            Guninventory.Save();*/
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            inventory.Load();
+            SL_System.FieldItemLoad();
+/*            inventory.Load();
             Guninventory.Load();
-            Gun_Load();
+           Gun_Load();*/
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
