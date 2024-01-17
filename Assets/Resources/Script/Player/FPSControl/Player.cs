@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Player : PickUpController
 {
-    [Serialize]
     public HP_System hp;
     DamegeSystem damegeSystem;
     //maxHealth, MaxHealvolume을 스크립터블 오브젝트로 만들어 놓기
@@ -28,6 +27,7 @@ public class Player : PickUpController
     public Transform head;
 
     Save_N_Load SL_System;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -121,6 +121,7 @@ public class Player : PickUpController
         if (Input.GetKeyDown(KeyCode.End))
         {
             SL_System.FieldItemSave();
+            SL_System.inventoryItemSave(inventory, "/ Inventory_item.json");
 /*            inventory.Save();
             Guninventory.Save();*/
         }

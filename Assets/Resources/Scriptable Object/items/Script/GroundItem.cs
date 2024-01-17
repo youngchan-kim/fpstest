@@ -24,9 +24,9 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         return item.data.Id;
     }
-    public Vector3 Get_item_Pos()
+    public Transform Get_item_Transform()
     {
-        return transform.position;
+        return transform;
     }
     public void OnAfterDeserialize()
     {

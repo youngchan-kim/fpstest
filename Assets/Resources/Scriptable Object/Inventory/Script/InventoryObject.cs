@@ -250,8 +250,7 @@ public class InventorySlot
     public UserInterface parent;
     [System.NonSerialized]
     public GameObject slot_item_object;
-
-    //가변배열과 다차원배열은 직렬화되지 않는다. 
+ 
     public ItemType[] AllowedItems = new ItemType[0];
     //아이템의 정보
     public Item item = new Item();
