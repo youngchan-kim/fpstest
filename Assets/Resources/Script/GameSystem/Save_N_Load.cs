@@ -60,12 +60,13 @@ public class Save_N_Load : MonoBehaviour
             field_list = JsonUtility.FromJson<Field_item_List>(jsonData);
             for(int i =0; i < field_list.grounds.Length; i++ )
             {
-                item_mgr.Set_Field_item(field_list.grounds[i]);
+                item_mgr.Set_item_list(item_mgr.Set_Field_item(field_list.grounds[i]));
             }
             //list의 아이디와 비교하여 맞는 아이템을 스폰해줄것
             //field_list
             Debug.Log("인벤토리 로드");
         }
+
 
 
 
