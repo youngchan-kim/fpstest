@@ -229,7 +229,7 @@ public class InventoryObject : ScriptableObject
             Inventory newContainer = (Inventory)formatter.Deserialize(stream);
             for(int i =0; i<Container.Items.Length; i++)
             {
-                Container.Items[i].UpdateSlot(newContainer.Items[i].item, newContainer.Items[i].totalamount, GameMgr.Instance.Item_Mgr.transform.GetComponent<Item_Mgr>().Find_Prefab(newContainer.Items[i].item.Id));
+                Container.Items[i].UpdateSlot(newContainer.Items[i].item, newContainer.Items[i].totalamount, GameMgr.Instance.Item_Mgr.transform.GetComponent<Item_Mgr>().Find_ID_RE_Gameobject(newContainer.Items[i].item.Id));
             }
             stream.Close();
             Debug.Log("인벤토리 로드");

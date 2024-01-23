@@ -25,7 +25,7 @@ public class ItemObject : ScriptableObject
 {
 
     public Sprite uiDisplay;
-    public GameObject characterDisplay;
+    //public GameObject characterDisplay;
     public bool stackable;
     public ItemType type;
     [TextArea(15, 20)]
@@ -33,7 +33,7 @@ public class ItemObject : ScriptableObject
     public Item data = new Item();
 }
 
-[System.Serializable]
+[Serializable]
 public class Item
 {
     public string Name;
@@ -47,7 +47,14 @@ public class Item
         Name = "";
         Id = -1;
     }
-
+    public Item(string _Name, int _Id, float _addHeal, int _amount, bool _inven_in_active)
+    {
+        Name = _Name;
+        Id = _Id;
+        addHeal = _addHeal;
+        amount = _amount;
+        inven_in_active = _inven_in_active;
+    }
     /*public Item(ItemObject item)
     {
         Name = item.name;

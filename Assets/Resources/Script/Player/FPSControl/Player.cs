@@ -30,6 +30,7 @@ public class Player : PickUpController
 
     void Start()
     {
+        item_mgr = GameMgr.Instance.Item_Mgr.GetComponent<Item_Mgr>();
         anim = GetComponent<Animator>();
         
         damegeSystem = GetComponent<DamegeSystem>();
@@ -70,6 +71,7 @@ public class Player : PickUpController
     // Update is called once per frame
     private void Update()
     {
+        item_mgr.SortItemList();
         GunSystem_chage();
         if (Hold_contorl_check == false && gunSystem!=null)
         {
@@ -121,14 +123,15 @@ public class Player : PickUpController
         if (Input.GetKeyDown(KeyCode.End))
         {
             SL_System.FieldItemSave();
-            SL_System.inventoryItemSave(inventory, "/ Inventory_item.json");
+            SL_System.inventoryItemSave(inventory, "/Inventory_item.json");
 /*            inventory.Save();
             Guninventory.Save();*/
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             SL_System.FieldItemLoad();
-/*            inventory.Load();
+            SL_System.inventoryItemLoad(inventory, InventoryType.other, "/Inventory_item.json" ); 
+            /*            inventory.Load();
             Guninventory.Load();
            Gun_Load();*/
         }

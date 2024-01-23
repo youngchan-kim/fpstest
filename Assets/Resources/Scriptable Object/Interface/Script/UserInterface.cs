@@ -131,6 +131,7 @@ public abstract class UserInterface : MonoBehaviour
         }
         return tempItem;
     }
+    //아이템을 드래그가 끝날때 기능
     public void OnDragEnd(GameObject obj)
     {
         int InventoryID = slotsOnInterface[obj].GetInventoryID();
@@ -151,12 +152,6 @@ public abstract class UserInterface : MonoBehaviour
 
             player.Inventsort(InventoryID);
             DragEnd = false;
-            //Debug.Log(name);
-            /*if (mouseHoverSlotData.GetInventoryID() != 0)
-            {
-                //Debug.Log(name);
-                GameMgr.Instance.player.GetComponent<Player>().ItemPickup_inventory_System();
-            }*/
             return;
         }
 
@@ -186,7 +181,6 @@ public abstract class UserInterface : MonoBehaviour
                 case 1:
                     if (mouseHoverSlotData.CanPlaceInSlot(slotsOnInterface[obj].ItemObject))
                     {
-
                         if (InventoryID == 1)
                         {
                             player.GunSlot_swap(slotsOnInterface[obj].parent.inventory.ItemSlotNum(slotsOnInterface[obj])
@@ -198,13 +192,7 @@ public abstract class UserInterface : MonoBehaviour
                             //Debug.Log(slotsOnInterface[obj].slot_item_object);
                             player.ItemOjbectslotnum(mouseHoverSlotData.parent.inventory.ItemSlotNum(mouseHoverSlotData));
                             player.ItemPickup_inventory_System(slotsOnInterface[obj].ItemObject, slotsOnInterface[obj].slot_item_object);
-                            //Debug.Log("찾는것" + InventoryID);
-                            /*
-                            아래 코드는 아이템을 습득하면 아이템을 마우스가 마지막으로 가리킨 곳의 인벤토리에 습득하게한다.
-                            player.Add_Item(endInventoryID, slotsOnInterface[obj].item, slotsOnInterface[obj].totalamount);
-                            아래 코드는 아이템을 습득하면 습득후 아이템이 속해 있던 인벤에서 없어진다.
-                            player.Item_Removed(slotsOnInterface[obj].parent.inventory, endInventoryID, slotsOnInterface[obj].item);
-                            */
+  
                         }
                     }
                     break;
@@ -236,7 +224,6 @@ public abstract class UserInterface : MonoBehaviour
                     }
                     break;
             }
-/*            player.GunSystem_chage();*/
             DragEnd = true;
         }
     }

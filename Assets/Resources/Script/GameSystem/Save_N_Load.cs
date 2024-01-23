@@ -22,6 +22,7 @@ public class Save_N_Load : MonoBehaviour
     Field_item_List field_list;
 
     invetory_Item_List inventory_list;
+    public ItemDatabaseObject itemDatabase;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +52,7 @@ public class Save_N_Load : MonoBehaviour
 
     public void FieldItemLoad()
     {
+
         item_mgr.FieldItemClear();
         
         string path = Application.persistentDataPath + "/FieldItem.json";
@@ -72,37 +74,45 @@ public class Save_N_Load : MonoBehaviour
 
     }
     //C:\Users\A-01\AppData\LocalLow\DefaultCompany
+    //각 인벤토리의 아이템 저장
     public void inventoryItemSave(InventoryObject _inventoryObject, string SavePath)
     {
-        /*int SlotCount = _inventoryObject.SlotCount;
+        //
+        int SlotCount = _inventoryObject.SlotCount;
         inventory_list = new invetory_Item_List();
         inventory_list.invetory_Items = new invetory_Item_Information[SlotCount];
-        //public invetory_Item_Information(int _InvenID, int _slot_num, Item _item, int _totalcount)
         for (int i = 0; i < SlotCount; i++)
         {
             InventorySlot itemslot= _inventoryObject.Container.Items[i];
-            inventory_list.invetory_Items[i] = new(_inventoryObject.InventoryID, i, itemslot.item, itemslot.totalamount);
+            Item item = itemslot.item;
+            inventory_list.invetory_Items[i] = new(_inventoryObject.InventoryID, i, item.Name, item.Id, 
+                item.addHeal, item.amount, item.inven_in_active, itemslot.totalamount);
         }
 
         string Inventory_item_list = JsonUtility.ToJson(inventory_list);
         string path = Application.persistentDataPath + SavePath;
         File.WriteAllText(path, Inventory_item_list);
-        Debug.Log("맵 상의 모든 아이템의 저장");*/
+        Debug.Log(_inventoryObject.name + "의 모든 아이템의 저장");
     }
-    /*
-    public void inventoryItemLoad()
+    public void inventoryItemLoad(InventoryObject _inventoryObject, InventoryType inventoryType, string SavePath)
     {
-        string path = Application.persistentDataPath + "/FieldItem.json";
+        string path = Application.persistentDataPath + SavePath;
         if (File.Exists(path))
         {
             string jsonData = File.ReadAllText(path);
-            field_list = JsonUtility.FromJson<Field_item_List>(jsonData);
+            inventory_list = JsonUtility.FromJson<invetory_Item_List>(jsonData);
             //list의 아이디와 비교하여 맞는 아이템을 스폰해줄것
+            for (int i = 0; i < inventory_list.invetory_Items.Length; i++)
+            {
+                invetory_Item_Information inven_item = inventory_list.invetory_Items[i];
+                Item item = new(inven_item.name, inven_item.id, inven_item.addHeal, inven_item.amount, inven_item.inven_in_active);
+                _inventoryObject.AddItem(item, inventoryType, inven_item.totalcount, item_mgr.Find_ItemPrefab(inven_item.id));
+                //stackable에 대한 정보가 없음
+            }
             //field_list
             Debug.Log("인벤토리 로드");
         }
     }
-    */
 }
 
 //하이어라키 상의 모든 오브젝트중
@@ -137,14 +147,23 @@ public class invetory_Item_Information
     //인벤토리 아이디가 필요한가?
     public int InvenID;
     public int slot_num;
-    Item item;
-    int totalcount;
+    public string name;
+    public int id;
+    public float addHeal;
+    public int amount;
+    public bool inven_in_active;
+    public int totalcount;
 
-    public invetory_Item_Information(int _InvenID, int _slot_num, Item _item, int _totalcount)
+    public invetory_Item_Information(int _InvenID, int _slot_num, string _name, int _Id, 
+        float _addHeal, int _amount, bool _inven_in_active, int _totalcount)
     {
         InvenID = _InvenID;
         slot_num = _slot_num;
-        item = _item;
+        name = _name;
+        id = _Id;
+        addHeal = _addHeal;
+        amount = _amount;
+        inven_in_active = _inven_in_active;
         totalcount = _totalcount;
     }
 }

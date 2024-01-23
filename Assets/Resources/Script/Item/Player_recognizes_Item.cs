@@ -41,7 +41,7 @@ public class Player_recognizes_Item : MonoBehaviour
     public LayerMask Dropzon_layermask;
     [SerializeField]
     public Transform Gun_Holder;
-
+    public Item_Mgr item_mgr;
     Transform Item_Prefab;
 
     //키보드로 먹을때
@@ -107,8 +107,11 @@ public class Player_recognizes_Item : MonoBehaviour
             case ItemType.Medical:
                 //아이템 슬롯에 아이템 넣어야함
                 Add_Item(inventory.InventoryID, _item, _itemObject.data.amount, ground_Item);
+                //아이템이 원래 있던 슬롯에서 제거해야함
                 Item_Removed(Groundinventory, inventory.InventoryID, _item);
+                Destroy(ground_Item);
                 //힐템은 해당 아이템 상호작용전까지는 비활성화 상태이다.
+
                 break;
         }
     }
@@ -140,7 +143,7 @@ public class Player_recognizes_Item : MonoBehaviour
             hitPos.y += 0.01f;
             if (obj.totalamount != 0)
             {
-                grountitem = Instantiate(Item_Prefab.GetComponent<Item_Mgr>().Find_Prefab(obj.item.Id), hitPos, Quaternion.LookRotation(GameMgr.Instance.player.transform.forward));
+                grountitem = Instantiate(Item_Prefab.GetComponent<Item_Mgr>().Find_ID_RE_Gameobject(obj.item.Id), hitPos, Quaternion.LookRotation(GameMgr.Instance.player.transform.forward));
                 grountitem.GetComponent<GroundItem>().amount = obj.totalamount;
             }
         }
