@@ -122,18 +122,13 @@ public class Player : PickUpController
         //itemDatabase save & load test code
         if (Input.GetKeyDown(KeyCode.End))
         {
-            SL_System.FieldItemSave();
-            SL_System.inventoryItemSave(inventory, "/Inventory_item.json");
-/*            inventory.Save();
-            Guninventory.Save();*/
+            SL_System.GameSave(Groundinventory, inventory, Guninventory);
+            /*            inventory.Save();
+                        Guninventory.Save();*/
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            SL_System.FieldItemLoad();
-            SL_System.inventoryItemLoad(inventory, InventoryType.other, "/Inventory_item.json" ); 
-            /*            inventory.Load();
-            Guninventory.Load();
-           Gun_Load();*/
+            SL_System.GameLoad(Groundinventory, inventory, Guninventory, InventoryType.Ground, InventoryType.Inven, InventoryType.Gun);
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {

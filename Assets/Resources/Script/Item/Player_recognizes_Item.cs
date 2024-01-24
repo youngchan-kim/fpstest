@@ -11,7 +11,8 @@ using static UnityEditor.Timeline.Actions.MenuPriority;
 public enum InventoryType
 {
     Ground,
-    other
+    Inven,
+    Gun
 }
 
 public class Player_recognizes_Item : MonoBehaviour
@@ -168,19 +169,19 @@ public class Player_recognizes_Item : MonoBehaviour
         switch (invenID)
         {
             case 1:
-                if (inventory.AddItem(item, InventoryType.other, itemamount, Item_object))
+                if (inventory.AddItem(item, InventoryType.Inven, itemamount, Item_object))
                 {
                     pickup = true;
                 }
                 break;
-            case 2:
-                if (Equipinventory.AddItem(item, InventoryType.other, itemamount, Item_object))
+/*            case 2:
+                if (Equipinventory.AddItem(item, InventoryType.Inven, itemamount, Item_object))
                 {
                     pickup = true;
                 }
-                break;
+                break;*/
             case 3:
-                if (Guninventory.AddItem(item, InventoryType.other, itemamount, Item_object))
+                if (Guninventory.AddItem(item, InventoryType.Gun, itemamount, Item_object))
                 {
                     pickup = true;
                 }
@@ -341,7 +342,7 @@ public class Player_recognizes_Item : MonoBehaviour
     {
         Ojbectslotnum = num;
     }
-    //총 비활성화
+    //총기 슬롯 초기화
     public void RemoveGun(int num)
     {
         for (int i = 0; i < Gunslot.Length; i++)

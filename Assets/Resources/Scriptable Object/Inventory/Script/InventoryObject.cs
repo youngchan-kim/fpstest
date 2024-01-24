@@ -37,7 +37,7 @@ public class InventoryObject : ScriptableObject
 
             return true;
         }
-        else if (inventoryType == InventoryType.other)
+        else
         {
             if (!database.Items[_item.Id].stackable || slot == null)
             {
@@ -68,7 +68,23 @@ public class InventoryObject : ScriptableObject
             int counter = 0;
             for (int i = 0; i < Container.Items.Length; i++)
             {
-                if (Container.Items[i].item.Id <= -1)
+                if (Container.Items[i].item.Id >= -1)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+    }
+    //저장을 위한 비어있지 않은 슬롯의 갯수를 리턴
+    public int UsingSlotCount
+    {
+        get
+        {
+            int counter = 0;
+            for (int i = 0; i < Container.Items.Length; i++)
+            {
+                if (Container.Items[i].item.Id > -1)
                 {
                     counter++;
                 }
@@ -280,6 +296,7 @@ public class InventorySlot
         item = _item;
         totalamount = _item.amount;
     }
+
     //저장할때 주로 사용
     public void UpdateSlot(Item _item, int _amount, GameObject item_Prefab)
     {
@@ -293,10 +310,12 @@ public class InventorySlot
         totalamount = _amount;
     }
 
+
     public void RemoveItem()
     {
         item = new Item();
         totalamount = 0;
+        slot_item_object = null;
     }
     public void AddAmount(Item _item, int value)
     {

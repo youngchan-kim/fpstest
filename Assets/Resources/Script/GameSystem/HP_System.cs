@@ -5,7 +5,7 @@ using UnityEngine;
 public class HP_System : MonoBehaviour
 {
     public float MaxHp;
-    public float CurrentHp;
+    float CurrentHp;
     float BasicHealvolume;
     bool HP_life;
 

@@ -15,8 +15,6 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     Vector3 Pos;
     private void Start()
     {
-
-       
         PlayerObject = GameMgr.Instance.player.transform;
         //Debug.Log(PlayerObject.name);
     }
