@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -11,13 +12,8 @@ public class Cam_ScreenCenter : MonoBehaviour
     private float range;
     private float maxrange = 100f;
 
-    GameObject aim; //에임의 위치를 set하기 위해 사용
-
-
     private Vector3 ScreenMax;
     private Vector3 ScreenMin;
-
-    public AimShaker aimshaker;
 
     public LayerMask layermask;
     Camera maincam;
@@ -26,18 +22,17 @@ public class Cam_ScreenCenter : MonoBehaviour
     [Header("RayStart_Position")]
     public Transform TPSCam_Holder;
     public Transform Dir;
-
+    public Transform aim; //에임의 위치를 set하기 위해 사용
 
     Vector3 ScreenMinPoint,ScreenMaxPoint;
     Vector3 diraction;
+
     private void Start()
     {
-        //Debug.Log(aimshaker.name);
+
         //Camera는 메인 카메라를 tag로 찾는다.
         maincam = Camera.main;
         range = maxrange;
-        aim = transform.GetChild(1).gameObject;
-        Dir = transform.GetChild(0).GetChild(1).GetChild(2);
     }
     private void Update()
     {
@@ -67,12 +62,12 @@ public class Cam_ScreenCenter : MonoBehaviour
         
         if (Physics.Raycast(TPSCam_Holder.position, diraction, out rayhitObject, maxrange, layermask))
         {
-            aim.transform.position = rayhitObject.point;
+            aim.position = rayhitObject.point;
         }
         else //ray가 없는 경우 에임의 위치를 변경
         {
             //에임의 위치를 확인하기 위한 코드 최대에임 위치
-            aim.transform.position = ScreenMaxPoint;
+            aim.position = ScreenMaxPoint;
             range = maxrange;
         }
         Dir.LookAt(aim.transform.position); 
@@ -87,5 +82,15 @@ public class Cam_ScreenCenter : MonoBehaviour
     public void SetMaxRange(float anotherrange)
     {
         maxrange = anotherrange;
+    }
+    public void Look_the_test()
+    {
+        
+        Vector3 dirs = aim.transform.position - TPSCam_Holder.position;
+        if (Physics.Raycast(TPSCam_Holder.position, dirs, out rayhitObject, maxrange))
+        {
+            aim.position = rayhitObject.point;
+        }
+        Dir.LookAt(aim.position);
     }
 }

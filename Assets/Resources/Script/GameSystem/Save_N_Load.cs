@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Xml.Linq;
 using static UnityEditor.PlayerSettings;
 using UnityEngine.UIElements;
+using System.Numerics;
 
 public class Save_N_Load : MonoBehaviour
 {
@@ -24,8 +25,8 @@ public class Save_N_Load : MonoBehaviour
     invetory_Item_List inventory_list;
 
     Player_Data player_info;
-    Player_Information playerdata;
 
+    public Transform cam;
     public ItemDatabaseObject itemDatabase;
     string savepath_FieldItem_object, savepath_Field_item_list, savepath_Inven_item_list, savepath_Gun_item_list;
     // Start is called before the first frame update
@@ -57,6 +58,7 @@ public class Save_N_Load : MonoBehaviour
         //inventoryItemLoad(Field, FieldType, savepath_Field_item_list);
         inventoryItemLoad(Inven, InvenType, savepath_Inven_item_list);
         GunLoad(Gun, GunType, savepath_Gun_item_list);
+        PlayerLoad("/Player.json");
     }
     public void FieldItemSave(string SavePath)
     {
@@ -159,8 +161,7 @@ public class Save_N_Load : MonoBehaviour
         //인스턴스 생성
         player_info = new Player_Data();
         //grounds의 배열의 갯수만큼 인스턴스 생성
-        player_info.playerdata = new Player_Information (player.transform, player.GetComponent<PlayerMovement>().orientation.transform,  player.hp.GetCurHp());
-
+        player_info.playerdata = new Player_Information (player.transform, cam.transform,  player.hp.GetCurHp());
 
         string player_information = JsonUtility.ToJson(player_info);
         string path = Application.persistentDataPath + SavePath;
@@ -171,17 +172,16 @@ public class Save_N_Load : MonoBehaviour
     public void PlayerLoad(string SavePath)
     {
 
-        item_mgr.FieldItemClear();
-
         string path = Application.persistentDataPath + SavePath;
         if (File.Exists(path))
         {
             string jsonData = File.ReadAllText(path);
-            field_list = JsonUtility.FromJson<Field_item_List>(jsonData);
-            for (int i = 0; i < field_list.grounds.Length; i++)
-            {
-                item_mgr.Set_item_list(item_mgr.Set_Field_item(field_list.grounds[i]));
-            }
+            player_info = JsonUtility.FromJson<Player_Data>(jsonData);
+            Player_Information player_data = player_info.playerdata;
+            player.transform.position = new Vector3(player_data.x, player_data.y, player_data.z);
+            cam.transform.position = new Vector3(player_data.cam_x, player_data.cam_y, player_data.cam_z);
+           // cam.transform.rotation =  Quaternion.Euler(player_data.ro_x, player_data.ro_y, player_data.ro_z);
+            player.hp.SetCurHp(player_data.hp);
             //list의 아이디와 비교하여 맞는 아이템을 스폰해줄것
             //field_list
             Debug.Log("필드아이템 오브젝트 로드");
@@ -250,18 +250,21 @@ public  class invetory_Item_List
 public class Player_Information
 {
     //플레이어의 위치, 체력,방향
-    public float x,y,z;
+    public float x,y,z, cam_x, cam_y, cam_z;
     public float ro_x, ro_y, ro_z;
     public float hp;
 
-    public Player_Information(Transform _transfrom, Transform Dir, float _hp)
+    public Player_Information(Transform _transfrom, Transform cam, float _hp)
     {
         x = _transfrom.position.x;
         y = _transfrom.position.y;
         z = _transfrom.position.z;
-        ro_x = Dir.rotation.eulerAngles.x;
-        ro_y = Dir.rotation.eulerAngles.y;
-        ro_z = Dir.rotation.eulerAngles.z;
+        cam_x = cam.position.x; 
+        cam_y = cam.position.y; 
+        cam_z = cam.position.z;
+        ro_x = cam.rotation.eulerAngles.x;
+        ro_y = cam.rotation.eulerAngles.y;
+        ro_z = cam.rotation.eulerAngles.z;
         hp = _hp;
     }
 }
@@ -273,7 +276,7 @@ public class Player_Data
 [System.Serializable]
 public class SaveEnemys
 {
-    Vector3 pos;
+    //Vector3 pos;
 }
 
 [CreateAssetMenu(fileName = "New SavePath", menuName = "Save System/SavePath")]

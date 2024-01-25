@@ -1926,7 +1926,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586327705}
-  m_LocalRotation: {x: 3e-45, y: 1e-45, z: 0, w: 1}
+  m_LocalRotation: {x: -1e-45, y: 1e-45, z: 0, w: 1}
   m_LocalPosition: {x: 0.84095705, y: 1.3029681, z: 1.6589799}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7671,6 +7671,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4305993783618085009, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
+      propertyPath: Dir
+      value: 
+      objectReference: {fileID: 1613665911}
+    - target: {fileID: 4305993783618085009, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
+      propertyPath: aim
+      value: 
+      objectReference: {fileID: 857682195}
     - target: {fileID: 4352890332268006523, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -7711,6 +7719,10 @@ PrefabInstance:
       propertyPath: Gun_Objects
       value: 
       objectReference: {fileID: 1837348823}
+    - target: {fileID: 5639924009285200972, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
+      propertyPath: InventoryUI
+      value: 
+      objectReference: {fileID: 618232107}
     - target: {fileID: 6006896611152180412, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
       propertyPath: attackPoint
       value: 
@@ -8044,7 +8056,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449914373}
-  m_LocalRotation: {x: 3e-45, y: 1e-45, z: -0, w: 1}
+  m_LocalRotation: {x: -1e-45, y: 1e-45, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8125,6 +8137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 952aa52559015a849af03c1fd890d2b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
+  itemDatabase: {fileID: 0}
 --- !u!4 &1613665911 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1481150178164420483, guid: d7fb8563f34b430429eeeffc93fba797, type: 3}
