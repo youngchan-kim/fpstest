@@ -12,55 +12,68 @@ using System.Xml.Linq;
 using static UnityEditor.PlayerSettings;
 using UnityEngine.UIElements;
 using System.Numerics;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Save_N_Load : MonoBehaviour
 {
     //public Save_Path save_path;
     Player player;
+    Enemy enemy;
     Item_Mgr item_mgr;
     GunSystem gun;
-
     Field_item_List field_list;
-
     invetory_Item_List inventory_list;
-
     Player_Data player_info;
-
-    public Transform cam;
-    public ItemDatabaseObject itemDatabase;
+    Enemy_Data enemy_info;
+    [SerializeField]
     string savepath_FieldItem_object, savepath_Field_item_list, savepath_Inven_item_list, savepath_Gun_item_list;
     // Start is called before the first frame update
     void Start()
     {
         player = GameMgr.Instance.player.GetComponent<Player>();
+        enemy = GameMgr.Instance.enemy.GetComponent<Enemy>();
         item_mgr = GameMgr.Instance.Item_Mgr.GetComponent<Item_Mgr>();
         savepath_FieldItem_object = "/FieldItem_object.json";
         savepath_Field_item_list = "/Field_item_list.json";
         savepath_Inven_item_list = "/Inven_item_list.json";
         savepath_Gun_item_list = "/Gun_item_list.json";
-    }
-   
 
-    public void GameSave(InventoryObject Field, InventoryObject Inven, InventoryObject Gun )
+    }
+    public  void Update()
+    {
+        //itemDatabase save & load test code
+        if (Input.GetKeyDown(KeyCode.End))
+        {
+            GameSave();
+
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            GameLoad();
+        }
+    }
+
+    public void GameSave()
     {
         FieldItemSave(savepath_FieldItem_object);
-        //inventoryItemSave(Field, savepath_Field_item_list);
-        inventoryItemSave(Inven, savepath_Inven_item_list);
-        inventoryItemSave(Gun, savepath_Gun_item_list);
+        inventoryItemSave(player.Groundinventory, savepath_Field_item_list);
+        inventoryItemSave(player.inventory, savepath_Inven_item_list);
+        inventoryItemSave(player.Guninventory, savepath_Gun_item_list);
         PlayerSave("/Player.json");
+        EnemySave("/Enemy.json");
     }
-    public void GameLoad(InventoryObject Field, InventoryObject Inven, InventoryObject Gun,
-        InventoryType FieldType, InventoryType InvenType, InventoryType GunType
-        )
+
+    public void GameLoad()
     {
         FieldItemLoad(savepath_FieldItem_object);
-        Itemlist_ReSet(Field);
-        //inventoryItemLoad(Field, FieldType, savepath_Field_item_list);
-        inventoryItemLoad(Inven, InvenType, savepath_Inven_item_list);
-        GunLoad(Gun, GunType, savepath_Gun_item_list);
+        Itemlist_ReSet(player.Groundinventory);
+        inventoryItemLoad(player.Groundinventory, InventoryType.Ground, savepath_Field_item_list);
+        inventoryItemLoad(player.inventory, InventoryType.Inven, savepath_Inven_item_list);
+        GunLoad(player.Guninventory, InventoryType.Gun, savepath_Gun_item_list);
         PlayerLoad("/Player.json");
+        EnemyLoad("/Enemy.json");
     }
-    public void FieldItemSave(string SavePath)
+    void FieldItemSave(string SavePath)
     {
         //하이어라키 상의 모든 grounditem컴포넌트를 가진 오브젝트를 배열로 반환
         GroundItem[] groundsitem = FindObjectsOfType<GroundItem>();
@@ -73,14 +86,14 @@ public class Save_N_Load : MonoBehaviour
         {
             field_list.grounds[i] = new(groundsitem[i].Get_item_Transform(), groundsitem[i].Get_item_ID());
         }
-
-        string field_item_list = JsonUtility.ToJson(field_list);
+        TO_JSON_Save(SavePath, field_list, "필드 아이템");
+       /* string field_item_list = JsonUtility.ToJson(field_list);
         string path = Application.persistentDataPath+ SavePath;
         File.WriteAllText(path, field_item_list);
-        Debug.Log("맵 상의 모든 아이템의 저장");
+        Debug.Log("맵 상의 모든 아이템의 저장");*/
     }
 
-    public void FieldItemLoad(string SavePath)
+    void FieldItemLoad(string SavePath)
     {
 
         item_mgr.FieldItemClear();
@@ -101,7 +114,7 @@ public class Save_N_Load : MonoBehaviour
     }
     //C:\Users\A-01\AppData\LocalLow\DefaultCompany
     //각 인벤토리의 아이템 저장
-    public void inventoryItemSave(InventoryObject _inventoryObject, string SavePath)
+    void inventoryItemSave(InventoryObject _inventoryObject, string SavePath)
     {
         //
         int SlotCount = _inventoryObject.SlotCount;
@@ -115,13 +128,13 @@ public class Save_N_Load : MonoBehaviour
             inventory_list.invetory_Items[i] = new(_inventoryObject.InventoryID, i, item.Name, item.Id, 
                 item.addHeal, item.amount, item.inven_in_active, itemslot.totalamount);
         }
-
-        string Inventory_item_list = JsonUtility.ToJson(inventory_list);
+        TO_JSON_Save(SavePath, inventory_list, "인벤토리");
+      /*  string Inventory_item_list = JsonUtility.ToJson(inventory_list);
         string path = Application.persistentDataPath + SavePath;
         File.WriteAllText(path, Inventory_item_list);
-        Debug.Log(_inventoryObject.name + "의 모든 아이템의 저장");
+        Debug.Log(_inventoryObject.name + "의 모든 아이템의 저장");*/
     }
-    public void Itemlist_ReSet(InventoryObject _inventoryObject)
+    void Itemlist_ReSet(InventoryObject _inventoryObject)
     {
         int usingSlotCount = _inventoryObject.SlotCount;
         for (int i = 0; i < usingSlotCount; i++)
@@ -129,7 +142,7 @@ public class Save_N_Load : MonoBehaviour
             _inventoryObject.Container.Items[i].RemoveItem();
         }
     }
-    public void inventoryItemLoad(InventoryObject _inventoryObject, InventoryType inventoryType, string SavePath)
+    void inventoryItemLoad(InventoryObject _inventoryObject, InventoryType inventoryType, string SavePath)
     {
         Itemlist_ReSet(_inventoryObject);
         string path = Application.persistentDataPath + SavePath;
@@ -149,27 +162,28 @@ public class Save_N_Load : MonoBehaviour
             Debug.Log("인벤토리 로드");
         }
     }
-    public void GunLoad(InventoryObject _inventoryObject, InventoryType inventoryType, string SavePath)
+    void GunLoad(InventoryObject _inventoryObject, InventoryType inventoryType, string SavePath)
     {
         inventoryItemLoad(_inventoryObject, inventoryType, SavePath);
         player.Gun_Load();
     }
 
-    public void PlayerSave(string SavePath)
+    void PlayerSave(string SavePath)
     {
 
         //인스턴스 생성
         player_info = new Player_Data();
         //grounds의 배열의 갯수만큼 인스턴스 생성
-        player_info.playerdata = new Player_Information (player.transform, cam.transform,  player.hp.GetCurHp());
+        player_info.playerdata = new Player_Information (player.transform,  player.hp.GetCurHp());
 
-        string player_information = JsonUtility.ToJson(player_info);
+        TO_JSON_Save(SavePath, player_info, "플레이어");
+/*        string player_information = JsonUtility.ToJson(player_info);
         string path = Application.persistentDataPath + SavePath;
         File.WriteAllText(path, player_information);
-        Debug.Log("플레이어 정보 저장");
+        Debug.Log("플레이어 정보 저장");*/
     }
 
-    public void PlayerLoad(string SavePath)
+    void PlayerLoad(string SavePath)
     {
 
         string path = Application.persistentDataPath + SavePath;
@@ -178,15 +192,60 @@ public class Save_N_Load : MonoBehaviour
             string jsonData = File.ReadAllText(path);
             player_info = JsonUtility.FromJson<Player_Data>(jsonData);
             Player_Information player_data = player_info.playerdata;
-            player.transform.position = new Vector3(player_data.x, player_data.y, player_data.z);
-            cam.transform.position = new Vector3(player_data.cam_x, player_data.cam_y, player_data.cam_z);
-           // cam.transform.rotation =  Quaternion.Euler(player_data.ro_x, player_data.ro_y, player_data.ro_z);
+            player.transform.position = new UnityEngine.Vector3(player_data.x, player_data.y, player_data.z);
             player.hp.SetCurHp(player_data.hp);
             //list의 아이디와 비교하여 맞는 아이템을 스폰해줄것
             //field_list
             Debug.Log("필드아이템 오브젝트 로드");
         }
     }
+
+    void EnemySave(string SavePath)
+    {
+        Enemy[] Alive_Enemy = FindObjectsOfType<Enemy>();
+
+        //인스턴스 생성
+        enemy_info = new Enemy_Data();
+        //grounds의 배열의 갯수만큼 인스턴스 생성
+        enemy_info.enemydata = new Enemy_Information[Alive_Enemy.Length];
+
+        for (int i = 0; i < Alive_Enemy.Length; i++ )
+        {
+            enemy_info.enemydata[i] = new(Alive_Enemy[i].transform, Alive_Enemy[i].GetComponent<HP_System>().GetCurHp());
+        }
+        TO_JSON_Save(SavePath, enemy_info, "적");
+/*        string enemy_information = JsonUtility.ToJson(enemy_info);
+        string path = Application.persistentDataPath + SavePath;
+        File.WriteAllText(path, enemy_information);
+        Debug.Log("적 정보 저장");*/
+    }
+
+    void EnemyLoad(string SavePath)
+    {
+
+        string path = Application.persistentDataPath + SavePath;
+        if (File.Exists(path))
+        {
+            string jsonData = File.ReadAllText(path);
+            enemy_info = JsonUtility.FromJson<Enemy_Data>(jsonData);
+            for(int i =0; i < enemy_info.enemydata.Length; i++)
+            {
+                Enemy_Information enemy_data = enemy_info.enemydata[i];
+                enemy.transform.position = new UnityEngine.Vector3(enemy_data.x, enemy_data.y, enemy_data.z);
+                enemy.hp.SetCurHp(enemy_data.hp);
+            }
+            Debug.Log("적 로드");
+        }
+    }
+
+    void TO_JSON_Save<T>(string SavePath, T info, string savename)
+    {
+        string information = JsonUtility.ToJson(info);
+        string path = Application.persistentDataPath + SavePath;
+        File.WriteAllText(path, information);
+        Debug.Log(savename + " 정보 저장");
+    }
+
 }
 
 //하이어라키 상의 모든 오브젝트중
@@ -250,21 +309,14 @@ public  class invetory_Item_List
 public class Player_Information
 {
     //플레이어의 위치, 체력,방향
-    public float x,y,z, cam_x, cam_y, cam_z;
-    public float ro_x, ro_y, ro_z;
+    public float x, y, z;
     public float hp;
 
-    public Player_Information(Transform _transfrom, Transform cam, float _hp)
+    public Player_Information(Transform _transfrom, float _hp)
     {
         x = _transfrom.position.x;
         y = _transfrom.position.y;
         z = _transfrom.position.z;
-        cam_x = cam.position.x; 
-        cam_y = cam.position.y; 
-        cam_z = cam.position.z;
-        ro_x = cam.rotation.eulerAngles.x;
-        ro_y = cam.rotation.eulerAngles.y;
-        ro_z = cam.rotation.eulerAngles.z;
         hp = _hp;
     }
 }
@@ -274,9 +326,24 @@ public class Player_Data
     public Player_Information playerdata;
 }
 [System.Serializable]
-public class SaveEnemys
+public class Enemy_Information
 {
-    //Vector3 pos;
+    public float x, y, z;
+    public float hp;
+
+    public Enemy_Information(Transform _transfrom, float _hp)
+    {
+        x = _transfrom.position.x;
+        y = _transfrom.position.y;
+        z = _transfrom.position.z;
+        hp = _hp;
+    }
+}
+
+[System.Serializable]
+public class Enemy_Data
+{
+    public Enemy_Information[] enemydata;
 }
 
 [CreateAssetMenu(fileName = "New SavePath", menuName = "Save System/SavePath")]

@@ -10,7 +10,7 @@ public sealed class GameMgr : MonoBehaviour
     public GameObject player;
     [Header("Enemy")]
     [SerializeField]
-    public GameObject enumy;
+    public GameObject enemy;
     [Header("UI")]
     [SerializeField]
     public GameObject GUI_Mgr;
@@ -47,9 +47,10 @@ public sealed class GameMgr : MonoBehaviour
     void StartGame() 
     {
         player.GetComponent<Player>().Initialize();
-        enumy.GetComponent<Enemy>().Initialize();
+        enemy.GetComponent<Enemy>().Initialize();
         GUI_Mgr.GetComponent<GUI_Mgr>().Initialize();
         Item_Mgr.GetComponent<Item_Mgr>().Initialize();
+
     }
     public GameObject GetCollierPlayer()
     {

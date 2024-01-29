@@ -79,7 +79,6 @@ public class Item_Mgr : MonoBehaviour
         return null;
     }
 
-
     public void Set_item_list(GameObject gameObject)
     {
         for(int i =0; i < item.Length; i++)

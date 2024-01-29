@@ -42,7 +42,6 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     // 오브젝트 사이의 접촉이 일어난 순간 호출
     public void OnTriggerEnter(Collider other)
     {
-         
         if(amount == 0)
         {
             amount = item.data.amount;
@@ -62,10 +61,7 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (PlayerObject.name == other.name) 
         {
-
             GameMgr.Instance.player.GetComponent<Player>().On_The_Ground_Item_Removed(item);
-           
         }
     }    
-
 }

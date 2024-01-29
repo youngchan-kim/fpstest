@@ -119,17 +119,7 @@ public class Player : PickUpController
         }
 
 
-        //itemDatabase save & load test code
-        if (Input.GetKeyDown(KeyCode.End))
-        {
-            SL_System.GameSave(Groundinventory, inventory, Guninventory);
-            /*            inventory.Save();
-                        Guninventory.Save();*/
-        }
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            SL_System.GameLoad(Groundinventory, inventory, Guninventory, InventoryType.Ground, InventoryType.Inven, InventoryType.Gun);
-        }
+       
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Debug.Log("1번눌림" );
