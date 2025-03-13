@@ -6,10 +6,10 @@ using System.Runtime.Serialization;
 using System.IO;
 using System;
 using Unity.VisualScripting;
-using static UnityEditor.Progress;
+
 using System.ComponentModel;
 using System.Xml.Linq;
-using static UnityEditor.PlayerSettings;
+
 using UnityEngine.UIElements;
 using System.Numerics;
 using static UnityEngine.EventSystems.EventTrigger;

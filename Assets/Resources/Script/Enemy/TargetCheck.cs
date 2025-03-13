@@ -141,10 +141,10 @@ public class TargetCheck : MonoBehaviour
         Gizmos.DrawRay(transform.position, transform.forward * hit.distance);
         Gizmos.DrawWireSphere(transform.position + transform.forward * hit.distance, radius);*/
 
-        Handles.color = _blue;
+        /*Handles.color = _blue;
         // DrawSolidArc(시작점, 노멀벡터(법선벡터), 그려줄 방향 벡터, 각도, 반지름)
         Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, DrawGizmosAngle, radius);
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -DrawGizmosAngle, radius);
+        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -DrawGizmosAngle, radius);*/
 
     }
 

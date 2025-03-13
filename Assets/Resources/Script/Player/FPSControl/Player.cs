@@ -16,7 +16,7 @@ public class Player : PickUpController
     public GameObject playercam;
     public GameObject InventoryUI;
     public bool Hold_contorl_check;
-    private bool mode_chage;
+    private bool Inventory_mode, curser_fix;
 
     RaycastHit rayHit;
     GunSystem gunSystem;
@@ -144,18 +144,27 @@ public class Player : PickUpController
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            playercam.gameObject.SetActive(mode_chage);
-            InventoryUI.SetActive(!mode_chage);
-            mode_chage = !mode_chage;
-            CuserControl(mode_chage);
+            playercam.gameObject.SetActive(Inventory_mode);
+            InventoryUI.SetActive(!Inventory_mode);
+            switch(Inventory_mode)
+            {
+                case true:
+                    curser_fix = true;
+                    break;
+                case false:
+                    curser_fix = false;
+                    break;
+            }
+            Inventory_mode = !Inventory_mode;
+            CuserControl(curser_fix);
         }
     }
-    void CuserControl(bool mode_chage)
+    void CuserControl(bool curser_fix)
     {
         //커서를 움직이지 않도록 하고 보이지 않도록 해야함.
-        if (mode_chage == false) Cursor.lockState = CursorLockMode.Locked;
-        else Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = mode_chage;
+        if (curser_fix == false) Cursor.lockState = CursorLockMode.Confined; 
+        else Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = !curser_fix;
         Hold_contorl_check = !Hold_contorl_check;
     }
 

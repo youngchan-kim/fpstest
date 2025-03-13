@@ -23,32 +23,41 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Ground Check")]
     public float playerHeight;
-    public LayerMask whatIsGround;
+    LayerMask whatIsGround;
     bool grounded;
 
     public Transform orientation;
 
-
+    //moveDirection 움직이는 방향?
     Vector3 moveDirection;
 
     Rigidbody rb;
 
     Player_Action anim;
     //총쏘는 애니매이션 테스트용
-    
+
     bool aiming;
+
+    public Transform playerCamera;
+
     private void Start()
     {
+        whatIsGround = LayerMask.GetMask("Ground");
+        //orientation가 항상 카메라가 바라보는 방향을 따라가게됨
+        orientation.rotation = Quaternion.Euler(0, playerCamera.eulerAngles.y, 0);
+
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         anim = GetComponent<Player_Action>();
-        orientation = transform.GetChild(0).GetChild(1).GetChild(2);
+        //현재 문제 되는 코드
     }
+
+
 
     // Update is called once per frame
     private void Update()
     {
-        //여기 있을 코드가 아니지만 테스트를 위함
+
         //조준 모션
         if (Input.GetMouseButtonDown(1))
         {
@@ -77,34 +86,36 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down/*, out RaycastHit a*/,playerHeight * 0.5f + 0.2f, whatIsGround);
+        // 바닥 감지를 CheckSphere()로 변경 → 더 정확하고 안정적!
+        // 이동 로직 유지(땅에서는 즉각, 공중에서는 힘을 약하게 적용)
+        // 불필요한 Raycast 제거 → 성능 최적화
+        //
+        //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
-        
+
+        grounded = Physics.CheckSphere(transform.position - Vector3.up * (playerHeight * 0.98f), 1.0f, whatIsGround);
+
+        // 바닥에서는 드래그 적용
+        rb.drag = grounded ? groundDrag : 0;
+
         MyInput();
-
-        //드래그 핸들
-        if (grounded)
-        {
-            rb.drag = groundDrag;
-        }
-        else
-        {
-           // Debug.Log("땅이 아닙니다.");
-            rb.drag = 0;
-        }
-
     }
-    
+
     private void FixedUpdate()
     {
         MovePlayer();
         SpeedControl();
+
+        // 최신 moveDirection 기준으로 선 그리기
+        Debug.DrawLine(transform.position, transform.position + moveDirection * 10, Color.yellow);
     }
 
     private void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput =   Input.GetAxisRaw("Vertical");
+       
+
         anim.MoveAnim(verticalInput, horizontalInput);
         //when to jump
         if (Input.GetKey(jumpKey) && readyToJump && grounded) 
@@ -122,18 +133,29 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-
-        //움직이는 방향을 계산
+        //추가된 코드 Vector3 camForward, Vector3 camRight,  moveDirection
+        Vector3 camForward = new Vector3(playerCamera.forward.x, 0, playerCamera.forward.z).normalized;
+        Vector3 camRight = new Vector3(playerCamera.right.x, 0, playerCamera.right.z).normalized;
+        moveDirection = camForward * verticalInput + camRight * horizontalInput;
+        //기존 코드
+       /* //움직이는 방향을 계산
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-       
+        Debug.Log(moveDirection);
+       */
+        Debug.DrawLine(transform.position, transform.position + moveDirection *10, Color.yellow);
 
-        //땅위에 있을때
-        if(grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
-        //공중에 있을때
-        else if(!grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f*airMultiplier, ForceMode.Force);
+        if (grounded)
+        {
+            Debug.Log("땅");
+            // 땅에서는 즉각적인 반응
+            rb.velocity = new Vector3(moveDirection.x * moveSpeed, rb.velocity.y, moveDirection.z * moveSpeed);
+        }
+        else
+        {
+            // 공중에서는 이동이 제한되도록 힘을 적게 가함
+            rb.AddForce(moveDirection.normalized * moveSpeed * airMultiplier, ForceMode.Force);
+        }
     }
 
     private void SpeedControl()
@@ -177,7 +199,6 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         anim.IsJump();
-        StopCoroutine(JumpingTimer());
     }
     IEnumerator DrinkTimer()
     {

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using Unity.VisualScripting;
-using static UnityEditor.Progress;
 
 public abstract class UserInterface : MonoBehaviour
 {
